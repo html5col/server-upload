@@ -1,0 +1,143 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <style>
+        .secNav{
+            padding:0.5rem;
+            background-color:white;
+        }
+        .secNav
+            a.btn{
+                display:inline-block;
+                width:33.3%;
+                text-align: center;
+           
+
+
+                color: #5f646e;
+                font-size: 0.8rem;
+                height: 1rem;
+                line-height: 1rem;
+                -webkit-box-flex: 1;
+                -ms-flex: 1;
+                border: 0;
+                border-bottom: 2px solid transparent;
+                border-radius: 0;
+
+            }
+
+            .content-block{
+                
+                margin-top:0; 
+                padding:0; 
+
+                border:1px solid transparent;
+            }
+            .fullBlock{
+                margin:0;
+                width:100%;
+                border:1px solid transparent;
+            }
+
+            .tip{
+                text-align: center;
+                background: orange;
+                font-size: 0.6em;
+
+
+
+            }
+            .tip p{
+                text-align: center;
+                color:white;
+                
+            }
+
+            .list-block .item-content{min-height:1.4rem;}
+            .list-block .item-inner{min-height:1.4rem;}
+
+            .minPost{
+                
+                margin-top:1em;
+
+                
+                border:1px solid transparent;      
+            }
+    </style>
+    <link rel="stylesheet" href="">
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page groupArticles">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back">
+                <span class="icon icon-left"></span>
+                
+              </a>
+
+              {{#if belongToGroup}}
+              <a class="button button-link button-nav pull-right" href="/post/make?group_id={{group._id}}">
+                <span class="icon icon-edit"></span>
+              </a>
+              {{else}}
+
+                <a class="button button-link button-nav pull-right external" href="/group/applyGroup?group_id={{group._id}}" id="join">
+                    <!---?group_id={{group._id}}-->
+                    + 加入
+                </a>
+        
+              {{/if}}   
+
+              <h1 class='title'>{{group.title}} 小组</h1>
+            </header>            
+
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+
+                <div class="buttons-tab">
+                    <a href="#tab1" class="tab-link active button">话题</a>
+                    <a href="#tab2" class="tab-link button">{{group.title}}</a>
+                    <!--<a href="#tab3" class="tab-link button">待发货</a>-->
+                </div>
+                <div class="content-block contentBlock">
+                    <div class="tabs">
+                    <div id="tab1" class="tab active">
+                        <div class="content-block">
+                             {{> post/postsLoop}}
+                        </div>
+                    </div>
+                    <div id="tab2" class="tab">
+                        <div class="content-block tabContent">
+                        <p>{{group.intro}}</p>
+                        </div>
+                    </div>
+                    <!--
+                    <div id="tab3" class="tab">
+                        <div class="content-block">
+                        <p>This is tab 3 content</p>
+                        </div>
+                    </div>-->
+                    </div>
+                </div>
+
+                
+
+            </div>
+
+
+        </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <div class="page">...</div>
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+
+
+    {{#extend 'js'}}
+    {{/extend}}
+

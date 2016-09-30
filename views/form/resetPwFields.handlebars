@@ -1,0 +1,124 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back">
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+              <h1 class='title'>Reset Password</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+                <form class="list-block" method="POST" action="">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+                    <ul>
+                        <!-- Text inputs -->
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">Email</div>
+                                <div class="item-input">
+                                <input type="email" name="email" value={{user.email}}>
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">New Password</div>
+                                <div class="item-input">
+                                <input type="password" name="password" placeholder="New Password">
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">Password Again</div>
+                                <div class="item-input">
+                                <input type="password" name="passwordConfirmation" placeholder="Confirm">
+                                </div>
+                            </div>
+                            </div>
+                        </li>  
+                        
+                    </ul>
+                      <input type="submit" value="submit" id="submit">
+                </form>
+                <div class="content-block">
+                    <div class="row">
+                        <!--<div class="col-50"><a href="#" class="button button-big button-fill button-info">取消</a></div>-->
+                        <div class="">
+                            <a href="#" class="button button-big button-fill button-success" id="fake-submit">重置</a>
+                        </div>
+                    </div>
+                </div> 
+
+                    <!--<hr>
+                    <p>Need an account? <a href="/user/signup">signup</a></p>
+                    <p>Or go <a href="/user/forgotPassword">Forget your Password</a>.</p>          -->
+            </div>
+
+
+        </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <div class="page">...</div>
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+    {{#extend "js"}}
+        <script>
+            (function(){
+                var fake_submit = document.getElementById('fake-submit');
+                var submit = document.getElementById('submit');
+                fake_submit.onclick = function(e){
+                    e.preventDefault();
+                    submit.click();
+                };
+            }());
+        </script>
+    {{/extend}}
+
+
+
+
+
+
+
+<h1>RESET PASSWORD Forms</h1>
+
+<form method="POST" action="">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <label>
+    Email: <input type="email" name="email" value={{user.email}}>
+    </label>
+    <label>
+    Password: <input type="password" name="password" placeholder="New Password">
+    </label>
+    <label>
+    Confirm Password: <input type="password" name="passwordConfirmation" placeholder="Confirm New Password">
+    </label>        
+    <input type="submit" value="Reset Password">
+</form>

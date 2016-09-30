@@ -1,0 +1,12 @@
+.groupArticles{
+    .tabContent{
+        padding-left:1rem;
+        padding-right:1rem;
+        max-width:100%;
+        @include break();
+
+    }
+    .content-block{
+        margin-bottom:0!important;
+    }
+}

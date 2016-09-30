@@ -1,0 +1,35 @@
+<div class="paging">
+  {{#unless isFirstPage }}
+   
+    {{#if keyword}}
+    <a class="prePage" title="上一页" href="?keyword={{keyword}}&&p={{ math page "-" "1" }}"><span class="icon icon-up"></span></a>
+    {{else}}
+    <a class="prePage" title="上一页" href="?p={{ math page "-" "1" }}"><span class="icon icon-up"></span></a>
+    {{/if}}
+    
+    <!--<span class="nextpage disabled" style="color:grey">下一页</span>-->
+  {{/unless}}
+  
+  {{#if isFirstPage}}
+    
+  {{else}}
+   {{#if isLastPage}}
+   {{else}}
+     <span class="middleSpan"></span>
+   {{/if}}
+   
+  {{/if}}
+
+  {{#unless isLastPage }}
+    
+        {{#if keyword}}
+        <!--<span class="nextpage disabled" style="color:grey">上一页</span>-->
+        <a class="nextPage" title="下一页" href="?keyword={{keyword}}&&p={{ math page "+" "1" }}"><span class="icon icon-down"></span></a>
+        {{else}}
+        <a class="nextPage" title="下一页" href="?p={{ math page "+" "1" }}"><span class="icon icon-down"></span></a>
+        {{/if}}
+  {{/unless }}
+
+
+   
+</div>

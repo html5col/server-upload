@@ -1,0 +1,47 @@
+.comment{
+
+
+    width:100%;
+    .authorArea{
+        width:100%;
+        font-size:0.5rem;
+        
+        a.commentImg{
+            display:inline-block;
+
+            &>img{
+                display:inline-block;
+                width:0.9em;
+                height:0.9em;
+                
+                border-radius: 100%;
+            }
+
+        }
+
+        a>span.icon-me{
+            display:inline-block;
+            width:1em;
+            height:1em;
+            border-radius: 100%;
+            font-size:0.5rem;
+        }
+        &>span{
+            display:inline-block;
+            //line-height:1em;
+            //height:2em;
+            font-size:0.7rem;
+            color:grey;
+
+        }
+
+    }
+    div.commentContent{
+        border-bottom:1px solid #e3e3e3;
+        p{
+            font-size:0.7rem;
+            margin-left:1.2rem;
+            margin-top:0;
+        }
+    }
+}

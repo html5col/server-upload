@@ -1,0 +1,34 @@
+
+{{#if posts}} 
+  {{#each posts}}      
+      <div class="listWrapper">
+          <div class="topGroup">
+            <span>
+                <span></span>
+                {{#if ../group}}
+                 {{../group.title}}
+                {{else}}
+                 {{group.title}}                     
+                {{/if}}
+                <span></span>
+            </span>
+          </div>
+
+          <div class="midText">
+            <div class="leftText">
+              <h2>{{title}}</h2>
+              <p><a href="/post/show/{{title}}"> {{intro}}...</a></p>
+            </div><!--
+          --><div class="rightImg" style="background-image:url('/upload/postLogo/{{image}}');">
+            </div>
+          </div>
+          <div style="clear:all" class="bottomLine">
+            <p>{{author}} 作品</p> 
+          </div>
+      </div>
+
+  {{/each}}
+  {{> post/paging }}     
+{{/if}}  
+
+

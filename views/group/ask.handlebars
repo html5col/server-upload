@@ -1,0 +1,111 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+              </a>
+
+              {{#if belongToGroup}}
+              <a class="button button-link button-nav pull-right" href="/post/make?group_id={{group._id}}">
+                <span class="icon icon-edit"></span>
+              </a>
+              {{else}}
+
+                <a class="button button-link button-nav pull-right external" href="/group/applyGroup?group_id={{group._id}}" id="join">
+                    <!---?group_id={{group._id}}-->
+                    + 加入
+                </a>
+        
+              {{/if}}  
+
+              <h1 class='title'>问答</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+           
+              <div class="content-block">
+               {{> general/secNav}}    
+
+                <div class="content-block-title minPost">问答小组</div>
+
+
+               {{#each groups}}
+                  <div class="card">
+                       <div class="card-header" style="padding: .2rem .75rem;min-height:1rem;">{{title}}</div> 
+                      <div class="card-content">
+                        <div class="list-block media-list">
+                          <ul>
+                            <li class="item-content">
+                              <div class="item-media">
+                                <img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg" width="44">
+                              </div>
+                              <div class="item-inner">
+                                <!--<div class="item-title-row">
+                                  <div class="item-title">{{group}}</div>
+                                </div>-->
+                                <div class="item-subtitle"><a href="/group/single/{{_id}}">{{intro}}</a></div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="card-footer" style="padding: .15rem .75rem;min-height:1rem;">
+                        <span style="font-size:0.3rem;">{{created_at}}</span>
+                        <span style="font-size:0.3rem;">5 Reviews</span>
+                      </div>
+                  </div> 
+                {{/each}}
+
+              </div>
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <div class="page">...</div>
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+       
+           

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的生活</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+
+    <link rel="stylesheet" href="http://g.alicdn.com/msui/sm/0.6.2/css/??sm.min.css,sm-extend.min.css">
+    <link rel="stylesheet" href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="/css/app.css"> 
+    <!--<link rel="stylesheet" href="/release/css/app.min.c6bbc7e3.css"> -->
+    
+        <style>
+        .secNav{
+            padding:0.5rem;
+            background-color:white;
+        }
+        .secNav
+            a.btn{
+                display:inline-block;
+                width:33.3%;
+                text-align: center;
+           
+
+
+                color: #5f646e;
+                font-size: 0.8rem;
+                height: 1rem;
+                line-height: 1rem;
+                -webkit-box-flex: 1;
+                -ms-flex: 1;
+                border: 0;
+                border-bottom: 2px solid transparent;
+                border-radius: 0;
+
+            }
+
+            .content-block{
+                
+                margin-top:0; 
+                padding:0; 
+
+                border:1px solid transparent;
+            }
+            .fullBlock{
+                margin:0;
+                width:100%;
+                border:1px solid transparent;
+            }
+
+            .tip{
+                text-align: center;
+                background: orange;
+                font-size: 0.6em;
+
+
+
+            }
+            .tip p{
+                text-align: center;
+                color:white;
+                
+            }
+
+            .list-block .item-content{min-height:1.4rem;}
+            .list-block .item-inner{min-height:1.4rem;}
+
+            .minPost{
+                
+                margin-top:1em;
+
+                
+                border:1px solid transparent;      
+            }
+            input[type="submit"]{
+                visibility:hidden;
+            }
+    </style>
+     {{{block "css"}}} 
+        {{#if showTests}}
+        <link rel="stylesheet" href="{{static '/vendor/mocha.css'}}">
+        {{/if}}
+
+  </head>
+  <body>
+ {{{body}}}
+
+
+
+    <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
+    <script>$.init()</script>    
+
+    <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/??sm.min.js,sm-extend.min.js' charset='utf-8'></script>
+
+    <!-- All css Files Here -->
+      {{{block "js"}}} <!--for hbs custom style-->
+    {{> general/message}}
+  </body>
+</html>
+

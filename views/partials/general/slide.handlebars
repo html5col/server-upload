@@ -1,0 +1,31 @@
+    <div class="panel panel-left panel-reveal">
+        <div class="content-block" style="color:#000;">
+            <p><a href="/" class="close-panel"><span class="icon icon-clock"></span> 最新话题</a></p>
+            <p>
+                {{#if user}}
+                <a href="/user/profile/{{user._id}}" class="close-panel">
+                <span class="icon icon-edit"></span> 
+                我的发表
+                </a>
+                {{else}}
+                <a href="/user/login" class="close-panel">
+                <span class="icon icon-edit"></span> 
+                我的发表</span>
+                </a>          
+                {{/if}}                
+            </p>
+            <p>
+                <a href="/group/groups" class="close-panel">
+                <span class="icon icon-friends"></span>
+                小组
+                </a>                
+            </p>            
+            <p>
+                <a href="" class="close-panel">
+                <span class="icon icon-message"></span>
+                问答
+                </a>                
+            </p>
+
+        </div>
+    </div>

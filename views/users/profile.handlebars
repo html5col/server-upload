@@ -1,0 +1,110 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <style>
+    </style>
+    <link rel="stylesheet" href="">
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back">
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+
+            {{#if user.logo}}
+                <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;">
+                     <img src="/upload/logo/{{postUser._id}}/{{postUser.logo}}" style="display:inline-block;width:1em;height:1em;">
+                </a>
+            {{else}}
+                <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;background-color:transparent;">
+                  <span class="icon icon-me"></span>
+                </a>
+            {{/if}}
+            
+              <h1 class='title'>用户中心</h1>
+            </header>            
+
+
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+                <div class="content-block-title">
+                         {{#if isMyPosts}}
+                        Your Profile
+                        {{else}}
+                        {{postUser.username}}'s Profile
+                        {{/if}}                    
+                </div>
+                <div class="list-block">
+                    <ul>
+                    <li class="item-content item-link">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                        <div class="item-title">用户名</div>
+                        <div class="item-after">{{ postUser.username }}</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                        <div class="item-title">邮箱</div>
+                        <div class="item-after">{{ postUser.email }}</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                        <div class="item-title">注册时间</div>
+                        <div class="item-after">{{ postUser.created_at }}</div>
+                        </div>
+                    </li>                    
+                    </ul>
+                </div>
+                <div class="content-block-title">
+                  发表文章记录                  
+                </div>
+
+                {{> post/postsLoop}}
+
+            </div>
+
+
+
+
+        </div><!--.page-->
+
+        
+
+        <!--其他的单个page内联页（如果有）-->
+        <div class="page">...</div>
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+    {{#extend "js"}}
+    {{/extend}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         
+                    

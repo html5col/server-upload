@@ -1,0 +1,41 @@
+ <div class="row" style="border-bottom:1px solid white;background:white;">
+      <div class="col-25">
+        <div style="text-align:center;">
+          <a href="/">
+          <span class="icon icon-clock"></span> <br>
+          <span style="font-size:0.8em;">最新话题</span>
+          </a>
+        </div>
+      </div>
+      <div class="col-25">
+        <div style="text-align:center;">
+          {{#if user}}
+          <a href="/user/profile/{{user._id}}">
+          <span class="icon icon-edit"></span> <br>
+          <span style="font-size:0.8em;">我的发表</span>
+          </a>
+          {{else}}
+          <a href="/user/login">
+          <span class="icon icon-edit"></span> <br>
+          <span style="font-size:0.8em;">我的发表</span>
+          </a>          
+          {{/if}}
+        </div>
+      </div>
+      <div class="col-25">
+        <div style="text-align:center;">
+          <a href="/group/groups">
+          <span class="icon icon-friends"></span> <br>
+          <span style="font-size:0.8em;">小组</span>
+          </a>
+        </div>
+      </div>
+      <div class="col-25">
+        <div style="text-align:center;">
+          <a href="">
+          <span class="icon icon-message"></span> <br>
+          <span style="font-size:0.8em;">问答</span>
+          </a>
+        </div>
+      </div>  
+</div>

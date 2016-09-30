@@ -1,0 +1,15 @@
+    {{#if messages }}
+        {{#if messages.error }}
+        <script>
+            $.toast('{{messages.error}}',5000);
+        </script>
+        {{else if messages.success}}
+        <script>
+            $.toast('{{messages.success}}',5000);
+        </script>
+        {{else if messages.info}}
+        <script>
+            $.toast('{{messages.info}}',5000);
+        </script>       
+        {{/if}}
+    {{/if}} 
