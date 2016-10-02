@@ -3,14 +3,8 @@ NodeJS Boilerplate
 
 ##[Demo]
 
-Boilerplate in nodejs illustrating the use of **NodeJs** using **passport**, **express**, **handlebars** and **mongoose** environment
-together with front pages for login, signup and profile mock, which can be used as a boilerplate in your app development! Some Inspired by WEB DEVELOPMENT WITH NODE AND EXPRESS By Ethan Brown
-Fisrt boilerplate with great flexibility without using any front-end frameworks, just the functionality of the backend and plain frontend!
-Prerequisite:
+group/form software for use of business based on the nodejs boilerplate:https://github.com/thenodejsboilerplate/nodejs-boilerplate.git
 ------------
-1. Redis
-2. Mongodb
-3. Ngnix Preferred
 
 Multi-user Forum Functionality:
 ------------
@@ -60,8 +54,8 @@ Technology
 Installation
 -------------
 
-1. git clone https://github.com/thenodejsboilerplate/nodejs-boilerplate.git
-2. mv config-default config && cd nodejs-boilerplate
+1. git clone https://github.com/thenodejsboilerplate/group.git
+2. mv config-default config && cd group
 3. npm install
 4. create or modify config.js file under config folder
 5. node app

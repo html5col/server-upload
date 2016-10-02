@@ -34,7 +34,7 @@ var config = {
   uploadDir: {
 
       development:'/Users/frank25184/desktop/nodejs/community/public/upload/',
-      production: '/var/www/trver.com/public_html/public/upload/',
+      production: '/nodejs/group/public/upload/',
 
   },
   google_tracker_id: '',
@@ -48,7 +48,7 @@ var config = {
             'url':'mongodb://localhost/groupForum',
           },
           production:{
-             'url': ''
+             'url': 'mongodb://localhost/groupForum'
           },
        },
        redis:{
@@ -61,10 +61,11 @@ var config = {
             'ttl':200,
           },
           production:{
-             'url': '',
-             'url': '',
-             'url': '',
-             'url': '',
+            'host':'127.0.0.1',
+            'port':'6379',
+            'db':'0',
+            'pw':'frank548331198',
+            'ttl':200,
           },
        },          
   }, 
@@ -84,7 +85,7 @@ var config = {
     port: 465,
     secure: true,
     auth: {
-      user: 'postmaster@html5col.com',
+      user: 'postmaster@trver.com',
       pass: 'Frank548331198'
     },
   },

@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 // requires connect and connect-rest middleware
-const connect = require('connect'),
+//connect = require('connect'),
+const 
       Rest    = require('connect-rest'),
       Attraction = require('../models/Attraction'),
       bodyParser = require('body-parser');; 
