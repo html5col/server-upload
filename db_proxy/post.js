@@ -85,16 +85,12 @@ module.exports = {
          * @param {Array} names 用户名列表
          * @param {Function} callback 回调函数
          */
-        getPostsByUserId:  function(req,res,user_id,path){
+        getPostsByUserId:  function(req,res,user_id,fn){
             //const user_created_at = moment(req.user.local.created_at).format('MMMM Do YYYY, h:mm:ss a'),
 
                 //判断是否是第一页，并把请求的页数转换成 number 类型
                const page = req.query.p ? parseInt(req.query.p) : 1,
                      outThis = this;
-               let loginedUser;
-               if(req.user){
-                 loginedUser = req.user.processUser(req.user);
-               }
 
                const p = new Promise(function(resolve,reject){
                     //查询并返回第 page 页的 10 篇文章  tag_id,title,user_id
@@ -113,30 +109,12 @@ module.exports = {
 
                });
                p.then(function(posts,count){
-                    userProxy.getUserById(user_id, theuser=>{ 
-                                
-                            res.render(path, {
-                                user: req.user ? req.user.processUser(req.user) : req.user,
-                                isMyPosts: req.user ? (req.user._id == user_id ? true : false) : false,
-                                postUser: req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser,
-                                posts: posts,
-
-                                pageNumber: Math.ceil(count/10),
-                                page: page,
-                                isFirstPage: (page - 1) == 0,
-                                isLastPage: ((page - 1) * 10 + posts.length) == count, 
-                                                       
-                                messages: {
-                                    error: req.flash('error'),
-                                    success: req.flash('success'),
-                                    info: req.flash('info'),
-                                }, // get the user out of session and pass to template
-                            });                                
-                    });
+                  // console.log(posts,'+'+ count);
+                  fn(posts,count);
                })
                .catch(function(err){
                   console.log(err.message);
-                  req.flash('error','Error finding the user!');
+                  req.flash('error','没找到用户!');
                   res.redirect('back');
                });
             
@@ -190,6 +168,11 @@ module.exports = {
                                         postUser: req.user ? (req.user._id == post.user_id ? loginedUser : theuser) : theuser,
                                         post: newPost,
                                         //user_created_at: user_created_at,
+
+                                        title: newPost.title,
+                                        keywords:newPost.title,
+                                        description:newPost.intro,
+
                                         messages: {
                                             error: req.flash('error'),
                                             success: req.flash('success'),

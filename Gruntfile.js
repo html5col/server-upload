@@ -135,7 +135,7 @@ watch: {
 
   css: {
     files: ['<%= paths.scss %>/**/*.scss'],
-    tasks: ['sass','cssmin','hashres'],
+    tasks: ['sass','hashres'],
     // options: {
     //   livereload: true,
     // },

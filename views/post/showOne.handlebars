@@ -11,6 +11,7 @@
             <header class="bar bar-nav">
               <a class="button button-link button-nav pull-left back"> <!--get rid of back class-->
                 <span class="icon icon-left"></span>
+              
               </a>
               
 
@@ -19,7 +20,8 @@
             </header>            
 
 
-
+           {{> general/tabs}}
+           
             <!-- 这里是页面内容区 -->
             <div class="content ">
                 <div class="content-padded">
@@ -28,11 +30,11 @@
                     <div class="logoArea">
                         <div class="leftImg">
                             {{#if postUser.logo}}
-                                <a href="/user/profile/{{postUser.user_id}}">
+                                <a href="/user/profile/{{postUser._id}}">
                                     <img src="/upload/logo/{{postUser._id}}/{{postUser.logo}}">
                                 </a>
                             {{else}}
-                                <a href="/user/profile/{{postUser.user_id}}">
+                                <a href="/user/profile/{{postUser._id}}">
                                 <span class="icon icon-me"></span>
                                 </a>
                             {{/if}}

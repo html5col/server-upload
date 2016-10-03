@@ -1,6 +1,7 @@
 "use strict";
 const flash        = require('connect-flash'),
     config  = require('../config/config'),
+	seo = require('../config/seo'),
     mailService  = require('../lib/email')(config),
     bodyParser   = require('body-parser'),
     formidable = require('formidable'),
@@ -11,13 +12,18 @@ const flash        = require('connect-flash'),
 	utils = require('../lib/utility'),
 	Post = require('../models/Post'),
 	User = require('../models/User'),
-	postProxy = require('../db_proxy/post');
+	postProxy = require('../db_proxy/post'),
+	userProxy = require('../db_proxy/user');
 
 module.exports = {
 
 		signup: (req,res)=>{
 					//render the page and pass in any flash data if it exists, req.flash is provided by connect-flash
 				    res.render('form/signup', { 
+
+						title:seo.user.signup.title,
+						keywords:seo.user.signup.keywords,
+						description:seo.user.signup.description,						
 			            messages: {
 			            	error: req.flash('error'),
 			            	success: req.flash('success'),
@@ -30,6 +36,10 @@ module.exports = {
 		login: (req,res)=>{
 					//render the page and pass in any flash data if it exists
 				    res.render('form/login', { 
+
+						title:seo.user.login.title,
+						keywords:seo.user.login.keywords,
+						description:seo.user.login.description,							
 			            messages: {
 			            	error: req.flash('error'),
 			            	success: req.flash('success'),
@@ -42,6 +52,10 @@ module.exports = {
 		fileupload: (req,res)=>{
 				    var now = new Date();
 				    res.render('form/fileupload', {
+
+						title:seo.user.logoUpload.title,
+						keywords:seo.user.logoUpload.keywords,
+						description:seo.user.logoUpload.description,							
 			            messages: {
 			            	error: req.flash('error'),
 			            	success: req.flash('success'),
@@ -56,15 +70,51 @@ module.exports = {
 
 
 		profile: (req, res)=> {
-				    const user_id = req.params.user_id;
-					console.log('user_id is'+user_id);
-                    postProxy.getPostsByUserId(req,res,user_id,'users/profile');
+				    const user_id = req.params.user_id,
+					      page = req.query.p ? parseInt(req.query.p) : 1;
+					console.log('user_id is in proifle function'+user_id);
+					postProxy.getPostsByUserId(req,res,user_id,function(posts,count){
+						  // console.log("profile posts and count:" ,posts,count);
+							let loginedUser;
+							if(req.user){
+								loginedUser = req.user.processUser(req.user);
+							}
+							userProxy.getUserById(user_id, theuser=>{ 
+							     	let postUser = req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser;
+										
+									res.render("users/profile", {
+										user: req.user ? req.user.processUser(req.user) : req.user,
+										isMyPosts: req.user ? (req.user._id == user_id ? true : false) : false,
+										postUser: postUser,
+										posts: posts,
+
+										pageNumber: Math.ceil(count/10),
+										page: page,
+										isFirstPage: (page - 1) == 0,
+										isLastPage: ((page - 1) * 10 + posts.length) == count, 
+
+										title: postUser.username + '的个人页面',
+										keywords: '用户页面',
+										description: postUser.username+'的个人页面',                                                       
+										messages: {
+											error: req.flash('error'),
+											success: req.flash('success'),
+											info: req.flash('info'),
+										}, // get the user out of session and pass to template
+									});                                
+							});						
+					});
+                    //postProxy.getPostsByUserId(req,res,user_id,'users/profile');
 		},
 
 		updateUser: (req,res)=>{
 		        	res.render('form/userUpdate', {
 		 	            user : req.user ? req.user.processUser(req.user) : req.user,
 			            messages: {
+
+							title:seo.user.update.title,
+							keywords:seo.user.update.keywords,
+							description:seo.user.update.description,	
 			            	error: req.flash('error'),
 			            	success: req.flash('success'),
 			            	info: req.flash('info'),
@@ -75,6 +125,10 @@ module.exports = {
 		forgotPassword: (req, res)=> {
 				  res.render('form/resetPw', {
 				    user: req.user ? req.user.processUser(req.user) : req.user,
+
+					title:seo.user.forgotPw.title,
+					keywords:seo.user.forgotPw.keywords,
+					description:seo.user.forgotPw.description,						
 		            messages: {
 		            	error: req.flash('error'),
 		            	success: req.flash('success'),
@@ -91,6 +145,9 @@ module.exports = {
 								    }
 								    res.render('form/resetPwFields', {
 										    user: req.user ? req.user.processUser(req.user) : req.user,
+											title:seo.user.resetPW.title,
+											keywords:seo.user.resetPW.keywords,
+											description:seo.user.resetPW.description,												
 								            messages: {
 								            	error: req.flash('error'),
 								            	success: req.flash('success'),

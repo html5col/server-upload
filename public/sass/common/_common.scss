@@ -1,7 +1,9 @@
-@import "general/_variables";
-
-@import "general/_mixin";
-@import "general/_functions";
+@import "general/_variables",
+        "general/_mixin",
+        "general/_functions",
    //self-coded popular mixin 
-@import "general/_general";
+       "general/_general",
    //general css class
+       "form";
+
+

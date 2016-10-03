@@ -21,7 +21,6 @@
                 <form class="list-block" enctype="multipart/form-data" method="POST" action="/post/post">
                     <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <input type="hidden" name="group_id" value="{{fromGroup_id}}">
-
                     <ul>
                         <!-- Text inputs -->
                         <li>
@@ -123,7 +122,15 @@
     <!-- Left Panel with Reveal effect -->
     {{> general/slide}}
 
-    {{#extend "js"}}
+  {{#unless isMobile}}
+{{#extend "js"}}
 
-    {{/extend}}
+	<script src="/ckeditor/ckeditor.js"></script>
+	<script src="/js/editor/editor.js"></script>    
+  <script>
+	initSample();
+  </script>
+
+{{/extend}}
+  {{/unless}}
 

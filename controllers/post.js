@@ -4,8 +4,10 @@ let moment = require('moment'),
     User = require('../models/User'),
     Comment = require('../models/Comment'),
     postProxy = require('../db_proxy/post'),
+    userProxy = require('../db_proxy/user'),
     tagProxy = require('../db_proxy/tag'),
     config = require('../config/config'),
+    seo = require('../config/seo'),
     fs = require('fs'),
     utils = require('../lib/utility'),
     bodyParser   = require('body-parser'),
@@ -33,7 +35,11 @@ module.exports = {
                         page: page,
                         pageNumber: Math.ceil(count/10),
                         isFirstPage: (page - 1) == 0,
-                        isLastPage: ((page - 1) * 10 + posts.length) == count,                        
+                        isLastPage: ((page - 1) * 10 + posts.length) == count,
+
+                        title:seo.home.title,
+                        keywords:seo.home.keywords,
+                        description:seo.home.description,                                                 
                         messages: {
                               error: req.flash('error'),
                               success: req.flash('success'),
@@ -159,8 +165,15 @@ module.exports = {
 
       makeArticle: (req,res)=>{
             let fromGroup_id = req.query.group_id; 
+            console.log(`ismobile is ${utils.isMobile(req)}`);
+                       
             res.render('form/post', {
                   user: req.user.processUser(req.user),
+                  isMobile: utils.isMobile(req),
+
+                  title:seo.post.make.title,
+                  keywords:seo.post.make.keywords,
+                  description:seo.post.make.description,
                   messages: {
                         error: req.flash('error'),
                         success: req.flash('success'),
@@ -172,11 +185,40 @@ module.exports = {
       },
 
       getPersonalPosts: (req,res)=>{
-                  const user_id = req.params.user_id;                                  
+                  const user_id = req.params.user_id;   
+                  postProxy.getPostsByUserId(req,res,user_id,function(posts,count){
+                        userProxy.getUserById(user_id, theuser=>{ 
+                              let postUser = req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser;
+ 							let loginedUser;
+							if(req.user){
+								loginedUser = req.user.processUser(req.user);
+							}                                         
+                                    res.render(path, {
+                                          user: req.user ? req.user.processUser(req.user) : req.user,
+                                          isMyPosts: req.user ? (req.user._id == user_id ? true : false) : false,
+                                          postUser: postUser,
+                                          posts: posts,
+
+                                          pageNumber: Math.ceil(count/10),
+                                          page: page,
+                                          isFirstPage: (page - 1) == 0,
+                                          isLastPage: ((page - 1) * 10 + posts.length) == count, 
+
+                                          title: postUser.username + '的' + seo.post.person.title,
+                                          keywords: seo.post.person.keywords,
+                                          description: postUser.username + '的' + seo.post.person.description,                                                       
+                                          messages: {
+                                                error: req.flash('error'),
+                                                success: req.flash('success'),
+                                                info: req.flash('info'),
+                                          }, // get the user out of session and pass to template
+                                    });                                
+                        });                       
+                  });                               
                   postProxy.getPostsByUserId(req,res,user_id,'post/personalPosts');
                                   
                  
-       },
+      },
 
        showPost: (req,res)=>{
              const title = req.params.title;
@@ -200,6 +242,10 @@ module.exports = {
                         res.render('form/editPost', {
                               user: req.user ? req.user.processUser(req.user) : req.user,
                               post: postProxy.modifyPost(post),
+
+                              title:seo.post.edit.title,
+                              keywords:seo.post.edit.keywords,
+                              description:seo.post.edit.description,
                               messages: {
                                     error: req.flash('error'),
                                     success: req.flash('success'),
@@ -332,13 +378,17 @@ module.exports = {
                     console.log('tag posts for'+ tag_id +posts);
                     
                     res.render('post/tagPosts', {
-                            title: 'specific tag page',
+                           
                             user: req.user ? req.user.processUser(req.user) : req.user,
                             //postUser: req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser,
                             posts: posts,
                             page: page,
                             isFirstPage: (page - 1) == 0,
                             isLastPage: ((page - 1) * 10 + posts.length) == count,
+
+                              title:tag_id +'的'+seo.post.tagPosts.title,
+                              keywords:seo.post.tagPosts.keywords,
+                              description:seo.post.tagPosts.description,                            
                             messages: {
                                 error: req.flash('error'),
                                 success: req.flash('success'),
@@ -368,7 +418,6 @@ module.exports = {
                         posts = [];
                     } 
                     res.render('post/tagPosts', {
-                            title: 'specific pages',
                             user: req.user ? req.user.processUser(req.user) : req.user,
                             //postUser: req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser,
                             posts: posts,
@@ -376,6 +425,10 @@ module.exports = {
                             page: page,
                             isFirstPage: (page - 1) == 0,
                             isLastPage: ((page - 1) * 10 + posts.length) == count,
+
+                            title:seo.post.search.title,
+                            keywords:seo.post.search.keywords,
+                            description:seo.post.search.description,
                             messages: {
                                 error: req.flash('error'),
                                 success: req.flash('success'),
