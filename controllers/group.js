@@ -149,13 +149,13 @@ module.exports = {
         newGroupUpload(app){
             return  function newGroupPost(req,res){
 
-                    //let dataDir;
-		            // if(app.get('env')=== 'development'){
-		            // 	dataDir = config.uploadDir.development;
-		            // }else{
-		            // 	dataDir = config.uploadDir.production;
-		            // }
-                    let dataDir = config.upload.path;
+                    let dataDir;
+		            if(app.get('env')=== 'development'){
+		            	dataDir = config.uploadDir.development;
+		            }else{
+		            	dataDir = config.uploadDir.production;
+		            }
+                   // let dataDir = config.upload.path;
 
 					console.log(dataDir);
 					let photoDir = dataDir + 'groupLogo/';
