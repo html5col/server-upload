@@ -29,6 +29,8 @@ function startServer(){
 	const context = require('./common/context').env1(app,mongoose);
 
 	app.set('port',process.env.PORT || config.port);
+	
+	app.set('env') = 'production';
 	//app.set('env','development');
 	app.use(express.static(__dirname + '/public'));
 	app.use(express.static(__dirname + '/node_modules'));
