@@ -23,7 +23,7 @@ function startServer(){
 	require('./lib/passport')(passport); // pass passport for configuration
 	const User = require('./models/User');    
 
-	const app = express();
+	//const app = express();
 
 	//for logs, db ... in the different context (development or production)
 	const context = require('./common/context').env1(app,mongoose);
