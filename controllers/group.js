@@ -155,7 +155,6 @@ module.exports = {
 		            }else{
 		            	dataDir = config.uploadDir.production;
 		            }
-                   // let dataDir = config.upload.path;
 
 					console.log(dataDir);
 					let photoDir = dataDir + 'groupLogo/';
