@@ -342,6 +342,7 @@ module.exports = {
                                           title: fields.title,
                                           category: fields.category,
                                           image: photoName,  
+                                          content:fields.content,
                                           //category: category,
                                     };
                                     const  post_id = req.params.post_id;
