@@ -81,10 +81,12 @@ module.exports = {
 							}
 							userProxy.getUserById(user_id, theuser=>{ 
 							     	let postUser = req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser;
+									 let isProfile = true;
 										
 									res.render("users/profile", {
 										user: req.user ? req.user.processUser(req.user) : req.user,
 										isMyPosts: req.user ? (req.user._id == user_id ? true : false) : false,
+										isProfile: isProfile,
 										postUser: postUser,
 										posts: posts,
 

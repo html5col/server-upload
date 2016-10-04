@@ -184,6 +184,31 @@ module.exports = {
             });
       },
 
+
+      editPost: (req,res)=>{
+            let fromGroup_id = req.query.group_id; 
+            console.log(`ismobile is ${utils.isMobile(req)}`);
+                       
+            res.render('form/post', {
+                  user: req.user.processUser(req.user),
+                  isMobile: utils.isMobile(req),
+
+                  title:seo.post.make.title,
+                  keywords:seo.post.make.keywords,
+                  description:seo.post.make.description,
+                  messages: {
+                        error: req.flash('error'),
+                        success: req.flash('success'),
+                        info: req.flash('info'),
+                  },
+                  fromGroup_id: fromGroup_id,                  
+
+            });
+      },
+
+
+
+
       getPersonalPosts: (req,res)=>{
                   const user_id = req.params.user_id;   
                   postProxy.getPostsByUserId(req,res,user_id,function(posts,count){
@@ -305,15 +330,15 @@ module.exports = {
            const post_id = req.params.post_id;
             Post.remove({ '_id': post_id }, (err)=>{
                   if(err){
-                        req.flash('error',`there is an error when removing the post : ${err}`);
+                        console.log(`there is an error when removing the post : ${err}`);
+                        req.flash('error','删除文章错误！');
                         res.redirect('back');
                   }else{
-                        console.log('User deleted!');
-                        req.flash('success',`The post with id of ${req.params.post_id} deleted successfully `);
+                        console.log(`The post with id of ${req.params.post_id} deleted successfully `);
+                        req.flash('success','文章已删除!');
                         res.redirect('back');
                   }
             });
-
 
      },
 
