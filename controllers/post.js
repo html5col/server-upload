@@ -3,6 +3,7 @@ let moment = require('moment'),
     Post = require('../models/Post'),
     User = require('../models/User'),
     Comment = require('../models/Comment'),
+    Tag = require('../models/Tag'),
     postProxy = require('../db_proxy/post'),
     userProxy = require('../db_proxy/user'),
     tagProxy = require('../db_proxy/tag'),
@@ -185,26 +186,26 @@ module.exports = {
       },
 
 
-      editPost: (req,res)=>{
-            let fromGroup_id = req.query.group_id; 
-            console.log(`ismobile is ${utils.isMobile(req)}`);
+      // editPost: (req,res)=>{
+      //       let fromGroup_id = req.query.group_id; 
+      //       console.log(`ismobile is ${utils.isMobile(req)}`);
                        
-            res.render('form/post', {
-                  user: req.user.processUser(req.user),
-                  isMobile: utils.isMobile(req),
+      //       res.render('form/post', {
+      //             user: req.user.processUser(req.user),
+      //             isMobile: utils.isMobile(req),
 
-                  title:seo.post.make.title,
-                  keywords:seo.post.make.keywords,
-                  description:seo.post.make.description,
-                  messages: {
-                        error: req.flash('error'),
-                        success: req.flash('success'),
-                        info: req.flash('info'),
-                  },
-                  fromGroup_id: fromGroup_id,                  
+      //             title:seo.post.make.title,
+      //             keywords:seo.post.make.keywords,
+      //             description:seo.post.make.description,
+      //             messages: {
+      //                   error: req.flash('error'),
+      //                   success: req.flash('success'),
+      //                   info: req.flash('info'),
+      //             },
+      //             fromGroup_id: fromGroup_id,                  
 
-            });
-      },
+      //       });
+      // },
 
 
 
@@ -257,16 +258,26 @@ module.exports = {
 
       getPostEdit: (req,res)=>{
            const post_id = req.params.post_id;
+
             Post.findOne({'_id': post_id}, function(err,post){
-                  
+
+
+
                   if(err){
                         console.log(err);
                         req.flash('error',`error in find post for ${post_id}`);
                         res.redirect('back');
                   }else{
+                        let modifiedPost = postProxy.modifyPost(post);
+                        //let tagString = [];
+              
+                        console.log('tags'+JSON.stringify(modifiedPost.tags));
                         res.render('form/editPost', {
                               user: req.user ? req.user.processUser(req.user) : req.user,
-                              post: postProxy.modifyPost(post),
+                              post: modifiedPost,
+                              //tagString: modifiedPost.tags.join('/'),
+                              
+                              isMobile: utils.isMobile(req),
 
                               title:seo.post.edit.title,
                               keywords:seo.post.edit.keywords,
@@ -279,52 +290,95 @@ module.exports = {
 
                         });
                   }
-
             });
 
       },
 
+      editPost:(app)=>{
+         return function editArticle(req,res){
 
-      editPost: (req,res)=>{
-
-          const  post_id = req.params.post_id,
-                 title = req.body.title,                
-                 tags = req.body.tags,
-                 category = req.body.category,
-                 intro = req.body.intro,
-                 content = req.body.content;
-
-
-            const options = {
-                  //author: user.local.username;
-                  //user_id: user._id;
-                  title: title,
-                  content: content,
-                  intro: intro,
-                  //tags: req.body.tags,
-                  //Post.tags = tags.split(',');
-                  category: category,
-            };
-            
-            //new: bool - if true, return the modified document rather than the original. defaults to false (changed in 4.0)
-            //Finds a matching document, updates it according to the update arg, passing any options, and returns the found document (if any) to the callback. The query executes immediately if callback is passed else a Query object is returned.
-            //Model.findOneAndUpdate([conditions], [update], [options], [callback])
-            //http://mongoosejs.com/docs/api.html#model_Model.findOneAndUpdate
-            Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
-                  if(err){
-                        console.log(err);
-                        next(err);
+                  let dataDir;
+                  if(app.get('env')=== 'development'){
+                        dataDir = config.uploadDir.development;
                   }else{
-                         
-                         res.redirect('/post/show/'+ post.title);
- 
+                        dataDir = config.uploadDir.production;
                   }
-            });            
+                  //let dataDir = config.upload.path;
 
+                  console.log(dataDir);
+                  let photoDir = dataDir + 'postLogo/';
+		
+                  try{
+                        //store the data to the database
+                    const form = new formidable.IncomingForm();
+                    form.parse(req,(err,fields,file)=>{
+                        if(err){
+                              console.log('form parse error:' + err);
+                              req.flash('error','提交出错');
+                              return res.redirect(500, '/response/err/500');
+                        }else{
+                              const photo = file.photo;
+                              
+                              //let personalDir = `${req.user._id}/`;
+                              let thedir = photoDir;
+                              //prevent uploading file with the same name
 
+                              const photoName = req.user._id + photo.name; 
+                              
+                              const fullPath = thedir + photoName;
 
+                              utils.checkDir(thedir,()=>{
+                                    fs.rename(photo.path, fullPath, err=>{
+                                          if (err) {console.log(err); return; }
+                                          console.log('The file has been re-named to: ' + fullPath);
+                                    });										
+                              });                 
+                              if(req.user){
 
-     },
+                                    const options = {
+                                          title: fields.title,
+                                          category: fields.category,
+                                          image: photoName,  
+                                          category: category,
+                                    };
+                                    const  post_id = req.params.post_id;
+
+                                    const tags = fields.tags;
+
+                                    
+                                    Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
+                                                if(err){
+                                                      console.log(err);
+                                                      req.flash('error',`发布文章失败`);
+                                                      res.redirect('back');
+                                                }else{
+                                                      tagProxy.saveSingle(req,res,post,tags);
+                                                      console.log(`your post saved successfully: ${post._id}`);
+                                                      req.flash('success','发布成功！');
+                                                      res.redirect(`/post/show/${post.title}`);
+                                                      //res.redirect('/');
+                                                }
+                                    });
+
+                              }else{
+                                    console.log('user not login');
+                                    req.flash('error','请先登录！');
+                                    res.redirect(303, '/user/login');
+                              }								
+                         }
+
+                    });//end of form.parse
+
+                  } catch(ex){
+                        return res.xhr ?
+                        res.json({error: '数据库错误！'}):
+                        res.redirect(303, '/response/error/500');
+                  }
+
+      
+      }; 
+    },
+
 
      deletePost: (req,res)=>{
            const post_id = req.params.post_id;

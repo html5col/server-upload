@@ -14,7 +14,7 @@ module.exports = function(app){
       router.get('/:user_id',post.getPersonalPosts);
       router.get('/show/:title', post.showPost);
       router.get('/edit/:post_id', auth.isLoggedIn, post.getPostEdit);
-      router.post('/edit/:post_id', auth.isLoggedIn, post.editPost);
+      router.post('/edit/:post_id', auth.isLoggedIn, post.editPost(app));
       router.get('/delete/:post_id', auth.isLoggedIn, post.deletePost);
       router.post('/comment', auth.isLoggedIn,post.comment );
       router.get('/tag/:tag_id', post.getTagsPost);

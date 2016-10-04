@@ -1,35 +1,150 @@
-<form method="post" action="/post/edit/{{ post._id }}">
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+{{/extend}}
 
-  <label>
-  Title：<br />
-  <input type="text" name="title" placeholder="title" value="{{post.title}}" />
-  </label><br />
-
-   <label>
-  Tags：<br />
-  <input type="text" name="tags" placeholder="use ',' to seperate between tags" value="{{post.tags}}" />
-  </label> <br />
-
-   <label>
-  Category：<br />
-  <select name="category" value="{{post.category}}">
-    <option selected>Category 1</option>
-    <option>Category 2</option>
-    <option>Category 3</option>
-    <option>Category 4</option>
-  </select>
-  </label> <br />
-
-   <label>
-  Introduction：<br />
-  <input type="text" name="intro" placeholder="The introduction about the post, less than 200 words!" value="{{post.intro}}"/>
-  </label> <br />
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back">
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+              <h1 class='title'>更新</h1>
+            </header>            
 
 
-  <label>
-  Content：<br />
-  <textarea name="content" rows="20" cols="100" placeholder="Content">{{post.content}}</textarea><br />
-  </label>
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+                <form class="list-block" enctype="multipart/form-data" method="POST" action="/post/edit/{{ post._id }}">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <input type="hidden" name="group_id" value="{{fromGroup_id}}">
+                    <ul>
+                        <!-- Text inputs -->
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">标题</div>
+                                <div class="item-input">
+                                <input type="text" name="title" value="{{post.title}}">
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">图片</div>
+                                <div class="item-input">
+                                <input type="file" required accept="image/*" id="fieldPhoto" name="photo">
+                                </div>
+                            </div>
+                            </div>
+                        </li>                        
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">标签</div>
+                                <div class="item-input">
+                                <input type="text" name="tags" value="{{post.tags}}"/>
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+                         <!--<li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">简介</div>
+                                <div class="item-input">
+                                <input type="text" name="intro" placeholder="文章介绍，不少于50字!" style="min-height:2em"/>
+                                </div>
+                            </div>
+                            </div>
+                        </li>-->
+                         <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">内容</div>
+                                <div class="item-input">
+                                <textarea name="content" id="editor" style="min-height:10em;">{{post.content}}</textarea>
+                                </div>
+                            </div>
+                            </div>
+                        </li>
 
-  <input type="submit" value="Save Edit" />
-</form>
+
+                    </ul>
+
+                    <input type="submit" value="submit" id="submit">
+                </form>
+                <div class="content-block">
+                    <div class="row">
+                        <div class="">
+                            <a href="" class="button button-big button-fill button-success" id="fake-submit">提交</a>
+                        </div>
+                    </div>
+                </div> 
+
+                    <!--<hr>
+                    <p>Need an account? <a href="/user/signup">signup</a></p>
+                    <p>Or go <a href="/user/forgotPassword">Forget your Password</a>.</p>          -->
+            </div>
+            <script>
+                (function(){
+                    var fake_submit = document.getElementById('fake-submit');
+                    var submit = document.getElementById('submit');
+                    fake_submit.onclick = function(e){
+                        e.preventDefault();
+                        submit.click();
+                    };
+                }());
+            </script>
+
+        </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <div class="page">...</div>
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+  {{#unless isMobile}}
+{{#extend "js"}}
+
+	<script src="/ckeditor/ckeditor.js"></script>
+	<script src="/js/editor/editor.js"></script>    
+  <script>
+	initSample();
+  </script>
+
+{{/extend}}
+  {{/unless}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

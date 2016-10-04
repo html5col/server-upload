@@ -68,7 +68,7 @@ postSchema.methods.time = time=> {
     return moment(time).format('L');
 };
 
-postSchema.methods.processPost = (post,callback)=>{
+postSchema.methods.processPost = (post)=>{
 
     // let tags = post.tags;
     // let tagsArray = tags.split(',');
@@ -79,7 +79,6 @@ postSchema.methods.processPost = (post,callback)=>{
           
           Tag.findById(v,function(err,tag){
                tagsArray.push(tag);
-
           });
 
     });
