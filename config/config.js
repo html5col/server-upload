@@ -34,8 +34,8 @@ var config = {
   uploadDir: {
 
       development:'/Users/frank25184/desktop/nodejs/group/public/upload/',
-      //production: '/nodejs/group/public/upload/',
-      production: '/Users/frank25184/desktop/nodejs/group/public/upload/',
+      production: '/nodejs/group/public/upload/',
+     // production: '/Users/frank25184/desktop/nodejs/group/public/upload/',
 
   },
   google_tracker_id: '',
