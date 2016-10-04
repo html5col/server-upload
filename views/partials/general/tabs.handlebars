@@ -1,16 +1,33 @@
             <nav class="bar bar-tab">
-                <a class="tab-item external active" href="/">
+                <a class="tab-item" href="/">
                     <span class="icon icon-home"></span>
                 </a>
-                <a class="tab-item external" href="/group/groups">
+                <a class="tab-item " href="/group/groups">
                     <span class="icon icon icon-friends"></span>
                 </a>
 
                 {{#if user}}
-                <a class="tab-item external" href="/user/profile/{{user._id}}">
+                <a class="tab-item" href="/user/profile/{{user._id}}">
                 {{else}}
-                <a class="tab-item external" href="/user/login">       
+                <a class="tab-item" href="/user/login">       
                 {{/if}}  
                     <span class="icon icon-settings"></span>
                 </a>
             </nav>
+
+            <script>
+                (function(){
+                    var path = window.location.pathname;
+                    var home = document.querySelector("a[href='/']");
+                    var groups = document.querySelector("a[href='/group/groups']");
+                    var profile = document.querySelector("a[href^='/user/profile']");
+
+                    if(path==='group/groups'){
+                       groups.classList.add('active');
+                    }else if(path==="user/profile"){
+                        profile.classList.add('active');
+                    }else if(path===""){
+                        home.classList.add('active');
+                    }
+                }());
+            </script>

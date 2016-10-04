@@ -2,11 +2,11 @@
       <div class="comment">
          <div class="authorArea">
               {{#if this.user.logo}}
-                  <a href="/user/profile/{{this.user.user_id}}" class="commentImg">
+                  <a href="/user/profile/{{this.user._id}}" class="commentImg">
                       <img src="/upload/logo/{{this.user._id}}/{{this.user.logo}}">
                   </a>
               {{else}}
-                  <a href="/user/profile/{{this.user.user_id}}">
+                  <a href="/user/profile/{{this.user._id}}">
                   <span class="icon icon-me"></span>
                   </a>
               {{/if}} 

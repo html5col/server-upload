@@ -49,9 +49,12 @@
                     {{/if}}
                     <p class="contentArea">{{{ post.content }}}</p>
                     <p class="postTags">
+                    {{#if post.tags}}
                      {{#each post.tags}}
                        <span>{{name}}</span>
                      {{/each}}
+                    {{/if}}
+                    
                     </p>
                     
 
