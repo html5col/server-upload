@@ -212,7 +212,12 @@ input[type="submit"] {
           color: #000; }
       .listWrapper .midText .leftText p, .listWrapper .midText .leftText h2 {
         word-break: break-all;
-        word-wrap: break-word; }
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        /* Renamed property in CSS3 draft spec */
+        white-space: normal;
+        /* CSS3 */
+        hyphens: auto; }
     .listWrapper .midText .rightImg {
       background-size: contain;
       background-repeat: no-repeat;
@@ -250,112 +255,135 @@ div.paging {
   margin: 0.5rem 0.3rem;
   padding: 0; }
 
-.showOne .content-padded h2 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 1.3rem;
-  margin-bottom: 0.5rem;
-  font-size: 1rem; }
-.showOne .content-padded div.logoArea .leftImg {
-  width: 10%;
-  display: inline-block;
-  margin-right: 0; }
-  .showOne .content-padded div.logoArea .leftImg > a {
-    display: block; }
-    .showOne .content-padded div.logoArea .leftImg > a > img {
-      display: inline-block;
-      width: 1.5em;
-      height: 1.5em;
-      border-radius: 100%; }
-    .showOne .content-padded div.logoArea .leftImg > a > span.icon-me {
-      display: inline-block;
-      font-size: 1rem;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 100%; }
-.showOne .content-padded div.logoArea .rightIntro {
-  width: 90%;
-  display: inline-block;
-  text-align: left;
-  margin-left: 0; }
-  .showOne .content-padded div.logoArea .rightIntro span {
-    display: block;
-    font-size: 0.5rem;
-    line-height: 1.3; }
-    .showOne .content-padded div.logoArea .rightIntro span span {
-      color: grey;
-      display: inline-block; }
-  .showOne .content-padded div.logoArea .rightIntro > span:last-child {
-    color: grey; }
-.showOne .content-padded div.postImg {
-  width: 100%;
-  height: 30%;
-  margin: 1em 0; }
-  .showOne .content-padded div.postImg > img {
+.showOne .content-padded {
+  overflow: hidden; }
+  .showOne .content-padded h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem; }
+  .showOne .content-padded div.logoArea .leftImg {
+    width: 10%;
     display: inline-block;
-    width: 100%;
-    max-height: 100%; }
-.showOne .content-padded p.contentArea {
-  margin-bottom: 0;
-  line-height: 1rem;
-  font-weight: normal;
-  margin-top: 0.3rem;
-  max-width: 100%;
-  word-break: break-all;
-  word-wrap: break-word; }
-.showOne .content-padded p.postTags {
-  padding: 0;
-  margin: 0;
-  text-align: right; }
-  .showOne .content-padded p.postTags > span {
-    display: inline-block;
-    border: 1px solid grey;
-    font-size: 0.3rem;
-    padding: 0.05rem 0.05rem; }
-.showOne .content-padded p.copy {
-  color: #dbdbdb;
-  font-size: 0.5rem; }
-.showOne .content-padded p.commentTop {
-  font-size: 0.7rem;
-  border-top: 1px solid #e2e2e2;
-  color: grey;
-  text-align: center;
-  padding-top: 0.5rem; }
-.showOne .content-padded .comment {
-  width: 100%; }
-  .showOne .content-padded .comment .authorArea {
-    width: 100%;
-    font-size: 0.5rem; }
-    .showOne .content-padded .comment .authorArea a.commentImg {
-      display: inline-block; }
-      .showOne .content-padded .comment .authorArea a.commentImg > img {
+    margin-right: 0; }
+    .showOne .content-padded div.logoArea .leftImg > a {
+      display: block; }
+      .showOne .content-padded div.logoArea .leftImg > a > img {
         display: inline-block;
-        width: 0.9em;
-        height: 0.9em;
+        width: 1.5em;
+        height: 1.5em;
         border-radius: 100%; }
-    .showOne .content-padded .comment .authorArea a > span.icon-me {
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      border-radius: 100%;
-      font-size: 0.5rem; }
-    .showOne .content-padded .comment .authorArea > span {
-      display: inline-block;
-      font-size: 0.7rem;
+      .showOne .content-padded div.logoArea .leftImg > a > span.icon-me {
+        display: inline-block;
+        font-size: 1rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 100%; }
+  .showOne .content-padded div.logoArea .rightIntro {
+    width: 90%;
+    display: inline-block;
+    text-align: left;
+    margin-left: 0; }
+    .showOne .content-padded div.logoArea .rightIntro span {
+      display: block;
+      font-size: 0.5rem;
+      line-height: 1.3; }
+      .showOne .content-padded div.logoArea .rightIntro span span {
+        color: grey;
+        display: inline-block; }
+    .showOne .content-padded div.logoArea .rightIntro > span:last-child {
       color: grey; }
-  .showOne .content-padded .comment div.commentContent {
-    border-bottom: 1px solid #e3e3e3; }
-    .showOne .content-padded .comment div.commentContent p {
-      font-size: 0.7rem;
-      margin-left: 1.2rem;
-      margin-top: 0; }
+  .showOne .content-padded div.postImg {
+    width: 100%;
+    height: 30%;
+    margin: 1em 0; }
+    .showOne .content-padded div.postImg > img {
+      display: inline-block;
+      width: 100%;
+      max-height: 100%; }
+  .showOne .content-padded p.contentArea {
+    margin-bottom: 0;
+    line-height: 1rem;
+    font-weight: normal;
+    margin-top: 0.3rem;
+    max-width: 100%;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    /* Renamed property in CSS3 draft spec */
+    white-space: normal;
+    /* CSS3 */
+    hyphens: auto; }
+  .showOne .content-padded p {
+    margin-bottom: 0;
+    font-weight: normal;
+    max-width: 100%;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    /* Renamed property in CSS3 draft spec */
+    white-space: normal;
+    /* CSS3 */
+    hyphens: auto; }
+  .showOne .content-padded p.postTags {
+    padding: 0;
+    margin: 0;
+    text-align: right; }
+    .showOne .content-padded p.postTags > span {
+      display: inline-block;
+      border: 1px solid grey;
+      font-size: 0.3rem;
+      padding: 0.05rem 0.05rem; }
+  .showOne .content-padded p.copy {
+    color: #dbdbdb;
+    font-size: 0.5rem; }
+  .showOne .content-padded p.commentTop {
+    font-size: 0.7rem;
+    border-top: 1px solid #e2e2e2;
+    color: grey;
+    text-align: center;
+    padding-top: 0.5rem; }
+  .showOne .content-padded .comment {
+    width: 100%; }
+    .showOne .content-padded .comment .authorArea {
+      width: 100%;
+      font-size: 0.5rem; }
+      .showOne .content-padded .comment .authorArea a.commentImg {
+        display: inline-block; }
+        .showOne .content-padded .comment .authorArea a.commentImg > img {
+          display: inline-block;
+          width: 0.9em;
+          height: 0.9em;
+          border-radius: 100%; }
+      .showOne .content-padded .comment .authorArea a > span.icon-me {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        border-radius: 100%;
+        font-size: 0.5rem; }
+      .showOne .content-padded .comment .authorArea > span {
+        display: inline-block;
+        font-size: 0.7rem;
+        color: grey; }
+    .showOne .content-padded .comment div.commentContent {
+      border-bottom: 1px solid #e3e3e3; }
+      .showOne .content-padded .comment div.commentContent p {
+        font-size: 0.7rem;
+        margin-left: 1.2rem;
+        margin-top: 0; }
 
 .groupArticles .tabContent {
   padding-left: 1rem;
   padding-right: 1rem;
   max-width: 100%;
   word-break: break-all;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* Renamed property in CSS3 draft spec */
+  white-space: normal;
+  /* CSS3 */
+  hyphens: auto; }
 .groupArticles .content-block {
   margin-bottom: 0 !important; }
 

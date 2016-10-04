@@ -146,8 +146,10 @@
 
 @mixin break(){
     word-break: break-all;
-  word-wrap:break-word;
-  //white-space: pre-wrap;
+    word-wrap:break-word;
+    overflow-wrap: break-word;/* Renamed property in CSS3 draft spec */
+    white-space: normal;      /* CSS3 */    
+    hyphens: auto;
 }
 
 

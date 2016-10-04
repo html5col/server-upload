@@ -270,6 +270,9 @@ module.exports = {
                   }else{
                         let modifiedPost = postProxy.modifyPost(post);
                         //let tagString = [];
+                        let tagObjArray = modifiedPost.tags;
+
+                                                
               
                         console.log('tags'+JSON.stringify(modifiedPost.tags));
                         res.render('form/editPost', {
@@ -339,7 +342,7 @@ module.exports = {
                                           title: fields.title,
                                           category: fields.category,
                                           image: photoName,  
-                                          category: category,
+                                          //category: category,
                                     };
                                     const  post_id = req.params.post_id;
 

@@ -1,5 +1,6 @@
 .showOne{
     .content-padded{
+        overflow:hidden;
         h2{
             margin-top:0;
             margin-bottom:0;
@@ -26,6 +27,13 @@
             max-width:100%;
             @include break();
             
+        }
+        p{
+            margin-bottom:0;
+            //line-height:1rem;
+            font-weight:normal;
+            max-width:100%;
+            @include break();           
         }
         p.postTags{
             padding:0;
