@@ -47,7 +47,7 @@
                     {{#if post.image}}
                     <div class="postImg"><img src="/upload/postLogo/{{post.image}}"></div>
                     {{/if}}
-                    <p class="contentArea">{{ post.content }}</p>
+                    <p class="contentArea">{{{ post.content }}}</p>
                     <p class="postTags">
                      {{#each post.tags}}
                        <span>{{name}}</span>
