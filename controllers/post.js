@@ -138,6 +138,7 @@ module.exports = {
                                                       tagProxy.saveSingle(req,res,post,tags);
                                                       console.log(`your post saved successfully: ${post._id}`);
                                                       req.flash('success','发布成功！');
+                                                     
                                                       res.redirect(`/post/show/${post.title}`);
                                                       //res.redirect('/');
                                                 }

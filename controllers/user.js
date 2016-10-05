@@ -515,7 +515,7 @@ module.exports = {
 											user.local.logo = photoName;
 											user.save(err=>{
 												if(err){throw err}
-												req.flash('success','Upload your logo successfully');
+												req.flash('success','上传头像成功');
 												res.redirect('/user/profile/'+ user._id);
 											});
 

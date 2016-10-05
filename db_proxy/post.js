@@ -124,9 +124,10 @@ module.exports = {
 
         getPostByTitle:  function(req,res,title,path){
             const globalThis = this;
+            
 
             if(!title){
-                req.flash('error','title not existing or is null/undefined');
+                req.flash('error','文章标题不存在！');
                 res.redirect('back');
             }else{
 
@@ -134,14 +135,14 @@ module.exports = {
                        let conditions = { 'title': title };
                         Post.findOne(conditions,function(err,post){
                                 if (err) {
-                                    reject(`No Such Post With title ${title}: ${err}`);
+                                    reject(err);
                                 } else {
                                     //setting view times
                                     let update = { $inc: { 'pv': 1 }};//increment
                                     Post.findOneAndUpdate(conditions, update, function(err,post){
                                         if(err){
                                             console.log(`there is error when update the pv: ${err}`);
-                                            return;
+                                            reject(err);
                                         }
                                     });   
                                     resolve(post);                                 
@@ -184,8 +185,8 @@ module.exports = {
                     console.log("Done");
                 })
                .catch(function(err){
-                  console.log(err);
-                  req.flash('error','没有这篇文章!');
+                  console.log(`error With title ${title}: ${err}`);
+                  req.flash('error','读取文章出错!');
                   res.redirect('back');
                });
 
