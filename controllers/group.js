@@ -379,7 +379,7 @@ module.exports = {
                               const photo = file.photo;
                               let thedir = photoDir;
 
-                              const photoName = req.user._id + photo.name; 
+                              const photoName = Date.now() + photo.name; 
                               console.log('file.photo is' + JSON.stringify(photo));
                               
                               const fullPath = thedir + photoName;
