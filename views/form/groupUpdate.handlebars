@@ -21,6 +21,7 @@
             <div class="content">
                     
                 <form class="list-block"  enctype="multipart/form-data" action="/group/doUpdate/{{group._id}}" method="POST">
+                   <input type="hidden" name="_csrf" value="{{csrfToken}}">
                     <ul>
                     <!-- Text inputs -->
                     <li>
