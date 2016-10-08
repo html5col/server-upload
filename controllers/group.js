@@ -283,7 +283,6 @@ module.exports = {
 
             console.log(`the group_id in applyGroup function ${group_id}`);
 
-
             let getGroup = new Promise(function(resolve,reject){
                 let findOption = {'_id': group_id};
                 Group.findOne(findOption,function(err,group){
@@ -377,10 +376,7 @@ module.exports = {
                               req.flash('error','提交出错');
                               return res.redirect(500, '/response/err/500');
                         }else{
-
-                              
                               const photo = file.photo;
-                              
                               let thedir = photoDir;
 
                               const photoName = req.user._id + photo.name; 
