@@ -45,7 +45,7 @@
                             </div>
                             </div>
                         </li>                        
-                        <li>
+                        <!--<li>
                             <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
@@ -55,25 +55,21 @@
                                 </div>
                             </div>
                             </div>
-                        </li>
-                         <!--<li>
-                            <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">简介</div>
-                                <div class="item-input">
-                                <input type="text" name="intro" placeholder="文章介绍，不少于50字!" style="min-height:2em"/>
-                                </div>
-                            </div>
-                            </div>
                         </li>-->
+
                          <li>
                             <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">内容</div>
                                 <div class="item-input">
-                                <textarea name="content" id="editor" style="min-height:10em;">{{post.content}}</textarea>
+                                <textarea name="content" id="editor" style="min-height:10em;">
+                                    {{#if post.content.length}}
+                                    {{post.content}}
+                                    {{else}}
+                                    不少于10字
+                                    {{/if}}
+                                </textarea>
                                 </div>
                             </div>
                             </div>
@@ -110,7 +106,7 @@
         </div><!--.page-->
 
         <!--其他的单个page内联页（如果有）-->
-        <div class="page">...</div>
+        <!--<div class="page">...</div>-->
     </div>
 
     <!-- popup, panel 等放在这里

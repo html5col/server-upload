@@ -9,6 +9,8 @@ const group = require('../controllers/group');
 module.exports = function(){
       router.get('/groups', group.groups);
       router.get('/newGroup', auth.isLoggedIn, group.newGroup);
+      router.get('/update/:group_id', group.getGroupUpdate);
+      router.post('/doUpdate/:group_id', group.groupUpdate);
       router.post('/newGroupPost',group.newGroupUpload);
       router.get('/single/:group_id',group.singleGroup);
       router.get('/applyGroup',auth.isLoggedIn, group.applyGroup);

@@ -26,8 +26,10 @@
             <p>{{author}} 作品</p> 
 
             {{#if ../isProfile}}
+               {{#if ../isMyPosts}}
                 <span><a class="edit" href="/post/edit/{{ _id }}">编辑</a></span>
                 <span><a class="delete" href="/post/delete/{{ _id }}">删除</a></span>
+              {{/if}}
             {{/if}}
             
           </div>

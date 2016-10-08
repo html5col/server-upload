@@ -163,7 +163,7 @@ module.exports = {
                                                     user = req.user,
                                                     title = helper.trim(fields.title),
                                                     category = fields.category,
-                                                    privateOnly = fields.private,
+                                                    //privateOnly = fields.private,
                                                     intro = helper.trim(fields.intro);
                                                     
 
@@ -171,7 +171,7 @@ module.exports = {
                                             group.user_id = user._id;
                                             group.title = title;
                                             group.intro = intro;
-                                            group.private = privateOnly;
+                                            //group.private = privateOnly;
                                             group.category = category;
                                             group.logo = photoName;
                                             
@@ -330,6 +330,121 @@ module.exports = {
             });        
             
           
+
+        },
+
+        getGroupUpdate(req,res){
+            const group_id = req.params.group_id;
+            Group.findOne({'_id': group_id}, function(err,group){
+                  if(err){
+                        console.log(err);
+                        req.flash('error',`小组不存在！`);
+                        res.redirect('back');
+                  }else{
+                        let modifiedGroup = group.processGroup(group);
+                        res.render('form/groupUpdate', {
+                              user: req.user ? req.user.processUser(req.user) : req.user,
+                              group: modifiedGroup,
+                              isMobile: helper.isMobile(req),
+                              title: seo.group.edit.title,
+                              keywords:seo.group.edit.keywords,
+                              description:seo.group.edit.description,
+                              messages: {
+                                    error: req.flash('error'),
+                                    success: req.flash('success'),
+                                    info: req.flash('info'),
+                              },                  
+
+                        });
+                  }
+            });           
+ 
+        },
+
+        groupUpdate(req,res){
+                  let dataDir = config.uploadDir;
+                  console.log(dataDir);
+                  let photoDir = dataDir + 'groupLogo/';
+                  
+
+		
+                  try{
+
+                    const form = new formidable.IncomingForm();
+                    form.parse(req,(err,fields,file)=>{
+                        if(err){
+                              console.log('form parse error:' + err);
+                              req.flash('error','提交出错');
+                              return res.redirect(500, '/response/err/500');
+                        }else{
+
+                              
+                              const photo = file.photo;
+                              
+                              let thedir = photoDir;
+
+                              const photoName = req.user._id + photo.name; 
+                              console.log('file.photo is' + JSON.stringify(photo));
+                              
+                              const fullPath = thedir + photoName;
+
+                              helper.checkDir(thedir,()=>{
+                                    fs.rename(photo.path, fullPath, err=>{
+                                          if (err) {console.log(err); return; }
+                                          console.log('The file has been re-named to: ' + fullPath);
+                                    });										
+                              });                 
+                              if(req.user){
+                                   let title = helper.trim(fields.title),
+                                       category = helper.trim(fields.category),
+                                       logo = photoName,
+                                       intro = helper.trim(fields.intro);
+
+                                    if(title.length >= 2 && category && photo.name && intro.length>=5){
+                                        const options = {
+                                            title: title,
+                                            category: category,
+                                            logo: logo,  
+                                            intro:intro,
+                                        };
+                                        const group_id = req.params.group_id;
+                                        
+                                        Group.findOneAndUpdate({'_id': group_id}, {$set: options}, {new: true},function(err, group) {
+                                                    if(err){
+                                                        console.log(err);
+                                                        req.flash('error',`更新小组失败`);
+                                                        res.redirect('back');
+                                                    }else{
+                                                        //tagProxy.saveSingle(req,res,post,tags);
+                                                        console.log(`your group updated successfully: ${group._id}`);
+                                                        req.flash('success','更新成功！');
+                                                        res.redirect(`/group/single/${group._id}`);
+                                                        //res.redirect('/');
+                                                    }
+                                        });                                        
+                                    }else{
+                                        req.flash('error','提交不符合规则！');
+                                        res.redirect(303, 'back');                                        
+                                    }
+
+
+                              }else{
+                                    console.log('user not login');
+                                    req.flash('error','请先登录！');
+                                    res.redirect(303, '/user/login');
+                              }	
+
+                        }
+
+
+                    });//end of form.parse
+
+                  } catch(ex){
+                        console.log(ex);
+                        return res.xhr ?
+                        res.json({error: '数据库错误！'}):
+                        res.redirect(303, '/response/error/500');
+                  }            
 
         },
 

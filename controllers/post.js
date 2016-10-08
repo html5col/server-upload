@@ -314,46 +314,63 @@ module.exports = {
                               const photoName = req.user._id + photo.name; 
                               
                               const fullPath = thedir + photoName;
+                              let title = helper.trim(fields.title),
+                                  //category = helper.trim(fields.category),
+                                  image = helper.trim(photoName),
+                                  content = helper.trim(fields.content);
+                             
+                             if(title.length > 4  && photo.name && content.length>10){
 
-                              helper.checkDir(thedir,()=>{
-                                    fs.rename(photo.path, fullPath, err=>{
-                                          if (err) {console.log(err); return; }
-                                          console.log('The file has been re-named to: ' + fullPath);
-                                    });										
-                              });                 
-                              if(req.user){
+                                    helper.checkDir(thedir,()=>{
+                                          fs.rename(photo.path, fullPath, err=>{
+                                                if (err) {console.log(err); return; }
+                                                console.log('The file has been re-named to: ' + fullPath);
+                                          });										
+                                    });                 
+                                    if(req.user){
 
-                                    const options = {
-                                          title: helper.trim(fields.title),
-                                          category: helper.trim(fields.category),
-                                          image: helper.trim(photoName),  
-                                          content:helper.trim(fields.content),
-                                          //category: category,
-                                    };
-                                    const  post_id = req.params.post_id;
+                                          const options = {
+                                                title: title,
+                                               
+                                                image: image,  
+                                                content:content,
+                                                
+                                          };
+                                          const  post_id = req.params.post_id;
 
-                                    const tags = helper.trim(fields.tags);
+                                          //const tags = helper.trim(fields.tags);
 
-                                    
-                                    Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
-                                                if(err){
-                                                      console.log(err);
-                                                      req.flash('error',`发布文章失败`);
-                                                      res.redirect('back');
-                                                }else{
-                                                      tagProxy.saveSingle(req,res,post,tags);
-                                                      console.log(`your post saved successfully: ${post._id}`);
-                                                      req.flash('success','发布成功！');
-                                                      res.redirect(`/post/show/${post.title}`);
-                                                      //res.redirect('/');
-                                                }
-                                    });
+                                          
+                                          Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
+                                                      if(err){
+                                                            console.log(err);
+                                                            req.flash('error',`发布文章失败`);
+                                                            res.redirect('back');
+                                                      }else{
+                                                            //tagProxy.saveSingle(req,res,post,tags);
+                                                            console.log(`your post saved successfully: ${post._id}`);
+                                                            req.flash('success','发布成功！');
+                                                            res.redirect(`/post/show/${post.title}`);
+                                                            //res.redirect('/');
+                                                      }
+                                          });
 
-                              }else{
-                                    console.log('user not login');
-                                    req.flash('error','请先登录！');
-                                    res.redirect(303, '/user/login');
-                              }								
+                                    }else{
+                                          console.log('user not login');
+                                          req.flash('error','请先登录！');
+                                          res.redirect(303, '/user/login');
+                                    }                                   
+
+                             }else{//if &&
+                                    console.log('input need to do like it required');
+                                    req.flash('error','提交不符合规则！');
+                                    res.redirect(303, 'back');                                    
+
+                             }
+
+                              
+
+								
                          }
 
                     });//end of form.parse
@@ -386,10 +403,14 @@ module.exports = {
 
      comment: (req,res)=>{
            const content = helper.trim(req.body.content),
+                 title = helper.trim(req.body.title),
                  user = req.user.processUser(req.user),
                  author = user.username,
                  user_id = user._id;
-         console.log(`title is : ${title}`);
+                 
+
+           
+          console.log(`title is : ${title}`);
           Post.findOne({'title':title}, (err,post)=>{
                  if(err){
                        console.log(err);
@@ -406,8 +427,8 @@ module.exports = {
 
                         comment.save(err=>{
                               if(err){
-                                    console.log(err);
-                                    req.flash('error',`there is some errors when save the post ${err}`);
+                                    console.log(`there is some errors when save the post ${err}`);
+                                    req.flash('error',`存储错误`);
                                     res.redirect('back');                       
                               }else{
                                     console.log('comment saved successfully');

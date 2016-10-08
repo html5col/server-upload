@@ -76,15 +76,19 @@
 
 
 
-    <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
-    <script>$.init()</script>    
+    {{> general/message}}
 
     <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
     <script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/??sm.min.js,sm-extend.min.js' charset='utf-8'></script>
-
+    <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
+     <script>$.init()</script> 
     <!-- All css Files Here -->
       {{{block "js"}}} <!--for hbs custom style-->
-    {{> general/message}}
+
+    
+
+
+   
   </body>
 </html>
 

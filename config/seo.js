@@ -23,6 +23,11 @@ var config = {
             keywords: '小组，论坛，新建小组',
             description: '包括各种全面的语言(英语，法语，日语等)学习小组，为您的自学语言提供全套解决方案',                
           },
+          edit: {
+            title: '小组更新',
+            keywords: '小组,更新',
+            description: '小组更新页面',               
+          },         
 
 
           

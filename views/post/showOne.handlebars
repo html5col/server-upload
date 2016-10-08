@@ -6,7 +6,7 @@
    <div class="page-group">
         <!-- 单个page ,第一个.page默认被展示-->
         {{#if post}}
-        <div class="page showOne">
+        <div class="page page-current showOne">
             <!-- 标题栏 -->
             <header class="bar bar-nav">
               <a class="button button-link button-nav pull-left back"> <!--get rid of back class-->
@@ -134,24 +134,21 @@
 
 
 
-
-
-    </div>
+    </div><!--page group-->
 
     <!-- popup, panel 等放在这里
     <div class="panel-overlay"></div>
     <!-- Left Panel with Reveal effect -->
 
 
-
-
     {{#extend 'js'}}
+    
       <!--<script>
         $(document).on('click','.open-form', function () {
-        $.popup('.popup-form');
+         $.popup('.popup-form');
         });
-
       </script>-->
+      
     {{/extend}}
 
 

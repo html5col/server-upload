@@ -27,7 +27,7 @@ Usage:
 
         //register a event handler function on this input element, keypress is a legacy event handler
             //textInput is supported by safaari and chrome in 2010;  textinput is the version in the dom level 3 events draft;
-            greatApp.compatible.addEventListener(ele, 'keypress', filterInput, false);
+            jey.addEventListener(ele, 'keypress', filterInput, false);
 
 
             //textinput not supported versions of ie w/o addEventListener

@@ -1,6 +1,5 @@
 <!--if the single page has the single css file,then use the folling-->
 {{#extend "css"}}
-    <link rel="stylesheet" href="">
 {{/extend}}
 
    <div class="page-group">
@@ -13,7 +12,7 @@
                 <span class="icon icon-left"></span>
                 BACK
               </a>
-              <h1 class='title'>新建小组</h1>
+              <h1 class='title'>更新小组信息</h1>
             </header> 
 
 
@@ -21,7 +20,7 @@
             <!-- 这里是页面内容区 -->
             <div class="content">
                     
-                <form class="list-block" enctype="multipart/form-data" action="/group/newGroupPost" method="POST">
+                <form class="list-block"  enctype="multipart/form-data" action="/group/doUpdate/{{group._id}}" method="POST">
                     <ul>
                     <!-- Text inputs -->
                     <li>
@@ -30,7 +29,7 @@
                         <div class="item-inner">
                             <div class="item-title label">*小组名</div>
                             <div class="item-input">
-                            <input type="text" name="title" placeholder="不少于2字"/>
+                            <input type="text" name="title" required value="{{group.title}}"/>
                             </div>
                         </div>
                         </div>
@@ -42,7 +41,7 @@
                         <div class="item-inner">
                             <div class="item-title label">*小组Logo</div>
                             <div class="item-input">
-                            <input type="file" required accept="image/*" id="fieldPhoto" name="photo">
+                            <input type="file" required="required" accept="image/*" id="fieldPhoto" name="photo" value="{{group.logo}}">
                             </div>
                         </div>
                         </div>
@@ -55,7 +54,7 @@
                         <div class="item-inner">
                             <div class="item-title label">*选择分类</div>
                             <div class="item-input">
-                                <select name="category">
+                                <select name="category" required value="{{group.category}}">
                                     <option name="listening">Listening</option>
                                     <option name="speaking">Speaking</option>
                                     <option selected name="reading">Reading</option>
@@ -81,7 +80,7 @@
                             <div class="item-title label">Private</div>
                             <div class="item-input">
                             <label class="label-switch">
-                                <input type="checkbox" name="private">
+                                <input type="checkbox" required="required" name="private">
                                 <div class="checkbox"></div>
                             </label>
                             </div>
@@ -94,7 +93,7 @@
                         <div class="item-inner">
                             <div class="item-title label">*小组介绍</div>
                             <div class="item-input">
-                            <textarea style="min-height:5em;" name="intro"></textarea>
+                            <textarea style="min-height:5em;" name="intro" >{{{group.intro}}}</textarea>
                             </div>
                         </div>
                         </div>
@@ -144,9 +143,7 @@
     <!-- popup, panel 等放在这里
     <div class="panel-overlay"></div>
     <!-- Left Panel with Reveal effect -->
-    {{> general/slide}}
 
 
     {{#extend "js"}}
-
     {{/extend}}

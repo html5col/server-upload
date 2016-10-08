@@ -398,5 +398,9 @@ div.paging {
   hyphens: auto; }
 .groupArticles .content-block {
   margin-bottom: 0 !important; }
+  .groupArticles .content-block p.manageGroupP {
+    position: absolute;
+    bottom: 0;
+    right: 0; }
 
 /*# sourceMappingURL=app.css.map */

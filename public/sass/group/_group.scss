@@ -8,5 +8,13 @@
     }
     .content-block{
         margin-bottom:0!important;
+
+        p.manageGroupP{
+            //margin-top:5rem;
+            //text-align:right;
+            position:absolute;
+            bottom:0;
+            right:0;
+        }
     }
 }
