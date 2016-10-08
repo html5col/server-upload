@@ -55,7 +55,7 @@
                         {{#if groupOwner}}
                         <p class="manageGroupP"><a href="#" class="create-actions">管理我的小组</a></p>
                         {{/if}}
-                        <input type="hidden" value="http://localhost:8000/group/update/{{group._id}}" class="hiddenId">
+                        <input type="hidden" value="http://www.trver.com/group/update/{{group._id}}" class="hiddenId">
                         </div>
                     </div>
                     <!--
@@ -100,7 +100,7 @@
                         var url = document.getElementsByClassName('hiddenId')[0].value;
                         //alert(url);
                         if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-                        location.replace("http://url-to-send-them/iphone.html");
+                        location.replace(url);
                         }
                         document.location = url;
                     }
