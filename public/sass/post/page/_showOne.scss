@@ -52,10 +52,11 @@
         }
         p.commentTop{
             font-size:0.7rem;
-            border-top:1px solid #e2e2e2;
+            border-top:1px dashed #e2e2e2;
             color:grey;
             text-align:center;
             padding-top:0.5rem;
+            margin-bottom:0.5rem;
         }
         @import 'modules/_comment';
 

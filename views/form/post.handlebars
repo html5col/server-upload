@@ -27,7 +27,7 @@
                             <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">标题</div>
+                                <div class="item-title label">*标题</div>
                                 <div class="item-input">
                                 <input type="text" name="title" placeholder="文章标题"/>
                                 </div>
@@ -38,7 +38,7 @@
                             <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">图片</div>
+                                <div class="item-title label">*图片</div>
                                 <div class="item-input">
                                 <input type="file" required accept="image/*" id="fieldPhoto" name="photo">
                                 </div>
@@ -49,9 +49,9 @@
                             <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">标签</div>
+                                <div class="item-title label">*标签</div>
                                 <div class="item-input">
-                                <input type="text" name="tags" placeholder="使用'/'分隔各个标签"/>
+                                <input type="text" name="tags" placeholder="英文'/'分隔"/>
                                 </div>
                             </div>
                             </div>
@@ -71,7 +71,7 @@
                             <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-name"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">内容</div>
+                                <div class="item-title label">*内容</div>
                                 <div class="item-input">
                                 <textarea name="content" placeholder="内容，不少于200字!" id="editor" style="min-height:10em;"></textarea>
                                 </div>
@@ -92,6 +92,8 @@
                     </div>
                 </div> 
 
+                {{> form/notice}}
+
                     <!--<hr>
                     <p>Need an account? <a href="/user/signup">signup</a></p>
                     <p>Or go <a href="/user/forgotPassword">Forget your Password</a>.</p>          -->
@@ -106,6 +108,8 @@
                     };
                 }());
             </script>
+
+        
 
         </div><!--.page-->
 

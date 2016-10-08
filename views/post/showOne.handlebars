@@ -60,7 +60,14 @@
 
                     <p class="copy">&copy本文版权归 {{ postUser.username }} 所有， 任何形式转载请联系作者。</p>
 
-                    <p class="commentTop">- 留言 {{！--post.comments.length--}} -</p>
+                    <p class="commentTop"> 
+                        {{#if post.comments.length}}
+                        {{post.comments.length}} 回复
+                        {{else}}
+                        暂无回复
+                        {{/if}}
+                        
+                    </p>
                     {{> post/comment }}
                </div><!--.content-padded-->
 

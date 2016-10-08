@@ -10,7 +10,7 @@ let moment = require('moment'),
     config = require('../config/config'),
     seo = require('../config/seo'),
     fs = require('fs'),
-    utils = require('../lib/utility'),
+    helper = require('../lib/utility'),
     bodyParser   = require('body-parser'),
     formidable = require('formidable');
 module.exports = {
@@ -66,8 +66,8 @@ module.exports = {
                   console.log(dataDir);
                   let photoDir = dataDir + 'postLogo/';
 
-                  utils.checkDir(dataDir);
-			utils.checkDir(photoDir);		
+                  helper.checkDir(dataDir);
+			helper.checkDir(photoDir);		
                   try{
                         //store the data to the database
                     const form = new formidable.IncomingForm();
@@ -87,7 +87,7 @@ module.exports = {
                               const fullPath = thedir + photoName;
 
                               //checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-                              utils.checkDir(thedir,()=>{
+                              helper.checkDir(thedir,()=>{
                                     fs.rename(photo.path, fullPath, err=>{
                                           if (err) {console.log(err); return; }
                                           console.log('The file has been re-named to: ' + fullPath);
@@ -102,13 +102,14 @@ module.exports = {
                               if(req.user){
                                     function saveFileInfo(){
                                           const user = req.user.processUser(req.user),
-                                                title = fields.title,
-                                                content = fields.content,
-                                                tags = fields.tags,
+                                                title = helper.trim(fields.title),
+                                                content = helper.trim(fields.content),
+                                                tags = helper.trim(fields.tags),
                                                 category = fields.category,
                                                // intro = fields.intro,
                                                 group_id = fields.group_id;
 
+                                          
                                           const post = new Post();
                                           post.author = user.username;
                                           post.user_id = user._id;
@@ -158,11 +159,11 @@ module.exports = {
 
       makeArticle: (req,res)=>{
             let fromGroup_id = req.query.group_id; 
-            console.log(`ismobile is ${utils.isMobile(req)}`);
+            console.log(`ismobile is ${helper.isMobile(req)}`);
                        
             res.render('form/post', {
                   user: req.user.processUser(req.user),
-                  isMobile: utils.isMobile(req),
+                  isMobile: helper.isMobile(req),
 
                   title:seo.post.make.title,
                   keywords:seo.post.make.keywords,
@@ -180,11 +181,11 @@ module.exports = {
 
       // editPost: (req,res)=>{
       //       let fromGroup_id = req.query.group_id; 
-      //       console.log(`ismobile is ${utils.isMobile(req)}`);
+      //       console.log(`ismobile is ${helper.isMobile(req)}`);
                        
       //       res.render('form/post', {
       //             user: req.user.processUser(req.user),
-      //             isMobile: utils.isMobile(req),
+      //             isMobile: helper.isMobile(req),
 
       //             title:seo.post.make.title,
       //             keywords:seo.post.make.keywords,
@@ -272,7 +273,7 @@ module.exports = {
                               post: modifiedPost,
                               //tagString: modifiedPost.tags.join('/'),
                               
-                              isMobile: utils.isMobile(req),
+                              isMobile: helper.isMobile(req),
 
                               title:seo.post.edit.title,
                               keywords:seo.post.edit.keywords,
@@ -314,7 +315,7 @@ module.exports = {
                               
                               const fullPath = thedir + photoName;
 
-                              utils.checkDir(thedir,()=>{
+                              helper.checkDir(thedir,()=>{
                                     fs.rename(photo.path, fullPath, err=>{
                                           if (err) {console.log(err); return; }
                                           console.log('The file has been re-named to: ' + fullPath);
@@ -323,15 +324,15 @@ module.exports = {
                               if(req.user){
 
                                     const options = {
-                                          title: fields.title,
-                                          category: fields.category,
-                                          image: photoName,  
-                                          content:fields.content,
+                                          title: helper.trim(fields.title),
+                                          category: helper.trim(fields.category),
+                                          image: helper.trim(photoName),  
+                                          content:helper.trim(fields.content),
                                           //category: category,
                                     };
                                     const  post_id = req.params.post_id;
 
-                                    const tags = fields.tags;
+                                    const tags = helper.trim(fields.tags);
 
                                     
                                     Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
@@ -384,8 +385,7 @@ module.exports = {
      },
 
      comment: (req,res)=>{
-           const content = req.body.content,
-                 title = req.body.title,
+           const content = helper.trim(req.body.content),
                  user = req.user.processUser(req.user),
                  author = user.username,
                  user_id = user._id;

@@ -174,6 +174,10 @@ textarea, input {
 input[type="submit"] {
   visibility: hidden; }
 
+.formNotice {
+  text-align: center;
+  color: grey; }
+
 .listWrapper {
   background-color: #fff;
   margin: 0.4rem 0;
@@ -340,15 +344,19 @@ div.paging {
     font-size: 0.5rem; }
   .showOne .content-padded p.commentTop {
     font-size: 0.7rem;
-    border-top: 1px solid #e2e2e2;
+    border-top: 1px dashed #e2e2e2;
     color: grey;
     text-align: center;
-    padding-top: 0.5rem; }
+    padding-top: 0.5rem;
+    margin-bottom: 0.5rem; }
   .showOne .content-padded .comment {
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    border-bottom: 1px solid #e3e3e3;
     width: 100%; }
     .showOne .content-padded .comment .authorArea {
       width: 100%;
-      font-size: 0.5rem; }
+      font-size: 0.4rem; }
       .showOne .content-padded .comment .authorArea a.commentImg {
         display: inline-block; }
         .showOne .content-padded .comment .authorArea a.commentImg > img {
@@ -366,12 +374,16 @@ div.paging {
         display: inline-block;
         font-size: 0.7rem;
         color: grey; }
-    .showOne .content-padded .comment div.commentContent {
-      border-bottom: 1px solid #e3e3e3; }
-      .showOne .content-padded .comment div.commentContent p {
-        font-size: 0.7rem;
-        margin-left: 1.2rem;
-        margin-top: 0; }
+    .showOne .content-padded .comment div.commentContent p {
+      font-size: 0.7rem;
+      margin-left: 0.9em;
+      margin-top: 0; }
+
+.leftSlide .content-block p {
+  padding: 0.2rem 0;
+  padding-left: 0.7rem; }
+  .leftSlide .content-block p a {
+    color: white; }
 
 .groupArticles .tabContent {
   padding-left: 1rem;

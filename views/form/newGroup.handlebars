@@ -28,7 +28,7 @@
                         <div class="item-content">
                         <div class="item-media"><i class="icon icon-form-name"></i></div>
                         <div class="item-inner">
-                            <div class="item-title label">小组名</div>
+                            <div class="item-title label">*小组名</div>
                             <div class="item-input">
                             <input type="text" name="title" placeholder="不少于2字"/>
                             </div>
@@ -40,7 +40,7 @@
                         <div class="item-content">
                         <div class="item-media"><i class="icon icon-form-name"></i></div>
                         <div class="item-inner">
-                            <div class="item-title label">上传Logo</div>
+                            <div class="item-title label">*小组Logo</div>
                             <div class="item-input">
                             <input type="file" required accept="image/*" id="fieldPhoto" name="photo">
                             </div>
@@ -53,13 +53,19 @@
                         <div class="item-content">
                         <div class="item-media"><i class="icon icon-form-gender"></i></div>
                         <div class="item-inner">
-                            <div class="item-title label">分类</div>
+                            <div class="item-title label">*选择分类</div>
                             <div class="item-input">
                                 <select name="category">
-                                    <option selected>书籍</option>
-                                    <option>问答</option>
-                                    <option>兴趣爱好</option>
-                                    <option>售后</option>
+                                    <option name="listening">Listening</option>
+                                    <option name="speaking">Speaking</option>
+                                    <option selected name="reading">Reading</option>
+                                    <option name="writing">Writing</option>
+
+                                    <option name="ask">问答</option>
+                                    <option name="offline">线下活动</option>
+                                    <option name="hobby">兴趣爱好</option>
+                                    <option name="behind">网站后勤</option>
+                                    <option name="others">其他</option>
                                 </select>
                             </div>
                         </div>
@@ -68,7 +74,7 @@
 
 
                     <!-- Switch (Checkbox) -->
-                    <li>
+                    <!--<li>
                         <div class="item-content">
                         <div class="item-media"><i class="icon icon-form-toggle"></i></div>
                         <div class="item-inner">
@@ -81,12 +87,12 @@
                             </div>
                         </div>
                         </div>
-                    </li>
+                    </li>-->
                     <li class="align-top">
                         <div class="item-content">
                         <div class="item-media"><i class="icon icon-form-comment"></i></div>
                         <div class="item-inner">
-                            <div class="item-title label">文本域</div>
+                            <div class="item-title label">*小组介绍</div>
                             <div class="item-input">
                             <textarea style="min-height:5em;" name="intro"></textarea>
                             </div>
@@ -127,6 +133,8 @@
                     }());
                 </script>
 
+     {{> form/notice}}
+     </div><!--.content-->
       </div><!--.page-->
 
         <!--其他的单个page内联页（如果有）-->

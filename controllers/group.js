@@ -10,7 +10,7 @@ const url = require('url'),
       config = require('../config/config'),
       seo = require('../config/seo'),
       fs = require('fs'),
-	  utils = require('../lib/utility'),
+	  helper = require('../lib/utility'),
       bodyParser   = require('body-parser'),
       formidable = require('formidable');
 
@@ -21,8 +21,10 @@ module.exports = {
         groups(req,res){
                     let getGroups = new Promise(function(resolve,reject){
                         Group.find({},function(err,groups){
-                            if(err){reject(err)}else if(groups){
-                                     resolve(groups);
+                            if(err){
+                                reject(err)
+                            }else if(groups){
+                                resolve(groups);
                             }
                         });
                     });
@@ -122,8 +124,8 @@ module.exports = {
 					console.log(dataDir);
 					let photoDir = dataDir + 'groupLogo/';
 
-                    utils.checkDir(dataDir);
-					utils.checkDir(photoDir);		
+                    helper.checkDir(dataDir);
+					helper.checkDir(photoDir);		
 				    try{
 				        //store the data to the database
 				        const form = new formidable.IncomingForm();
@@ -143,7 +145,7 @@ module.exports = {
 									const fullPath = thedir + photoName;
 
 									//checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-									utils.checkDir(thedir,()=>{
+									helper.checkDir(thedir,()=>{
 										fs.rename(photo.path, fullPath, err=>{
 											if (err) {console.log(err); return; }
 											console.log('The file has been re-named to: ' + fullPath);
@@ -159,10 +161,10 @@ module.exports = {
 										function saveFileInfo(){
                                             const group = new Group(),
                                                     user = req.user,
-                                                    title = fields.title,
+                                                    title = helper.trim(fields.title),
                                                     category = fields.category,
                                                     privateOnly = fields.private,
-                                                    intro = fields.intro;
+                                                    intro = helper.trim(fields.intro);
                                                     
 
                                             group.author = user.local.username;

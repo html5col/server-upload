@@ -9,7 +9,7 @@ const flash = require('connect-flash'),
     moment = require('moment'),
     path = require('path'),
     fs = require('fs'),
-	utils = require('../lib/utility'),
+	helper = require('../lib/utility'),
 	Post = require('../models/Post'),
 	User = require('../models/User'),
 	postProxy = require('../db_proxy/post'),
@@ -302,8 +302,8 @@ module.exports = {
 											req.flash('error', '用户邮箱不存在，请重新登录!');
 											res.redirect('/user/login');
 										}else{
-												user.local.username = req.body.username;
-												user.local.email = req.body.email;
+												user.local.username = helper.trim(req.body.username);
+												user.local.email = helper.trim(req.body.email);
 												mailService.send(user.local.email, 'User Upadate', 
 																'<p>You have successfully update your information!</p>'+
 																'Your new username:'+ req.body.username +'/n'+
@@ -433,8 +433,8 @@ module.exports = {
 					// fs.existsSync(photoDir) || fs.mkdirSync(photoDir);
 
 					//also can use:
-                    utils.checkDir(dataDir);
-					utils.checkDir(photoDir);		
+                    helper.checkDir(dataDir);
+					helper.checkDir(photoDir);		
 					// fs.access(dataDir, fs.constants.F_OK, function(err) {
 					//     if (!err) {
 					//         // Do something
@@ -488,7 +488,7 @@ module.exports = {
 									const fullPath = thedir + photoName;
 
 									//checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-									utils.checkDir(thedir,()=>{
+									helper.checkDir(thedir,()=>{
 										fs.rename(photo.path, fullPath, err=>{
 											if (err) {console.log(err); return; }
 											console.log('The file has been re-named to: ' + fullPath);
