@@ -35,7 +35,7 @@ module.exports = {
 				case 'production':
 				   //express-logger support logging loop(duplicate every 24 hours and begin new logs to prevent log files to become big forever)
 				   app.use(require('express-logger')({
-				   	   path: __dirname + '/log/requests.log'
+				   	   path: __dirname + '/logs/requests.log'
 				   }));
 
 				   /**mongoose part**/

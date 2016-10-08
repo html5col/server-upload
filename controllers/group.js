@@ -116,16 +116,9 @@ module.exports = {
 
 
         },
-        newGroupUpload(app){
-            return  function newGroupPost(req,res){
+        newGroupUpload(req,res){
 
-                    let dataDir;
-		            if(app.get('env')=== 'development'){
-		            	dataDir = config.uploadDir.development;
-		            }else{
-		            	dataDir = config.uploadDir.production;
-		            }
-
+                    let dataDir = config.uploadDir;
 					console.log(dataDir);
 					let photoDir = dataDir + 'groupLogo/';
 
@@ -213,8 +206,6 @@ module.exports = {
 				    }
                  
 
-
-           };
         },
         singleGroup(req,res){
            let group_id = req.params.group_id;

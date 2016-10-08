@@ -4,7 +4,7 @@ let express = require('express'),
       user = require('../controllers/user'),
       auth = require('../middlewares/auth');
 
-module.exports = function(app,User,passport){
+module.exports = function(User,passport){
         router.get('/reset/:token', user.getResetToken);
         router.post('/reset/:token', user.postResetToken);
         // app.route('/reset/:token')
@@ -32,6 +32,6 @@ module.exports = function(app,User,passport){
         router.post('/updateUser',auth.isLoggedIn, user.putUpdateUser(User));        
         router.post('/postSignup', user.postSignup(passport));        
         router.post('/postLogin', user.postLogin(passport));
-        router.post("/process/:year/:month", user.postFileUpload(app));        
+        router.post("/process/:year/:month", user.postFileUpload);        
         return router;
-}
+};

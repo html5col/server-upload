@@ -3,16 +3,13 @@
  */
 
 var path = require('path');
-
+const appDir = path.dirname(require.main.filename);
 var config = {
   // for local test if setting debug equals true
   debug: true,
 
   get mini_assets() { return !this.debug; }, // 是否启用静态文件的合并压缩，详见视图中的Loader
 
-  name: 'site names', // site name
-  description: 'your description of your site', // site description
-  keywords: 'nodejs, node, express, connect, socket.io',
 
   // information added to html head
   site_headers: [
@@ -30,10 +27,8 @@ var config = {
   // domain of the site
   host: 'http://localhost',
 
-  uploadDir: {
-    development:'/Users/frank25184/desktop/nodejs/nodeForm-team/public/upload/',
-    production: '/var/www/trver.com/public_html/public/upload/',
-  },
+
+
   google_tracker_id: '',
   // default cnzz tracker ID，please fix if owned by yourself
   cnzz_tracker_id: '',
@@ -130,10 +125,7 @@ var config = {
   },
 
   // if qn_access，it will upload to 7牛 so that it does not work for the following setting
-  upload: {
-    path: path.join(__dirname, 'public/upload/'),
-    url: '/public/upload/'
-  },
+ uploadDir: path.join(appDir,'public/upload/'),
 
   file_limit: '1MB',
 

@@ -1,5 +1,5 @@
 "use strict";
-const flash        = require('connect-flash'),
+const flash = require('connect-flash'),
     config  = require('../config/config'),
 	seo = require('../config/seo'),
     mailService  = require('../lib/email')(config),
@@ -424,16 +424,8 @@ module.exports = {
 		 },
 
 
-		postFileUpload: app=>{
-		       return function(req,res){
-                    let dataDir;
-		            if(app.get('env')=== 'development'){
-		            	dataDir = config.uploadDir.development;
-		            }else{
-		            	dataDir = config.uploadDir.production;
-		            }
-					//let dataDir = config.upload.path;
-
+		postFileUpload: (req,res)=>{
+                    let dataDir = config.uploadDir;
 					console.log(dataDir);
 					let photoDir = dataDir + 'logo/';
 					//existsSync depreciated!! do not use it any more
@@ -544,9 +536,10 @@ module.exports = {
 				            res.json({error: 'Database error.'}):
 				            res.redirect(303, '/response/error/500');
 				    }
-		       };
 
 		},
+
+
 
 
 

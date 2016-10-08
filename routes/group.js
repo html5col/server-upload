@@ -6,10 +6,10 @@ const express = require('express'),
 const group = require('../controllers/group');
 
 /* GET home page. */
-module.exports = function(app){
+module.exports = function(){
       router.get('/groups', group.groups);
       router.get('/newGroup', auth.isLoggedIn, group.newGroup);
-      router.post('/newGroupPost',group.newGroupUpload(app));
+      router.post('/newGroupPost',group.newGroupUpload);
       router.get('/single/:group_id',group.singleGroup);
       router.get('/applyGroup',auth.isLoggedIn, group.applyGroup);
       //router.get('/askGroups',group.askGroups);

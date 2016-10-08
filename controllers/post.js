@@ -59,16 +59,9 @@ module.exports = {
 
             
       },
-      postWithUpload:(app)=>{
-         return function postArticle(req,res){
+      postWithUpload:(req,res)=>{
 
-                  let dataDir;
-                  if(app.get('env')=== 'development'){
-                        dataDir = config.uploadDir.development;
-                  }else{
-                        dataDir = config.uploadDir.production;
-                  }
-                  //let dataDir = config.upload.path;
+                  let dataDir = config.uploadDir;
 
                   console.log(dataDir);
                   let photoDir = dataDir + 'postLogo/';
@@ -161,8 +154,6 @@ module.exports = {
                         res.redirect(303, '/response/error/500');
                   }
 
-      
-      }; 
     },
 
       makeArticle: (req,res)=>{
@@ -298,17 +289,9 @@ module.exports = {
 
       },
 
-      editPost:(app)=>{
-         return function editArticle(req,res){
+      editPost:(req,res)=>{
 
-                  let dataDir;
-                  if(app.get('env')=== 'development'){
-                        dataDir = config.uploadDir.development;
-                  }else{
-                        dataDir = config.uploadDir.production;
-                  }
-                  //let dataDir = config.upload.path;
-
+                  let dataDir = config.uploadDir;
                   console.log(dataDir);
                   let photoDir = dataDir + 'postLogo/';
 		
@@ -381,7 +364,6 @@ module.exports = {
                   }
 
       
-      }; 
     },
 
 
@@ -528,4 +510,4 @@ module.exports = {
 
 
 
-}
+};
