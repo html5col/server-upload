@@ -66,6 +66,27 @@
     {{> general/slide}}
 
 
+      
+       {{#extend 'js'}}
+         <script>
+           (function(){
+             var download = document.getElementsByClassName('download');
+
+
+               [].prototype.forEach.call(download,function(v){
+                 if($.device.webView){
+                   v.display = none;
+                  }
+               });
+
+             
+           }());
+         </script>
+       {{/extend}}
+
+    
+
+
 
 
 

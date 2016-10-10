@@ -7,7 +7,8 @@ const user = require('./routes/user'),
 	  index = require('./routes/index'),
 	  //api = require('./routes/api'),
 	  post = require('./routes/post'),
-	  group = require('./routes/group');
+	  group = require('./routes/group'),
+	  file = require('./routes/file');
 
 module.exports   = function(app, passport,User) {
 	 app.use('/',index);  
@@ -18,6 +19,7 @@ module.exports   = function(app, passport,User) {
      app.use('/post', post());
 	 //app.use('/test',test);
 	 app.use('/group',group());
+	 app.use('/file',file());
 		//to get form data using req.body
 		/*****form part end********/
 };

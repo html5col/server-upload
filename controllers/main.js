@@ -1,12 +1,14 @@
 "use strict";
 const fortuneLib = require('../lib/fortune.js'),
       Post = require('../models/Post'),
-	  User = require('../models/User'),
+	User = require('../models/User'),
       postProxy = require('../db_proxy/post'),
       userProxy = require('../db_proxy/user'),
       seo = require('../config/seo');
 
 module.exports = {
+
+
 
         //  home(req,res){
         //         const page = req.query.p ? parseInt(req.query.p,10) : 1;
