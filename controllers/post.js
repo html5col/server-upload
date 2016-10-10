@@ -311,12 +311,12 @@ module.exports = {
                               let thedir = photoDir;
                               //prevent uploading file with the same name
 
-                              const photoName = req.user._id + photo.name; 
+                              const photoName = req.user._id + helper.trim(photo.name); 
                               
                               const fullPath = thedir + photoName;
                               let title = helper.trim(fields.title),
                                   //category = helper.trim(fields.category),
-                                  image = helper.trim(photoName),
+                                  //image = photoName,
                                   content = helper.trim(fields.content);
                              
                              if(title.length > 4  && photo.name.length && content.length>10){
@@ -332,7 +332,7 @@ module.exports = {
                                           const options = {
                                                 title: title,
                                                
-                                                image: image,  
+                                                image: photoName,  
                                                 content:content,
                                                 
                                           };
@@ -344,12 +344,12 @@ module.exports = {
                                           Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
                                                       if(err){
                                                             console.log(err);
-                                                            req.flash('error',`发布文章失败`);
+                                                            req.flash('error',`更新失败`);
                                                             res.redirect('back');
                                                       }else{
                                                             //tagProxy.saveSingle(req,res,post,tags);
                                                             console.log(`your post saved successfully: ${post._id}`);
-                                                            req.flash('success','发布成功！');
+                                                            req.flash('success','更新成功！');
                                                             res.redirect(`/post/show/${post.title}`);
                                                             //res.redirect('/');
                                                       }

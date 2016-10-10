@@ -379,8 +379,9 @@ module.exports = {
                         }else{
                               const photo = file.photo;
                               let thedir = photoDir;
+                              const time = Date.now();
 
-                              const photoName = Date.now() + photo.name; 
+                              const photoName = time + photo.name; 
                               console.log('file.photo is' + JSON.stringify(photo));
                               
                               const fullPath = thedir + photoName;
@@ -405,20 +406,40 @@ module.exports = {
                                             intro:intro,
                                         };
                                         const group_id = req.params.group_id;
+                                        Group.findById(group_id, function(err,group){
+                                            if(err){
+                                                req.flash('error':'小组不存在！');
+                                                res.redirect('back');
+                                            }
+                                            fs.unlink(`/upload/groupLogo/${time}${group.logo}`,function(err){
+                                                if(err){
+                                                    console.log('unlink the groupLogo fails');
+                                                }else{
+                                                    console.log('unlink the groupLogo successfully');
+                                                    Group.findOneAndUpdate({'_id': group_id}, {$set: options}, {new: true},function(err, group) {
+                                                                
+                                                                if(err){
+                                                                    console.log(err);
+                                                                    req.flash('error',`更新小组失败`);
+                                                                    res.redirect('back');
+                                                                }else{
+                                                                    //tagProxy.saveSingle(req,res,post,tags);
+                                                                    console.log(`your group updated successfully: ${group._id}`);
+                                                                    req.flash('success','更新成功！');
+                                                                    res.redirect(`/group/single/${group._id}`);
+                                                                    //res.redirect('/');
+                                                                }
+                                                    });                                                       
+
+                                                }
+                                                
+                                            });
+                                            
+
+                                        });
+
                                         
-                                        Group.findOneAndUpdate({'_id': group_id}, {$set: options}, {new: true},function(err, group) {
-                                                    if(err){
-                                                        console.log(err);
-                                                        req.flash('error',`更新小组失败`);
-                                                        res.redirect('back');
-                                                    }else{
-                                                        //tagProxy.saveSingle(req,res,post,tags);
-                                                        console.log(`your group updated successfully: ${group._id}`);
-                                                        req.flash('success','更新成功！');
-                                                        res.redirect(`/group/single/${group._id}`);
-                                                        //res.redirect('/');
-                                                    }
-                                        });                                        
+                                     
                                     }else{
                                         req.flash('error','提交不符合规则！');
                                         res.redirect(303, 'back');                                        

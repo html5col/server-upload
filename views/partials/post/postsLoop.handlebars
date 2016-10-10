@@ -17,9 +17,8 @@
           <div class="midText">
             <div class="leftText">
               <h2>{{title}}</h2>
-              <p><a href="/post/show/{{title}}" class="external"> {{{intro}}}...</a></p>
-            </div><!--
-          --><div class="rightImg" style="background-image:url('/upload/postLogo/{{image}}');">
+              <p><a href="/post/show/{{title}}" external> {{{intro}}}...</a></p>
+            </div><!----><div class="rightImg" style="background-image:url('/upload/postLogo/{{image}}');">
             </div>
           </div>
           <div style="clear:all" class="bottomLine">
@@ -40,8 +39,8 @@
       </div>
       <!--for getting url-->
 
-      <input type="hidden" value="http://trver.com/post/edit/{{_id}}" class="editId">
-      <input type="hidden" value="http://trver.com/post/delete/{{_id}}" class="deleteId">
+      <input type="hidden" value="/post/edit/{{_id}}" class="editId">
+      <input type="hidden" value="/post/delete/{{_id}}" class="deleteId">
       
 
   {{/each}}
