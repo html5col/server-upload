@@ -94,7 +94,7 @@
                         <div class="item-inner">
                             <div class="item-title label">*小组介绍</div>
                             <div class="item-input">
-                            <textarea style="min-height:5em;" name="intro" >{{{group.intro}}}</textarea>
+                            <textarea style="min-height:5em;" name="intro" id="editor">{{{group.intro}}}</textarea>
                             </div>
                         </div>
                         </div>
@@ -146,5 +146,14 @@
     <!-- Left Panel with Reveal effect -->
 
 
-    {{#extend "js"}}
-    {{/extend}}
+{{#unless isMobile}}
+{{#extend "js"}}
+
+	<script src="/ckeditor/ckeditor.js"></script>
+	<script src="/js/editor/editor.js"></script>    
+  <script>
+	initSample();
+  </script>
+
+{{/extend}}
+{{/unless}}
