@@ -408,7 +408,7 @@ module.exports = {
                                         const group_id = req.params.group_id;
                                         Group.findById(group_id, function(err,group){
                                             if(err){
-                                                req.flash('error':'小组不存在！');
+                                                req.flash('error','小组不存在！');
                                                 res.redirect('back');
                                             }
                                             fs.unlink(`/upload/groupLogo/${time}${group.logo}`,function(err){
