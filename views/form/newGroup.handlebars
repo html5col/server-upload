@@ -95,7 +95,7 @@
                         <div class="item-inner">
                             <div class="item-title label">*小组介绍</div>
                             <div class="item-input">
-                            <textarea style="min-height:5em;" name="intro"></textarea>
+                            <textarea style="min-height:5em;" name="intro" id="editor"></textarea>
                             </div>
                         </div>
                         </div>
@@ -145,9 +145,14 @@
     <!-- popup, panel 等放在这里
     <div class="panel-overlay"></div>
     <!-- Left Panel with Reveal effect -->
-    {{> general/slide}}
+{{#unless isMobile}}
+{{#extend "js"}}
 
+	<script src="/ckeditor/ckeditor.js"></script>
+	<script src="/js/editor/editor.js"></script>    
+  <script>
+	initSample();
+  </script>
 
-    {{#extend "js"}}
-
-    {{/extend}}
+{{/extend}}
+{{/unless}}

@@ -319,7 +319,7 @@ module.exports = {
                                   image = helper.trim(photoName),
                                   content = helper.trim(fields.content);
                              
-                             if(title.length > 4  && photo.name && content.length>10){
+                             if(title.length > 4  && photo.name.length && content.length>10){
 
                                     helper.checkDir(thedir,()=>{
                                           fs.rename(photo.path, fullPath, err=>{

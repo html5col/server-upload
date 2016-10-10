@@ -106,7 +106,8 @@ module.exports = {
                 // pageTestScript: '/js/page-test/tests-about.js',//know which test file to be used in this route
                 title:seo.group.new.title,
                 keywords:seo.group.new.keywords,
-                description:seo.group.new.description,               
+                description:seo.group.new.description,  
+                isMobile: helper.isMobile(req),             
                 messages: {
                     error: req.flash('error'),
                     success: req.flash('success'),

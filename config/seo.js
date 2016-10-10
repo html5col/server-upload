@@ -29,8 +29,6 @@ var config = {
             description: '小组更新页面',               
           },         
 
-
-          
           
       },
       user:{

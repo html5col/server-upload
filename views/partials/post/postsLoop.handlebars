@@ -23,12 +23,14 @@
             </div>
           </div>
           <div style="clear:all" class="bottomLine">
+
             <p>{{author}} 作品</p> 
+
 
             {{#if ../isProfile}}
                {{#if ../isMyPosts}}
-                <span><a class="edit" href="/post/edit/{{ _id }}">编辑</a></span>
-                <span><a class="delete" href="/post/delete/{{ _id }}">删除</a></span>
+                <span><a href="#" class="create-actions">管理我的小组</a></span>
+
               {{/if}}
             {{/if}}
             
@@ -36,6 +38,11 @@
 
 
       </div>
+      <!--for getting url-->
+
+      <input type="hidden" value="http://trver.com/post/edit/{{_id}}" class="editId">
+      <input type="hidden" value="http://trver.com/post/delete/{{_id}}" class="deleteId">
+      
 
   {{/each}}
   {{> post/paging }}     
