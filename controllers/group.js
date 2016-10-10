@@ -411,11 +411,11 @@ module.exports = {
                                                 req.flash('error','小组不存在！');
                                                 res.redirect('back');
                                             }
-                                            fs.unlink(`/upload/groupLogo/${time}${group.logo}`,function(err){
-                                                if(err){
-                                                    console.log('unlink the groupLogo fails');
-                                                }else{
-                                                    console.log('unlink the groupLogo successfully');
+                                            //fs.unlink(`/upload/groupLogo/${time}${group.logo}`,function(err){
+                                                // if(err){
+                                                //     console.log('unlink the groupLogo fails');
+                                                // }else{
+                                                   // console.log('unlink the groupLogo successfully');
                                                     Group.findOneAndUpdate({'_id': group_id}, {$set: options}, {new: true},function(err, group) {
                                                                 
                                                                 if(err){
@@ -431,9 +431,9 @@ module.exports = {
                                                                 }
                                                     });                                                       
 
-                                                }
+                                               // }
                                                 
-                                            });
+                                           // });
                                             
 
                                         });
