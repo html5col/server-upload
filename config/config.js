@@ -77,12 +77,12 @@ var config = {
 
   // 邮箱配置
   mail_opts: {
-    host: 'smtp.mxhichina.com',
+    host: 'smtp.sina.com',
     port: 465,
     secure: true,
     auth: {
-      user: 'postmaster@trver.com',
-      pass: 'Frank548331198'
+      user: 'frank25184@sina.com',
+      pass: 'frank548331198'
     },
   },
 
