@@ -1,0 +1,53 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+
+        <div class="page page-current showOne">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> <!--get rid of back class-->
+                <span class="icon icon-left"></span>
+              </a>
+              
+
+               <a class="pull-right" href=""><span class="icon icon-"></span></a>
+              <h1 class='title'>我们的服务</h1>
+            </header>            
+
+
+           {{> general/tabs}}
+           
+            <div class="content content-padded">
+            
+            </div>
+
+            </div><!--.page-->
+
+
+
+
+
+    </div><!--page group-->
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+
+
+    {{#extend 'js'}}
+    
+      <!--<script>
+        $(document).on('click','.open-form', function () {
+         $.popup('.popup-form');
+        });
+      </script>-->
+      
+    {{/extend}}
+
+
+    
+                                   
+

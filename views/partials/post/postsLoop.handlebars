@@ -28,9 +28,12 @@
 
             {{#if ../isProfile}}
                {{#if ../isMyPosts}}
-                <span><a href="#" class="create-actions">管理</a></span>
-
-              {{/if}}
+                <span>
+                  <a href="#" class="create-actions">管理</a>
+                  <input type="hidden" value="/post/edit/{{_id}}" class="editId">
+                  <input type="hidden" value="/post/delete/{{_id}}" class="deleteId">                
+                </span>
+               {{/if}}
             {{/if}}
             
           </div>
@@ -39,8 +42,7 @@
       </div>
       <!--for getting url-->
 
-      <input type="hidden" value="/post/edit/{{_id}}" class="editId">
-      <input type="hidden" value="/post/delete/{{_id}}" class="deleteId">
+
       
 
   {{/each}}

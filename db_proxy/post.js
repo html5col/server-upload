@@ -15,11 +15,9 @@ module.exports = {
                     let modifiedPost = post.processPost(post)
                     post.comments(post._id,function(comments){
                         modifiedPost.comments = comments;
-
                     });
                     post.group(post.group_id,function(group){
                         modifiedPost.group = group;
-
                     });
                     return modifiedPost;
             }); 

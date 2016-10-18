@@ -70,25 +70,15 @@ postSchema.methods.time = time=> {
 
 postSchema.methods.processPost = (post)=>{
 
-    // let tags = post.tags;
-    // let tagsArray = tags.split(',');
-
     let tag_idArray = post.tag_id;
     let tagsArray = [];
-    tag_idArray.forEach(function(v,i,a){
-          
+    tag_idArray.forEach(function(v,i,a){  
           Tag.findById(v,function(err,tag){
                tagsArray.push(tag);
           });
-
     });
-
     // let articleUser;
-    // function resp(res){
-    //     return res; 
-    // }
-    // let findUser = function(callback){
-    //  return User.findById(post.user_id,function(err,user){
+    // User.findById(post.user_id,function(err,user){
     //             if(err){
     //                 console.log(err);
     //             }else{
@@ -97,13 +87,10 @@ postSchema.methods.processPost = (post)=>{
     //                 console.log('articleUser is ' + JSON.stringify(articleUser));
     //             }
     //         });
-    // };
 
-    // let getComments = new Promise(function(resolve,reject){
-    //     post.comments(post._id,function(comments){
-    //         resolve(comments);
-    //     });
-    // });
+    // return {
+    //     articleUser:articleUser, //return 'undefined'
+    // };
 
     return {
         _id:post._id,

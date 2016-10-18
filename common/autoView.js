@@ -11,7 +11,6 @@ const path = require('path');
 const appDir = path.dirname(require.main.filename);
 
 
-
 module.exports = app=>{
 	app.use(function(req,res,next){
 		const path = req.path.toLowerCase();

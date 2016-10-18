@@ -8,8 +8,6 @@ const fortuneLib = require('../lib/fortune.js'),
 
 module.exports = {
 
-
-
         //  home(req,res){
         //         const page = req.query.p ? parseInt(req.query.p,10) : 1;
         //         let loginedUser;

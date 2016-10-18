@@ -93,6 +93,7 @@
     {{#extend "js"}}
      <script>
             $(document).on('click','.create-actions', function () {
+                var that = this;
                 var buttons1 = [
                     {
                     text: '请选择',
@@ -104,7 +105,8 @@
                     color: 'danger',
                     onClick: function() {
                         //For iPhones/iPods Specifically
-                        var url = document.getElementsByClassName('editId')[0].value;
+                        var parentNode  = that.parentNode;
+                        var url = parentNode.getElementsByClassName('editId')[0].value;
                         //alert(url);
                         if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
                           location.replace(url);
@@ -115,8 +117,9 @@
                     {
                     text: '删除',
                     onClick: function() {
+                        var parentNode  = that.parentNode;
                         //For iPhones/iPods Specifically
-                        var url = document.getElementsByClassName('deleteId')[0].value;
+                        var url = parentNode.getElementsByClassName('deleteId')[0].value;
                         //alert(url);
                         $.post(url,function(data){
                              alert('删除成功,请刷新！');
