@@ -31,6 +31,7 @@ module.exports =  {
                   },undefined,undefined,'exit_user_id');
 
             });
+
             p.then(function(posts,count){
                   let options = {
                         user: req.user ? req.user.processUser(req.user) : req.user,
@@ -85,7 +86,7 @@ module.exports =  {
                               let thedir = photoDir;
                               //prevent uploading file with the same name
 
-                              const photoName = Date.now() + photo.name; 
+                              const photoName = Date.now() + helper.trim(photo.name); 
                               
                               const fullPath = thedir + photoName;
 
@@ -314,7 +315,7 @@ module.exports =  {
                               let thedir = photoDir;
                               //prevent uploading file with the same name
 
-                              const photoName = req.user._id + helper.trim(photo.name); 
+                              const photoName = Date.now() + helper.trim(photo.name); 
                               
                               const fullPath = thedir + photoName;
                               let title = helper.trim(fields.title),
