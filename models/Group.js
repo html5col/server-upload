@@ -4,6 +4,7 @@
 const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       User = require('../models/User'),
+      logger = require('../lib/logger'),
       moment = require('moment');
 
 var groupSchema = new Schema({
@@ -81,13 +82,13 @@ groupSchema.methods.user = (user_id,fn)=>{
           
          User.findById(user_id).exec((err,user)=>{
                 if(err){
-                    console.log(`cannot catch user,error: ${err}`);
+                    logger.error(`cannot catch user,error: ${err}`);
                     req.flash('error',`error in find user for ${user_id}`);
                     res.redirect('back');							
                 }else{
-                    console.log(user);
+                    //logger.debug(user);
                     let modifiedUser = user.processUser(user)
-                    console.log(modifiedUser);
+                    //logger.debug(modifiedUser);
                     fn(modifiedUser);
                   
               }

@@ -4,9 +4,8 @@ const User    = require('../models/User'),
       Comment = require('../models/Comment'),
       userProxy = require('../db_proxy/user'),
       moment = require('moment'),
-      util = require('../lib/utility');
-//var utility = require('utility');                              
-
+      util = require('../lib/utility'),
+      logger = require('../lib/logger');                           
 
 module.exports = {
 
@@ -34,22 +33,22 @@ module.exports = {
                         let modifiedComment = v;
                         User.findOne({'_id':v.user_id}).exec().then(function(user){
                             modifiedComment.user = user.processUser(user);
-                            console.log('userbyid\'s commnet first'+JSON.stringify( modifiedComment));
+                            logger.debug('userbyid\'s commnet first'+JSON.stringify( modifiedComment));
                             return modifiedComment;
                         });
-                        console.log('modifiedComment first'+JSON.stringify( modifiedComment));
+                        logger.debug('modifiedComment first'+JSON.stringify( modifiedComment));
                         return modifiedComment;
                     });
                     
 
-                    console.log('modifiedComments...'+JSON.stringify(modifiedComments));
+                    logger.debug('modifiedComments...'+JSON.stringify(modifiedComments));
 
                     //add post.comments              
                     modifiedPost.comments = modifiedComments;
-                    console.log('modifiedPost in modifiedPost util func'+JSON.stringify(modifiedPost));
+                    logger.debug('modifiedPost in modifiedPost util func'+JSON.stringify(modifiedPost));
                    
             });
-            console.log('console.log(modifiedComments);'+modifiedComments);
+            logger.debug('console.log(modifiedComments);'+modifiedComments);
             
             
             post.group(post.group_id,function(group){
@@ -94,7 +93,7 @@ module.exports = {
                     //查询并返回第 page 页的 10 篇文章  tag_id,title,user_id
                     outThis.getTen(user_id, page, (err, posts, count)=> {
                         if (err) {
-                            console.log('some error with getting the 10 personal posts:'+ err);
+                            logger.error('some error with getting the 10 personal posts:'+ err);
                             //next(err);
                             reject(`Error getting posts: ${err}`);
                             posts = [];
@@ -107,11 +106,11 @@ module.exports = {
 
                });
                p.then(function(posts,count){
-                  // console.log(posts,'+'+ count);
+                 
                   fn(posts,count);
                })
                .catch(function(err){
-                  console.log(err.message);
+                  logger.debug(err.message);
                   req.flash('error','没找到用户!');
                   res.redirect('back');
                });
@@ -139,7 +138,7 @@ module.exports = {
                                     let update = { $inc: { 'pv': 1 }};//increment
                                     Post.findOneAndUpdate(conditions, update, function(err,post){
                                         if(err){
-                                            console.log(`there is error when update the pv: ${err}`);
+                                            logger.error(`there is error when update the pv: ${err}`);
                                             reject(err);
                                         }
                                     });   
@@ -159,7 +158,7 @@ module.exports = {
                                 // for(let c of newPost.comments){
                                 //     console.log(c.user);
                                 // }
-                               console.log('post.comments',JSON.stringify(newPost.comments));
+                              logger.debug('post.comments',JSON.stringify(newPost.comments));
                 
 
                                 res.render(path, {
@@ -180,10 +179,10 @@ module.exports = {
                                 });
 
                     });
-                    console.log("Done");
+                    logger.debug("Done");
                 })
                .catch(function(err){
-                  console.log(`error With title ${title}: ${err}`);
+                  logger.error(`error With title ${title}: ${err}`);
                   req.flash('error','读取文章出错!');
                   res.redirect('back');
                });
@@ -228,7 +227,7 @@ module.exports = {
                                 //return callback(err);
                                 reject(err);
                         }else{
-                                console.log( `Number of posts: ${count} . query is ${query}` );
+                                logger.debug( `Number of posts: ${count} . query is ${query}` );
                                 resolve(count);
                         }
                     
@@ -237,13 +236,13 @@ module.exports = {
                 promis.then(function(count){
                     Post.find(query).skip((page-1)*10).limit(10).sort({'updated_at':-1}).exec((err,posts)=>{
                             if (err) {
-                               console.log(`no posts found: ${err}`);
+                               logger.error(`no posts found: ${err}`);
                                res.redirect('/response/error/404');
                             }
                             //console.log('Posts inthe getTen function is: '+posts);
                             const modifiedPosts = globalThis.modifyPosts(posts); 
 
-                            console.log('modifiedPosts: '+modifiedPosts);
+                            logger.debug('modifiedPosts: '+modifiedPosts);
                             callback(null, modifiedPosts, count);//provide the params(caluated values),and what to do? you need to figure it out yourself
 
                                     

@@ -4,6 +4,7 @@ const mongoose = require('mongoose'),
       Schema = mongoose.Schema,
       User = require('../models/User'),
       Post = require('../models/Post'),
+      logger = require('../lib/logger'),
       moment = require('moment');
 
 // create a schema
@@ -68,13 +69,13 @@ tagSchema.methods.posts = tag=>{
 
          Post.findById(tag.post_id).exec((err,user)=>{
                 if(err){
-                    console.log(`cannot catch user,error: ${err}`);
+                    logger.error(`cannot catch user,error: ${err}`);
                     req.flash('error',`error in find user for ${user_id}`);
                     res.redirect('back');							
                 }else{
-                    console.log(user);
+                    //logger.debug(user);
                     let modifiedUser = user.processUser(user)
-                    console.log(modifiedUser);
+                    //logger.debug(modifiedUser);
                     fn(modifiedUser);
                   
               }

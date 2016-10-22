@@ -3,6 +3,7 @@
 const mongoose = require('mongoose'),
       bcrypt   = require('bcrypt-nodejs'),
       moment = require('moment'),
+     // logger = require('./logger'),
       Schema = mongoose.Schema;
 
 // create a schema

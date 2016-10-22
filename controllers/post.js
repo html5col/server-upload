@@ -12,15 +12,17 @@ let moment = require('moment'),
     fs = require('fs'),
     helper = require('../lib/utility'),
     bodyParser   = require('body-parser'),
+    logger = require('../lib/logger'),
     formidable = require('formidable');
-module.exports = {
+
+module.exports =  {
+     
       latestTopic: (req,res)=>{
             const page = req.query.p ? parseInt(req.query.p) : 1;
-
             const p = new Promise(function(resolve,reject){
                   postProxy.getTen(null, page, (err, posts, count)=> {
                   if (err) {
-                        console.log('some error with getting the 10 personal posts:'+ err);
+                        logger.error('some error with getting the 10 personal posts:'+ err);
                         reject(`Error getting posts: ${err}`);
                         posts = [];
                   }else{
@@ -45,13 +47,13 @@ module.exports = {
                               error: req.flash('error'),
                               success: req.flash('success'),
                               info: req.flash('info'),
-                        }, 
-                                            
+                        },                                             
                   };
+
                   res.render('post/latestTopic',options);
             })
             .catch(function(err){
-                  console.log(err.message);
+                  logger.error(err.message);
                   req.flash('error','无文章发表!');
                   res.redirect('back');
             });
@@ -63,7 +65,7 @@ module.exports = {
 
                   let dataDir = config.uploadDir;
 
-                  console.log(dataDir);
+                  logger.debug(dataDir);
                   let photoDir = dataDir + 'postLogo/';
 
                   helper.checkDir(dataDir);
@@ -90,12 +92,12 @@ module.exports = {
                               helper.checkDir(thedir,()=>{
                                     fs.rename(photo.path, fullPath, err=>{
                                           if (err) {console.log(err); return; }
-                                          console.log('The file has been re-named to: ' + fullPath);
+                                          logger.debug('The file has been re-named to: ' + fullPath);
                                     });										
                               });
 
-                              console.log('the dir is :' + thedir);
-                              console.log(photo.name,photo.path,fullPath);
+                              logger.debug('the dir is :' + thedir);
+                              logger.debug(photo.name,photo.path,fullPath);
             
                               //rename or move the file uploaded;and photo.path is the temp file Formidable give
                                                       
@@ -125,12 +127,12 @@ module.exports = {
                         
                                           post.save((err)=>{
                                                 if(err){
-                                                      console.log(err);
+                                                      logger.error('post save error'+err);
                                                       req.flash('error',`发布文章失败`);
                                                       res.redirect('back');
                                                 }else{
                                                       tagProxy.saveSingle(req,res,post,tags);
-                                                      console.log(`your post saved successfully: ${post._id}`);
+                                                      logger.debug(`your post saved successfully: ${post._id}`);
                                                       req.flash('success','发布成功！');
                                                      
                                                       res.redirect(`/post/show/${post.title}`);
@@ -141,7 +143,7 @@ module.exports = {
                                     }
                                     saveFileInfo();
                               }else{
-                                    console.log('user not login');
+                                    logger.info('user not login');
                                     req.flash('error','请先登录！');
                                     res.redirect(303, '/user/login');
                               }								
@@ -159,7 +161,7 @@ module.exports = {
 
       makeArticle: (req,res)=>{
             let fromGroup_id = req.query.group_id; 
-            console.log(`ismobile is ${helper.isMobile(req)}`);
+            logger.debug(`ismobile is ${helper.isMobile(req)}`);
                        
             res.render('form/post', {
                   user: req.user.processUser(req.user),
@@ -241,7 +243,7 @@ module.exports = {
 
        showPost: (req,res)=>{
              const title = req.params.title;
-             console.log('title is '+title);
+             logger.debug('title is '+title);
              postProxy.getPostByTitle(req,res,title,'post/showOne');
        },
 
@@ -257,7 +259,7 @@ module.exports = {
 
 
                   if(err){
-                        console.log(err);
+                        logger.error('cannot find the post by post id'+err);
                         req.flash('error',`error in find post for ${post_id}`);
                         res.redirect('back');
                   }else{
@@ -267,7 +269,7 @@ module.exports = {
 
                                                 
               
-                        console.log('tags'+JSON.stringify(modifiedPost.tags));
+                        logger.debug('tags'+JSON.stringify(modifiedPost.tags));
                         res.render('form/editPost', {
                               user: req.user ? req.user.processUser(req.user) : req.user,
                               post: modifiedPost,
@@ -293,7 +295,7 @@ module.exports = {
       editPost:(req,res)=>{
 
                   let dataDir = config.uploadDir;
-                  console.log(dataDir);
+                  logger.debug(dataDir);
                   let photoDir = dataDir + 'postLogo/';
 		
                   try{
@@ -301,7 +303,7 @@ module.exports = {
                     const form = new formidable.IncomingForm();
                     form.parse(req,(err,fields,file)=>{
                         if(err){
-                              console.log('form parse error:' + err);
+                              logger.error('form parse error:' + err);
                               req.flash('error','提交出错');
                               return res.redirect(500, '/response/err/500');
                         }else{
@@ -323,8 +325,8 @@ module.exports = {
 
                                     helper.checkDir(thedir,()=>{
                                           fs.rename(photo.path, fullPath, err=>{
-                                                if (err) {console.log(err); return; }
-                                                console.log('The file has been re-named to: ' + fullPath);
+                                                if (err) {logger.error(err); return; }
+                                                logger.debug('The file has been re-named to: ' + fullPath);
                                           });										
                                     });                 
                                     if(req.user){
@@ -343,12 +345,12 @@ module.exports = {
                                           
                                           Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
                                                       if(err){
-                                                            console.log(err);
+                                                            logger.error(err);
                                                             req.flash('error',`更新失败`);
                                                             res.redirect('back');
                                                       }else{
                                                             //tagProxy.saveSingle(req,res,post,tags);
-                                                            console.log(`your post saved successfully: ${post._id}`);
+                                                            logger.debug(`your post saved successfully: ${post._id}`);
                                                             req.flash('success','更新成功！');
                                                             res.redirect(`/post/show/${post.title}`);
                                                             //res.redirect('/');
@@ -356,13 +358,13 @@ module.exports = {
                                           });
 
                                     }else{
-                                          console.log('user not login');
+                                          logger.info('user not login');
                                           req.flash('error','请先登录！');
                                           res.redirect(303, '/user/login');
                                     }                                   
 
                              }else{//if &&
-                                    console.log('input need to do like it required');
+                                    logger.info('input need to do like it required');
                                     req.flash('error','提交不符合规则！');
                                     res.redirect(303, 'back');                                    
 
@@ -389,11 +391,11 @@ module.exports = {
            const post_id = req.params.post_id;
             Post.remove({ '_id': post_id }, (err)=>{
                   if(err){
-                        console.log(`there is an error when removing the post : ${err}`);
+                        logger.error(`there is an error when removing the post : ${err}`);
                         req.flash('error','删除文章错误！');
                         res.redirect('back');
                   }else{
-                        console.log(`The post with id of ${req.params.post_id} deleted successfully `);
+                        logger.debug(`The post with id of ${req.params.post_id} deleted successfully `);
                         req.flash('success','文章已删除!');
                         res.redirect('back');
                   }
@@ -410,10 +412,10 @@ module.exports = {
                  
 
            
-          console.log(`title is : ${title}`);
+          logger.debug(`title is : ${title}`);
           Post.findOne({'title':title}, (err,post)=>{
                  if(err){
-                       console.log(err);
+                       logger.error(err);
                        req.flash('error',`文章页面不存在`);
                        res.redirect('back');                       
                  }else{
@@ -427,11 +429,11 @@ module.exports = {
 
                         comment.save(err=>{
                               if(err){
-                                    console.log(`there is some errors when save the post ${err}`);
+                                    logger.error(`there is some errors when save the post ${err}`);
                                     req.flash('error',`存储错误`);
                                     res.redirect('back');                       
                               }else{
-                                    console.log('comment saved successfully');
+                                    logger.debug('comment saved successfully');
                                     req.flash('success','留言成功！');
                                     res.redirect('back');
                               }
@@ -449,12 +451,12 @@ module.exports = {
                 const tag_id = req.params.tag_id;
                 const page = req.query.p ? parseInt(req.query.p) : 1;
                 //let loginedUser;
-                console.log('entering into the tagpost');
+                logger.debug('entering into the tagpost');
 
                 //查询并返回第 page 页的 10 篇文章
                 postProxy.getTen(tag_id, page, (err, posts, count)=> {
                     if (err) {
-                    console.log('some error with getting the 10 posts:'+ err);
+                    logger.error('some error with getting the 10 posts:'+ err);
                     //next(err);
                     posts = [];
                     } 
@@ -462,7 +464,7 @@ module.exports = {
                     //     loginedUser = req.user.processUser(req.user);
                     // }
                     //userProxy.getUserById(user_id, theuser=>{
-                    console.log('tag posts for'+ tag_id +posts);
+                    logger.debug('tag posts for'+ tag_id +posts);
                     
                     res.render('post/tagPosts', {
                            
@@ -491,17 +493,17 @@ module.exports = {
      getSearch: function(req,res){
             const page = req.query.p ? parseInt(req.query.p) : 1;
             //let loginedUser;
-            console.log('entering into the serarchPost');           
+            logger.debug('entering into the serarchPost');           
             let keyword;
             if(req.query.keyword){
                 keyword = req.query.keyword;
             }
            
            pattern = new RegExp(keyword, "i");
-           console.log('keyword search for'+ keyword);
+           logger.debug('keyword search for'+ keyword);
            postProxy.getTen(pattern, page, (err, posts, count)=> {
                     if (err) {
-                        console.log('some error with getting the 10 posts for search page:'+ err);
+                        logger.error('some error with getting the 10 posts for search page:'+ err);
                         posts = [];
                     } 
                     res.render('post/tagPosts', {

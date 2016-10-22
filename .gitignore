@@ -1,4 +1,3 @@
-
 log
 .DS_Store
 public/sass
@@ -7,7 +6,7 @@ public/upload
 public/upload/.sass-cache
 .sass-cache
 .DS_Store
-logs/cheese.log
+logs
 __tips
 public/upload/logonpm-debug.log
 Trver-darwin-x64

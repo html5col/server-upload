@@ -1,4 +1,5 @@
 "use strict";
+const logger = require('../lib/logger');
 module.exports ={
 		groupRate: (req,res)=>{
 					//console.log(mailService.sendToGroup(['frank25184@icloud.com','ddd@dd.com','djfd@sdf.com'],'subject','this is body'));

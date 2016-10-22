@@ -7,6 +7,7 @@ const mongoose = require('mongoose'),
       Tag = require('../models/Tag'),
       Comment = require('./Comment'),
       Group  = require('./Group'),
+      logger = require('../lib/logger'),
       moment = require('moment');
 
 // create a schema
@@ -77,20 +78,40 @@ postSchema.methods.processPost = (post)=>{
                tagsArray.push(tag);
           });
     });
+
+    // function returnP(v){
+    //     return  new promise(function(resolved,rejected){
+    //       Tag.findById(v,function(err,tag){
+    //            if(err){
+    //                rejected(err);
+    //            }else{
+    //                resolved(tag);
+    //            }
+    //       });
+    //    });
+    // }
+
+    // tag_idArray.forEach(function(v,i,a){  
+    //     returnP(v).then(function(t){
+    //         tagsArray.push(t);
+    //     }).catch(function(err){
+    //             console.log('some error in getting tags:'+err);
+    //     });
+    // });
+
+
     // let articleUser;
+    
     // User.findById(post.user_id,function(err,user){
     //             if(err){
     //                 console.log(err);
     //             }else{
+    //                 count++;
     //                 articleUser = user;
-    //                 callback(articleUser);
     //                 console.log('articleUser is ' + JSON.stringify(articleUser));
     //             }
-    //         });
+    // });
 
-    // return {
-    //     articleUser:articleUser, //return 'undefined'
-    // };
 
     return {
         _id:post._id,
@@ -123,7 +144,7 @@ postSchema.methods.group = (group_id,callback)=>{
         let findOption = {'_id': group_id};
         Group.findOne(findOption,function(err,group){
             if(err){
-                console.log(`group not found: no group wih title : ${group.title}`);
+                logger.error(`group not found: no group wih title : ${group.title}`);
                 reject(err);
                 //res.redirect('/response/error/404');
             }else{
@@ -137,7 +158,7 @@ postSchema.methods.group = (group_id,callback)=>{
         //return group;
         callback(group);
     }).catch(function(e){
-        console.log(`something wrong with the getGroup function in postSchema.methods.group  : ${e}`);
+        logger.error(`something wrong with the getGroup function in postSchema.methods.group  : ${e}`);
         req.flash('error',`Error finding the single group!`);
         return res.redirect('/response/err/404');
     });
@@ -148,13 +169,13 @@ postSchema.methods.user = (user_id,callback)=>{
           
          User.findById(user_id).exec((err,user)=>{
                 if(err){
-                    console.log(`cannot catch user,error: ${err}`);
+                    logger.error(`cannot catch user,error: ${err}`);
                     req.flash('error',`error in find user for ${user_id}`);
                     res.redirect('back');							
                 }else{
-                    console.log(user);
+                    //logger.debug(user);
                     let modifiedUser = user.processUser(user)
-                    console.log(modifiedUser);
+                    //logger.debug(modifiedUser);
                     callback(modifiedUser);
                   
               }
@@ -166,7 +187,7 @@ postSchema.methods.user = (user_id,callback)=>{
 postSchema.methods.comments = (post_id,fn)=>{
     Comment.find({'post_id':post_id},function(err,comments){
         if(err){
-            console.log(`error in getting comments: ${err}`);
+            logger.error(`error in getting comments: ${err}`);
             req.flash('error',`Error in getting comments`);
             res.redirect('back');            
         }else{

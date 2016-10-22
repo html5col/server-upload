@@ -11,6 +11,13 @@ var config = {
           description: '专业的语言学习社区，提供完善的自学解决方案，包括图书、视音频的推荐、各种督促学习计划、线下聚会等',
          // bodyClass:'',
       },
+      about:{
+          service: {
+            title: '提供的服务',
+            keywords: '服务,契约计划',
+            description: 'Trver.com提供的服务列表',                
+          },        
+      },
       group: {
           groups:{
             title: '语言学习小组',

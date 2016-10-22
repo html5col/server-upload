@@ -12,6 +12,7 @@ const flash = require('connect-flash'),
 	helper = require('../lib/utility'),
 	Post = require('../models/Post'),
 	User = require('../models/User'),
+	logger = require('../lib/logger'),
 	postProxy = require('../db_proxy/post'),
 	userProxy = require('../db_proxy/user');
 
@@ -72,9 +73,9 @@ module.exports = {
 		profile: (req, res)=> {
 				    const user_id = req.params.user_id,
 					      page = req.query.p ? parseInt(req.query.p) : 1;
-					console.log('user_id is in proifle function'+user_id);
+					logger.debug('user_id is in proifle function'+user_id);
 					postProxy.getPostsByUserId(req,res,user_id,function(posts,count){
-						  // console.log("profile posts and count:" ,posts,count);
+						   // logger.debug("profile posts and count:" ,posts,count);
 							let loginedUser;
 							if(req.user){
 								loginedUser = req.user.processUser(req.user);
@@ -82,6 +83,7 @@ module.exports = {
 							userProxy.getUserById(user_id, theuser=>{ 
 							     	let postUser = req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser;
 									 let isProfile = true;
+									 logger.debug('postUser'+JSON.stringify(postUser));
 										
 									res.render("users/profile", {
 										user: req.user ? req.user.processUser(req.user) : req.user,
@@ -92,7 +94,7 @@ module.exports = {
 
 										pageNumber: Math.ceil(count/10),
 										page: page,
-										isFirstPage: (page - 1) == 0,
+										isFirstPage: (page - 1) === 0,
 										isLastPage: ((page - 1) * 10 + posts.length) == count, 
 
 										title: postUser.username + '的个人页面',
@@ -197,9 +199,9 @@ module.exports = {
 		               User.update(
 		               	  conditions,update,options,
 		               	  (err,raw)=>{
-		               	  	console.log('no error in the above of if err');
+		               	  	//logger.debug('no error in the above of if err');
 		               	  	if(err){
-		               	  		console.log(err.stack,raw);
+		               	  		logger.error(err.stack,raw);
 		               	  		req.flash('error', 'There was a error processing your request!');
 		               	  		res.redirect(303,'/user/reset/'+ req.params.token);
 		               	  	}
@@ -216,7 +218,7 @@ module.exports = {
 		             );					  
 				  }).
 				  catch(function(err){
-						console.log('error', err);
+						logger.error('error', err);
 						flash('error',err);
 						res.redirect('back');
 				  });
@@ -247,13 +249,13 @@ module.exports = {
 
 					  
 		              if(buf){
-		              	       console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
+		              	       logger.debug(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
 		              	       const token = buf.toString('hex');
 
 
 					 			console.log(req.body.email);
 					            User.findOne({ 'local.email': req.body.email }, (err, user)=> {
-					                        if(err){console.log(err);}
+					                        if(err){logger.error(err);}
 									        if (!user) {
 									          req.flash('error', 'No account with that email address exists.');
 									          res.redirect('/user/forgotPassword');
@@ -274,7 +276,7 @@ module.exports = {
 
 					                        	);
 									        user.save(err=> {
-					                            if (err){throw err;}
+					                            if (err){logger.error(`err in saving user: ${err}`);}
 					                            req.flash('info', 'An e-mail has been sent to ' + user.local.email + ' with further instructions.!');
 					                            res.redirect('/user/login');
 					                            //return done(null, user, );
@@ -297,7 +299,7 @@ module.exports = {
 					      username = locals.username,
 					      email    = locals.email;
 							User.findOne({ 'local.email': email }, (err, user)=> {
-										if(err){console.log(err);return;}
+										if(err){logger.error(err);return;}
 										if (!user) {
 											req.flash('error', '用户邮箱不存在，请重新登录!');
 											res.redirect('/user/login');
@@ -310,7 +312,7 @@ module.exports = {
 																'Your new email:' + req.body.email
 												);
 												user.save(err=> {
-													if (err){throw err;}
+													if (err){logger.error(`error saving user: ${err}`);}
 													req.flash('success', '更新成功!');
 													res.redirect('/user/profile');
 													//return done(null, user, );
@@ -331,7 +333,7 @@ module.exports = {
 					//req.logout();
 					req.session.destroy(err=>{
 						  if(err) {
-						    console.log(err);
+						    logger.error(err);
 						  } else {
 						    res.redirect('/');
 						  }				
@@ -379,7 +381,7 @@ module.exports = {
 												if (err) { return next(err); }
 												res.render('email/signupMessage',
 														{layout:null, user:user}, (err,html)=>{
-															if(err){console.log('err in email template', err);}
+															if(err){logger.error('err in email template', err);}
 															try{
 																mailService.send(user.local.email,'感谢注册!',html);
 															}catch(ex){
@@ -426,7 +428,7 @@ module.exports = {
 
 		postFileUpload: (req,res)=>{
                     let dataDir = config.uploadDir;
-					console.log(dataDir);
+					logger.debug(dataDir);
 					let photoDir = dataDir + 'logo/';
 					//existsSync depreciated!! do not use it any more
 					// fs.existsSync(dataDir)  || fs.mkdirSync(dataDir);
@@ -490,8 +492,8 @@ module.exports = {
 									//checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
 									helper.checkDir(thedir,()=>{
 										fs.rename(photo.path, fullPath, err=>{
-											if (err) {console.log(err); return; }
-											console.log('The file has been re-named to: ' + fullPath);
+											if (err) {logger.error('error in rename the file'+err); return; }
+											logger.debug('The file has been re-named to: ' + fullPath);
 										});										
 									});
 
@@ -518,7 +520,7 @@ module.exports = {
 										// res.redirect(303, '/success');
 									//  saveFileInfo('upload-photo', fields.email,req.params.year,fields.params.year,fields.params.month,path);
 									}else{
-										console.log('user not login');
+										logger.info('user not login');
 										req.flash('eror','You need to login first to upload your logo');
 										res.redirect(303, '/user/login');
 									}								

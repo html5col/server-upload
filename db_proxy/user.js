@@ -1,5 +1,6 @@
 "use strict";
-const User  = require('../models/User');
+const User  = require('../models/User'),
+      logger = require('../lib/logger');
 //var uuid    = require('node-uuid');
 
 
@@ -11,13 +12,13 @@ module.exports = {
       getUserById: (user_id,fn)=>{
               User.findById(user_id).exec((err,user)=>{
                       if(err){
-                          console.log(`cannot catch user,error: ${err}`);
+                          logger.error(`cannot catch user,error: ${err}`);
                           req.flash('error',`error in find user for ${user_id}`);
                           res.redirect('back');							
                       }else{
-                          console.log(user);
+                          //logger.debug('getuserbyid: '+user);
                           let modifiedUser = user.processUser(user);
-                          console.log(modifiedUser);
+                          logger.debug('modifiedUser'+modifiedUser);
                           fn(modifiedUser);  
                     }
               });

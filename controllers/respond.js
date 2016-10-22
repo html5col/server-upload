@@ -1,4 +1,5 @@
 "use strict";
+const logger = require('../lib/logger');
 module.exports ={
 		success: (req,res)=>{
 				res.render('response/success',{

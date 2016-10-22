@@ -4,6 +4,7 @@ const User    = require('../models/User'),
       Tag = require('../models/Tag'),
       Comment = require('../models/Comment'),
       userProxy = require('../db_proxy/user'),
+      logger = require('../lib/logger'),
       moment = require('moment');
 //var utility = require('utility');                              
 
@@ -29,7 +30,7 @@ module.exports = {
 
                     tag.save(err=>{
                         if(err){
-                            console.log('something wrong with storaging tag:'+ err);
+                            logger.error('something wrong with storaging tag:'+ err);
                             req.flash('error','something wrong with storaging tag');
                             return;
                         }else{
@@ -38,17 +39,17 @@ module.exports = {
 
                                 Post.findOneAndUpdate({'_id': post._id}, {$push: { 'tag_id': tag._id}}, {new: true},(err, post)=> {
                                     if(err){
-                                            console.log(err);
+                                            logger.error(err);
                                             next(err);
                                     }else{
                                             //res.redirect('/post/show/'+ post.title);
-                                            console.log('findOneAndUpdate for tags array \'s post is'+post);
+                                            logger.debug('findOneAndUpdate for tags array \'s post is'+post);
                                             return;
                                     }
                                 }); 
                                 
                             });                            
-                            console.log('tag saved successfully');
+                            logger.debug('tag saved successfully');
                             //return;
                         
                         }

@@ -50,7 +50,7 @@ var jey = jey || {};
                     };
                     request.open('GET', url);
                     request.send();
-            });         
+            });   
       },
     /**
      *   timing out a Promise

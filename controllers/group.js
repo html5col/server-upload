@@ -12,7 +12,8 @@ const url = require('url'),
       fs = require('fs'),
 	  helper = require('../lib/utility'),
       bodyParser   = require('body-parser'),
-      formidable = require('formidable');
+      formidable = require('formidable'),
+      logger = require('../lib/logger');
 
 module.exports = {
 
@@ -122,7 +123,7 @@ module.exports = {
         newGroupUpload(req,res){
 
                     let dataDir = config.uploadDir;
-					console.log(dataDir);
+					logger.debug(dataDir);
 					let photoDir = dataDir + 'groupLogo/';
 
                     helper.checkDir(dataDir);
@@ -148,13 +149,13 @@ module.exports = {
 									//checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
 									helper.checkDir(thedir,()=>{
 										fs.rename(photo.path, fullPath, err=>{
-											if (err) {console.log(err); return; }
-											console.log('The file has been re-named to: ' + fullPath);
+											if (err) {logger.error(err); return; }
+											logger.debug('The file has been re-named to: ' + fullPath);
 										});										
 									});
 
-									console.log('the dir is :' + thedir);
-									console.log(photo.name,photo.path,fullPath);
+									logger.debug('the dir is :' + thedir);
+									logger.debug(photo.name,photo.path,fullPath);
                                     
 									//rename or move the file uploaded;and photo.path is the temp file Formidable give
 													
@@ -179,12 +180,12 @@ module.exports = {
                                             
                                             group.save((err)=>{
                                                     if(err){
-                                                        console.log(err);
+                                                        logger.error(err);
                                                         req.flash('error',`出现错误： ${err}`);
                                                         res.redirect('back');
                                                     }else{
                                                         
-                                                        console.log(`创建小组成功: ${group._id}`);
+                                                        logger.debug(`创建小组成功: ${group._id}`);
                                                         req.flash('success','创建小组成功，等待审核!');
                                                         res.redirect('/group/single/'+ group._id);
                                                     }
@@ -193,7 +194,7 @@ module.exports = {
 										}
 										saveFileInfo();
                                     }else{
-										console.log('user not login');
+										logger.info('user not login');
 										req.flash('error','请先登录！');
 										res.redirect(303, '/user/login');
 									}								
@@ -219,7 +220,7 @@ module.exports = {
                 let findOption = {'_id': group_id};
                 Group.findOne(findOption,function(err,group){
                     if(err){
-                        console.log(`page not found: no group wih group_id : ${group_id}`);
+                        logger.error(`page not found: no group wih group_id : ${group_id}`);
                         reject(err);
                         //res.redirect('/response/error/404');
                     }else{
@@ -233,12 +234,12 @@ module.exports = {
                let belongToGroup = false;
     
                 let user = req.user?req.user.processUser(req.user):req.user;
-                console.log('user'+user);    
+                logger.debug('user'+user);    
 
                let myGroups = user ? user.myGroups:false;
                 if(myGroups){
                     belongToGroup = myGroups.includes(group.title);
-                    console.log(`belongToGroup : ${belongToGroup}`);
+                    logger.debug(`belongToGroup : ${belongToGroup}`);
                 }
                 postProxy.getTen(group_id, page, (err, posts, count)=>{
                         const option = {
@@ -271,7 +272,7 @@ module.exports = {
 
             }).
             catch(function(e){
-                    console.log(`something wrong with getting the group page : ${e}`);
+                    logger.error(`something wrong with getting the group page : ${e}`);
                     req.flash('error',`Error getting the single group page!`);
                     return res.redirect('back');
             });
@@ -282,13 +283,13 @@ module.exports = {
             let group_id = query.group_id;
               let user = req.user;
 
-            console.log(`the group_id in applyGroup function ${group_id}`);
+            logger.debug(`the group_id in applyGroup function ${group_id}`);
 
             let getGroup = new Promise(function(resolve,reject){
                 let findOption = {'_id': group_id};
                 Group.findOne(findOption,function(err,group){
                     if(err){
-                        console.log(`page not found: no group wih group_id : ${id}`);
+                        logger.error(`page not found: no group wih group_id : ${id}`);
                         reject(err);
                         //res.redirect('/response/error/404');
                     }else{
@@ -300,15 +301,15 @@ module.exports = {
 
 
             getGroup.then(function(group){
-                console.log(group.title);
+                logger.debug(group.title);
                 user.local.myGroups.push(group.title);
                 user.save(function(err){
                     if(err){
-                        console.log(`something wrong with storing the groupvalue to user.myGroups : ${e}`);
+                        logger.error(`something wrong with storing the groupvalue to user.myGroups : ${e}`);
                         req.flash('error',`Error with the server.We are fixing it right now!`);
                         return res.redirect('/response/err/404');
                     }else{
-                        console.log('successfully store the group value');
+                        logger.debug('successfully store the group value');
                     }
                     
                 });              
@@ -324,7 +325,7 @@ module.exports = {
                 // };
                 res.redirect('/group/single/'+ group._id); 
             }).catch(function(e){
-                console.log(`something wrong with the getGroup function : ${e}`);
+                logger.error(`something wrong with the getGroup function : ${e}`);
                 req.flash('error',`Error finding the single group!`);
                 return res.redirect('/response/err/404');
             });        
@@ -337,7 +338,7 @@ module.exports = {
             const group_id = req.params.group_id;
             Group.findOne({'_id': group_id}, function(err,group){
                   if(err){
-                        console.log(err);
+                        logger.error(err);
                         req.flash('error',`小组不存在！`);
                         res.redirect('back');
                   }else{
@@ -363,7 +364,7 @@ module.exports = {
 
         groupUpdate(req,res){
                   let dataDir = config.uploadDir;
-                  console.log(dataDir);
+                  logger.debug(dataDir);
                   let photoDir = dataDir + 'groupLogo/';
                   
 
@@ -373,7 +374,7 @@ module.exports = {
                     const form = new formidable.IncomingForm();
                     form.parse(req,(err,fields,file)=>{
                         if(err){
-                              console.log('form parse error:' + err);
+                              logger.error('form parse error:' + err);
                               req.flash('error','提交出错');
                               return res.redirect(500, '/response/err/500');
                         }else{
@@ -382,14 +383,18 @@ module.exports = {
                               const time = Date.now();
 
                               const photoName = time + photo.name; 
-                              console.log('file.photo is' + JSON.stringify(photo));
+                              logger.debug('file.photo is' + JSON.stringify(photo));
                               
                               const fullPath = thedir + photoName;
 
                               helper.checkDir(thedir,()=>{
                                     fs.rename(photo.path, fullPath, err=>{
-                                          if (err) {console.log(err); return; }
-                                          console.log('The file has been re-named to: ' + fullPath);
+                                          if (err) {
+                                              logger.error('rename error'+err); return; 
+                                           }else{
+                                               logger.debug('The file has been re-named to: ' + fullPath);
+                                           }
+                                          
                                     });										
                               });                 
                               if(req.user){
@@ -419,12 +424,12 @@ module.exports = {
                                                     Group.findOneAndUpdate({'_id': group_id}, {$set: options}, {new: true},function(err, group) {
                                                                 
                                                                 if(err){
-                                                                    console.log(err);
+                                                                    logger.error(err);
                                                                     req.flash('error',`更新小组失败`);
                                                                     res.redirect('back');
                                                                 }else{
                                                                     //tagProxy.saveSingle(req,res,post,tags);
-                                                                    console.log(`your group updated successfully: ${group._id}`);
+                                                                    logger.debug(`your group updated successfully: ${group._id}`);
                                                                     req.flash('success','更新成功！');
                                                                     res.redirect(`/group/single/${group._id}`);
                                                                     //res.redirect('/');
@@ -447,7 +452,7 @@ module.exports = {
 
 
                               }else{
-                                    console.log('user not login');
+                                    logger.info('user not login');
                                     req.flash('error','请先登录！');
                                     res.redirect(303, '/user/login');
                               }	
@@ -458,7 +463,7 @@ module.exports = {
                     });//end of form.parse
 
                   } catch(ex){
-                        console.log(ex);
+                        logger.error(ex);
                         return res.xhr ?
                         res.json({error: '数据库错误！'}):
                         res.redirect(303, '/response/error/500');
