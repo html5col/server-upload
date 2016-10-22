@@ -75,6 +75,7 @@ module.exports =  {
                     const form = new formidable.IncomingForm();
                     form.parse(req,(err,fields,file)=>{
                         if(err){
+                              logger.error('formidable form parse error'+err);
                               req.flash('error','form parse error:' + err);
                               return res.redirect(500, '/response/err/500');
                         }else{
@@ -84,14 +85,14 @@ module.exports =  {
                               let thedir = photoDir;
                               //prevent uploading file with the same name
 
-                              const photoName = req.user._id + photo.name; 
+                              const photoName = Date.now() + photo.name; 
                               
                               const fullPath = thedir + photoName;
 
                               //checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
                               helper.checkDir(thedir,()=>{
                                     fs.rename(photo.path, fullPath, err=>{
-                                          if (err) {console.log(err); return; }
+                                          if (err) {logger.error(err); return; }
                                           logger.debug('The file has been re-named to: ' + fullPath);
                                     });										
                               });
