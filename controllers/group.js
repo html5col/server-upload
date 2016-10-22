@@ -142,7 +142,7 @@ module.exports = {
 									let thedir = photoDir;
 									//prevent uploading file with the same name
 
-									const photoName = req.user._id + photo.name; 
+									const photoName = Date.now() + helper.trim(photo.name); 
 									
 									const fullPath = thedir + photoName;
 
@@ -382,7 +382,7 @@ module.exports = {
                               let thedir = photoDir;
                               const time = Date.now();
 
-                              const photoName = time + photo.name; 
+                              const photoName = time + helper.trim(photo.name); 
                               logger.debug('file.photo is' + JSON.stringify(photo));
                               
                               const fullPath = thedir + photoName;
