@@ -2,34 +2,26 @@
 function startServer(){
 	"use strict";
 
-    const config = require('./config/config');
-
-	const express = require('express');
-	const bodyParser = require('body-parser');
+    const config = require('./config/config'),
+	      logger = require('./lib/logger'),
+          express = require('express'),
+          bodyParser = require('body-parser'),
 	//to get the info of the form submit , you need to use req.body, which must require the body-parser middleware first
-	const formidable = require('formidable');
-	const fs = require('fs');
-	const path = require('path');
-	const mongoose = require('mongoose');
-	const passport = require('passport');
+          mongoose = require('mongoose'),
+	      passport = require('passport'),
+		  mailService  = require('./lib/email')(config);
 
 	//Flash messages are stored in the session. First, setup sessions as usual by enabling cookieParser and session middleware. Then, use flash middleware provided by connect-flash.With the flash middleware in place, all requests will have a req.flash() function that can be used for flash messages.
-	const flash    = require('connect-flash');
-
-	const cookieParser = require('cookie-parser');
-	const session      = require('express-session');
-
+	const flash    = require('connect-flash'),
+          cookieParser = require('cookie-parser'),
+	      session      = require('express-session');
 
 	require('./lib/passport')(passport); // pass passport for configuration
-	const User = require('./models/User');    
-
-	const app = express();
-
+	const User = require('./models/User'),
+          app = express();
 	//for logs, db ... in the different context (development or production)
-	const context = require('./common/context').env1(app,mongoose);
-     
+	require('./common/context').env1(app,mongoose);
 	require('./common/set')(app);
-
 
 	app.use(express.static(__dirname + '/public'));
 	app.use(express.static(__dirname + '/node_modules'));
@@ -99,6 +91,20 @@ function startServer(){
 	const routes = require('./routes')(app,passport,User);
     const autoView = require('./common/autoView')(app);
 
+
+
+	if (process.env.NODE_ENV === 'production') { // [2]
+		process.on('uncaughtException', function (er) {
+			logger.error(er.stack); // [3]
+			mailService.send(
+			'frank25184@icloud.com',
+			er.message,
+			er.stack // [4]
+			);
+			process.exit(1);
+		});
+	}
+
 	//customize 404 page using middleware
 	app.use(function(req,res,next){
 	    res.status(404);
@@ -107,14 +113,14 @@ function startServer(){
 
 	//customize 505 page using middleware
 	app.use(function(err,req,res,next){
-	    console.error(err.stack);
+	    logger.error(err.stack);
 	    // res.status(500);
 	    // res.render('errors/500');
 	    res.status(500).render('response/500');
 	});
 
 	app.listen(app.get('port'), function(){
-	    console.log('Express started on http://localhost:' + app.get('port') + ';press Ctrl-C to terminate');
+	    logger.debug('Express started on http://localhost:' + app.get('port') + ';press Ctrl-C to terminate');
 	});	
 }
 
