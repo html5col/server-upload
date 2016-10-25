@@ -13,7 +13,9 @@ const url = require('url'),
 	  helper = require('../lib/utility'),
       bodyParser   = require('body-parser'),
       formidable = require('formidable'),
-      logger = require('../lib/logger');
+      logger = require('../lib/logger'),
+      validator = require('validator'),
+      xss = require('xss');
 
 module.exports = {
 
@@ -23,7 +25,8 @@ module.exports = {
                     let getGroups = new Promise(function(resolve,reject){
                         Group.find({},function(err,groups){
                             if(err){
-                                reject(err)
+                                reject(err);
+                                return;
                             }else if(groups){
                                 resolve(groups);
                             }
@@ -141,8 +144,13 @@ module.exports = {
 									//let personalDir = `${req.user._id}/`;
 									let thedir = photoDir;
 									//prevent uploading file with the same name
+                                    if(validator.isEmpty(file.photo.name)){
+                                        logger.error('the photo uploaded in groupUpload is emtpy or the photo name not existing');
+                                        req.flash('error','The image uploaded is empty!');
+                                        return res.redirect('back');
+                                    }
 
-									const photoName = Date.now() + helper.trim(photo.name); 
+									const photoName = Date.now() + validator.trim(xss(photo.name)); 
 									
 									const fullPath = thedir + photoName;
 
@@ -161,14 +169,19 @@ module.exports = {
 													
 									if(req.user){
 										function saveFileInfo(){
+                                            
                                             const group = new Group(),
                                                     user = req.user,
-                                                    title = helper.trim(fields.title),
+                                                    title = validator.trim(xss(fields.title)),
                                                     category = fields.category,
                                                     //privateOnly = fields.private,
-                                                    intro = helper.trim(fields.intro);
+                                                    intro = validator.trim(xss(fields.intro));
                                                     
-
+                                            if(validator.isEmpty(title) && validator.isEmpty(intro)){
+                                                logger.error('Field(s) empty!');
+                                                req.flash('error','Field(s) empty!');
+                                                return res.redirect('back');                                            
+                                            }
                                             group.author = user.local.username;
                                             group.user_id = user._id;
                                             group.title = title;
@@ -291,10 +304,11 @@ module.exports = {
                     if(err){
                         logger.error(`page not found: no group wih group_id : ${id}`);
                         reject(err);
+                        return;
                         //res.redirect('/response/error/404');
-                    }else{
-                        resolve(group);
                     }
+                    resolve(group);
+                    
                 });
             });
 
@@ -382,7 +396,7 @@ module.exports = {
                               let thedir = photoDir;
                               const time = Date.now();
 
-                              const photoName = time + helper.trim(photo.name); 
+                              const photoName = time + validator.trim(xss(photo.name)); 
                               logger.debug('file.photo is' + JSON.stringify(photo));
                               
                               const fullPath = thedir + photoName;
@@ -398,12 +412,13 @@ module.exports = {
                                     });										
                               });                 
                               if(req.user){
-                                   let title = helper.trim(fields.title),
-                                       category = helper.trim(fields.category),
+                                   let title = validator.trim(xss(fields.title)),
+                                       category = fields.category,
                                        logo = photoName,
-                                       intro = helper.trim(fields.intro);
+                                       intro = validator.trim(xss(fields.intro));
 
-                                    if(title.length >= 2 && category && photo.name && intro.length>=5){
+
+                                    if(title.length >= 2 && category && validator.trim(xss(photo.name)) && intro.length>=5){
                                         const options = {
                                             title: title,
                                             category: category,

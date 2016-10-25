@@ -19,9 +19,10 @@ function startServer(){
 	require('./lib/passport')(passport); // pass passport for configuration
 	const User = require('./models/User'),
           app = express();
+	require('./part/security')(app);
 	//for logs, db ... in the different context (development or production)
-	require('./common/context').env1(app,mongoose);
-	require('./common/set')(app);
+	require('./part/context').env1(app,mongoose);
+	require('./part/set')(app);
 
 	app.use(express.static(__dirname + '/public'));
 	app.use(express.static(__dirname + '/node_modules'));
@@ -88,10 +89,12 @@ function startServer(){
     // 	res.locals.csrfToken = req.csrfToken();
     // 	next();
     // });
-	const routes = require('./routes')(app,passport,User);
-    const autoView = require('./common/autoView')(app);
+	require('./routes')(app,passport,User);
+    require('./part/autoView')(app);
+	
 
 
+    require('./part/rejectionHandling').rejectHandling();
 
 	if (process.env.NODE_ENV === 'production') { // [2]
 		process.on('uncaughtException', function (er) {
@@ -104,6 +107,8 @@ function startServer(){
 			process.exit(1);
 		});
 	}
+
+
 
 	//customize 404 page using middleware
 	app.use(function(req,res,next){

@@ -16,7 +16,12 @@ var config = {
             title: '提供的服务',
             keywords: '服务,契约计划',
             description: 'Trver.com提供的服务列表',                
-          },        
+          },      
+          rule: {
+            title: '契约计划规则',
+            keywords: 'X-Plan英语口语计划，B-Plan欧美书籍计划，规则,契约计划',
+            description: 'X-Plan英语口语计划,B-Plan欧美书籍计划契约规则',                
+          },              
       },
       group: {
           groups:{

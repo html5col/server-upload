@@ -60,6 +60,19 @@ module.exports = {
               res.render('home/service',options);
         },
 
+        rules(req,res){
+              const options = {
+                  title:seo.about.rule.title,
+                  keywords:seo.about.rule.keywords,
+                  description:seo.about.rule.description,  
+                  messages: {
+                        error: req.flash('error'),
+                        success: req.flash('success'),
+                        info: req.flash('info'),
+                  }, // get the user out of session and pass to template                    
+              };
+              res.render('home/rule',options);
+        },
 
 
 

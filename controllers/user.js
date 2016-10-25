@@ -14,7 +14,9 @@ const flash = require('connect-flash'),
 	User = require('../models/User'),
 	logger = require('../lib/logger'),
 	postProxy = require('../db_proxy/post'),
-	userProxy = require('../db_proxy/user');
+	userProxy = require('../db_proxy/user'),
+    validator = require('validator'),
+    xss = require('xss');
 
 module.exports = {
 
@@ -250,11 +252,12 @@ module.exports = {
 					  
 		              if(buf){
 		              	       logger.debug(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
-		              	       const token = buf.toString('hex');
+		              	       const token = buf.toString('hex'),
+								     email = validator.trim(xxs(req.body.email));
 
 
-					 			console.log(req.body.email);
-					            User.findOne({ 'local.email': req.body.email }, (err, user)=> {
+					 			console.log(email);
+					            User.findOne({ 'local.email': email }, (err, user)=> {
 					                        if(err){logger.error(err);}
 									        if (!user) {
 									          req.flash('error', 'No account with that email address exists.');
@@ -304,12 +307,14 @@ module.exports = {
 											req.flash('error', '用户邮箱不存在，请重新登录!');
 											res.redirect('/user/login');
 										}else{
-												user.local.username = helper.trim(req.body.username);
-												user.local.email = helper.trim(req.body.email);
+											   const username = validator.trim(xxs(req.body.username)),
+											         email = validator.trim(xxs(req.body.email));
+												user.local.username = username;
+												user.local.email = email;
 												mailService.send(user.local.email, 'User Upadate', 
 																'<p>You have successfully update your information!</p>'+
-																'Your new username:'+ req.body.username +'/n'+
-																'Your new email:' + req.body.email
+																'Your new username:'+ username +'/n'+
+																'Your new email:' + email
 												);
 												user.save(err=> {
 													if (err){logger.error(`error saving user: ${err}`);}
@@ -485,7 +490,7 @@ module.exports = {
 
 
 
-									const photoName = req.user._id + photo.name; 
+									const photoName = Date.now() + validator.trim(xxs(photo.name)); 
 									
 									const fullPath = thedir + photoName;
 
@@ -540,8 +545,6 @@ module.exports = {
 				    }
 
 		},
-
-
 
 
 

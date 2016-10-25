@@ -106,11 +106,12 @@ module.exports = {
 
                });
                p.then(function(posts,count){
-                 
                   fn(posts,count);
                })
                .catch(function(err){
-                  logger.debug(err.message);
+                   //err.message is for error object
+                   //Promise chaining allows you to catch errors that may occur in a fulfillment or rejection handler from a previous promise. For example:
+                  logger.debug(err.message ? err.message : err);
                   req.flash('error','没找到用户!');
                   res.redirect('back');
                });
@@ -133,6 +134,7 @@ module.exports = {
                         Post.findOne(conditions,function(err,post){
                                 if (err) {
                                     reject(err);
+                                    return
                                 } else {
                                     //setting view times
                                     let update = { $inc: { 'pv': 1 }};//increment
@@ -182,7 +184,7 @@ module.exports = {
                     logger.debug("Done");
                 })
                .catch(function(err){
-                  logger.error(`error With title ${title}: ${err}`);
+                  logger.error(`error With title ${title}: ${err.message ? err.message : err}`);
                   req.flash('error','读取文章出错!');
                   res.redirect('back');
                });
@@ -226,17 +228,17 @@ module.exports = {
                         if (err) {
                                 //return callback(err);
                                 reject(err);
-                        }else{
-                                logger.debug( `Number of posts: ${count} . query is ${query}` );
-                                resolve(count);
+                                return;
                         }
-                    
+                        logger.debug( `Number of posts: ${count} . query is ${query}` );
+                        resolve(count);
                     });  
                 });
                 promis.then(function(count){
                     Post.find(query).skip((page-1)*10).limit(10).sort({'updated_at':-1}).exec((err,posts)=>{
                             if (err) {
                                logger.error(`no posts found: ${err}`);
+                               //throw.error('no post found');
                                res.redirect('/response/error/404');
                             }
                             //console.log('Posts inthe getTen function is: '+posts);
@@ -249,7 +251,7 @@ module.exports = {
                     });
                 })
                 .catch(function(err){
-                    return callback(err);
+                    return callback(err.message ? err.message : err);
                 });
                 // Post.find(query,{
                 //     skip: (page-10)*10,

@@ -1,13 +1,13 @@
             <nav class="bar bar-tab">
-                <a class="tab-item" href="/">
+                <a class="tab-item" external href="/">
                     <span class="icon icon-home"></span>
                 </a>
-                <a class="tab-item " href="/group/groups">
+                <a class="tab-item" external href="/group/groups">
                     <span class="icon icon icon-friends"></span>
                 </a>
 
                 {{#if user}}
-                <a class="tab-item" href="/user/profile/{{user._id}}">
+                <a class="tab-item" external href="/user/profile/{{user._id}}">
                 {{else}}
                 <a class="tab-item" href="/user/login">       
                 {{/if}}  

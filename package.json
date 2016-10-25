@@ -1,7 +1,7 @@
 {
   "name": "group",
   "version": "1.0.0",
-  "description": "boilerplate for node app",
+  "description": "social software for node app",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/thenodejsboilerplate/nodejs-boilerplate.git"
+    "url": "git+ssh://git@github.com/thenodejsboilerplate/group.git"
   },
   "keywords": [
     "group",
@@ -18,9 +18,9 @@
   "author": "Frank Lee",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thenodejsboilerplate/nodejs-boilerplate/issues"
+    "url": "https://github.com/thenodejsboilerplate/group/issues"
   },
-  "homepage": "https://github.com/thenodejsboilerplate/nodejs-boilerplate#readme",
+  "homepage": "https://github.com/thenodejsboilerplate/group#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
@@ -37,6 +37,7 @@
     "express-logger": "0.0.3",
     "express-session": "^1.14.0",
     "formidable": "^1.0.17",
+    "helmet": "2.3.0",
     "ioredis": "^2.3.0",
     "method-override": "^2.3.6",
     "moment": "^2.14.1",
@@ -47,9 +48,11 @@
     "passport-github2": "^0.1.10",
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
+    "validator": "6.1.0",
     "vhost": "^3.0.2",
     "winston": "2.2.0",
-    "winston-daily-rotate-file": "1.3.1"
+    "winston-daily-rotate-file": "1.3.1",
+    "xss": "0.2.15"
   },
   "devDependencies": {
     "chai": "^3.5.0",

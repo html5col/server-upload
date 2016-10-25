@@ -13,6 +13,8 @@ let moment = require('moment'),
     helper = require('../lib/utility'),
     bodyParser   = require('body-parser'),
     logger = require('../lib/logger'),
+    validator = require('validator'),
+    xss = require('xss'),  
     formidable = require('formidable');
 
 module.exports =  {
@@ -23,11 +25,12 @@ module.exports =  {
                   postProxy.getTen(null, page, (err, posts, count)=> {
                   if (err) {
                         logger.error('some error with getting the 10 personal posts:'+ err);
-                        reject(`Error getting posts: ${err}`);
                         posts = [];
-                  }else{
-                        resolve(posts,count);                          
+                        reject(`Error getting posts: ${err}`);
+                        return;
                   }
+                  resolve(posts,count);                          
+                  
                   },undefined,undefined,'exit_user_id');
 
             });
@@ -86,7 +89,7 @@ module.exports =  {
                               let thedir = photoDir;
                               //prevent uploading file with the same name
 
-                              const photoName = Date.now() + helper.trim(photo.name); 
+                              const photoName = Date.now() + validator.trim(xss(photo.name)); 
                               
                               const fullPath = thedir + photoName;
 
@@ -106,9 +109,9 @@ module.exports =  {
                               if(req.user){
                                     function saveFileInfo(){
                                           const user = req.user.processUser(req.user),
-                                                title = helper.trim(fields.title),
-                                                content = helper.trim(fields.content),
-                                                tags = helper.trim(fields.tags),
+                                                title = validator.trim(xss(fields.title)),
+                                                content = validator.trim(xss(fields.content)),
+                                                tags = validator.trim(xss(fields.tags)),
                                                 category = fields.category,
                                                // intro = fields.intro,
                                                 group_id = fields.group_id;
@@ -258,8 +261,6 @@ module.exports =  {
 
             Post.findOne({'_id': post_id}, function(err,post){
 
-
-
                   if(err){
                         logger.error('cannot find the post by post id'+err);
                         req.flash('error',`error in find post for ${post_id}`);
@@ -315,13 +316,13 @@ module.exports =  {
                               let thedir = photoDir;
                               //prevent uploading file with the same name
 
-                              const photoName = Date.now() + helper.trim(photo.name); 
+                              const photoName = Date.now() + validator.trim(xss(photo.name)); 
                               
                               const fullPath = thedir + photoName;
-                              let title = helper.trim(fields.title),
-                                  //category = helper.trim(fields.category),
+                              let title = validator.trim(xss(fields.title)),
+                                  //category = xss(fields.category),
                                   //image = photoName,
-                                  content = helper.trim(fields.content);
+                                  content = validator.trim(xss(fields.content));
                              
                              if(title.length > 4  && photo.name.length && content.length>10){
 
@@ -342,7 +343,7 @@ module.exports =  {
                                           };
                                           const  post_id = req.params.post_id;
 
-                                          //const tags = helper.trim(fields.tags);
+                                          //const tags = xss(fields.tags);
 
                                           
                                           Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
@@ -406,8 +407,8 @@ module.exports =  {
      },
 
      comment: (req,res)=>{
-           const content = helper.trim(req.body.content),
-                 title = helper.trim(req.body.title),
+           const content = validator.trim(xss(req.body.content)),
+                 title = validator.trim(xss(req.body.title)),
                  user = req.user.processUser(req.user),
                  author = user.username,
                  user_id = user._id;
