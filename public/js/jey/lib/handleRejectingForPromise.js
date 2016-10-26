@@ -1,6 +1,6 @@
 "use strict";
 (function(){
-    let possiblyUnhandledRejections = new Map();
+    var possiblyUnhandledRejections = new Map();
 
     // when a rejection is unhandled, add it to the map
     window.onunhandledrejection = function(event) {
@@ -16,7 +16,7 @@
         possiblyUnhandledRejections.forEach(function(reason, promise) {
             console.log(reason.message ? reason.message : reason);
             function handleRejection(prm,err){
-                logger.error(`there is some error in promise function: ${prm} whose reason is ${err}`);
+                console.log('there is some error in promise function: '+ prm+ ' whose reason is '+ err);
                 return;
             }
             // do something to handle these rejections

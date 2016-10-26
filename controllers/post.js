@@ -29,7 +29,7 @@ module.exports =  {
                         reject(`Error getting posts: ${err}`);
                         return;
                   }
-                  resolve(posts,count);                          
+                  resolve(posts,count);                    
                   
                   },undefined,undefined,'exit_user_id');
 

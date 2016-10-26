@@ -3,15 +3,13 @@
   {{#each posts}}      
       <div class="listWrapper">
           <div class="topGroup">
-            <span>
-                <span></span>
+            
                 {{#if ../group}}
-                 {{../group.title}}
+                 <span>{{../group.title}}</span>
                 {{else}}
-                 {{group.title}}                     
+                 <span>{{group.title}}</span>                     
                 {{/if}}
-                <span></span>
-            </span>
+            
           </div>
 
           <div class="midText">

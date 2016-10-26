@@ -185,15 +185,21 @@ input[type="submit"] {
   .listWrapper .topGroup {
     text-align: center;
     width: 100%; }
+    .listWrapper .topGroup:before, .listWrapper .topGroup:after {
+      content: '';
+      display: inline-block;
+      width: 15px;
+      height: 1px;
+      background: #c7c7c7;
+      top: 14px;
+      vertical-align: middle;
+      margin: 0 1px; }
     .listWrapper .topGroup span {
-      display: block;
-      width: 100%;
+      margin: 0;
+      vertical-align: middle;
+      display: inline-block;
       color: #e3e3e3;
       padding-top: 0.2rem; }
-      .listWrapper .topGroup span span {
-        display: inline-block;
-        width: 1rem;
-        border-bottom: 1px solid #e3e3e3; }
   .listWrapper .midText {
     width: 100%;
     padding: 0.5rem 0.5rem;
