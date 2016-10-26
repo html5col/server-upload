@@ -266,30 +266,29 @@ module.exports =  {
                         req.flash('error',`error in find post for ${post_id}`);
                         res.redirect('back');
                   }else{
-                        let modifiedPost = postProxy.modifyPost(post);
-                        //let tagString = [];
-                        let tagObjArray = modifiedPost.tags;
+                        postProxy.modifyPost(post, function(myPost){
+                              let tagObjArray = modifiedPost.tags;              
+                              logger.debug('tags'+JSON.stringify(modifiedPost.tags));
+                              res.render('form/editPost', {
+                                    user: req.user ? req.user.processUser(req.user) : req.user,
+                                    post: myPost,
+                                    //tagString: modifiedPost.tags.join('/'),
+                                    
+                                    isMobile: helper.isMobile(req),
 
-                                                
-              
-                        logger.debug('tags'+JSON.stringify(modifiedPost.tags));
-                        res.render('form/editPost', {
-                              user: req.user ? req.user.processUser(req.user) : req.user,
-                              post: modifiedPost,
-                              //tagString: modifiedPost.tags.join('/'),
-                              
-                              isMobile: helper.isMobile(req),
+                                    title:seo.post.edit.title,
+                                    keywords:seo.post.edit.keywords,
+                                    description:seo.post.edit.description,
+                                    messages: {
+                                          error: req.flash('error'),
+                                          success: req.flash('success'),
+                                          info: req.flash('info'),
+                                    },                  
 
-                              title:seo.post.edit.title,
-                              keywords:seo.post.edit.keywords,
-                              description:seo.post.edit.description,
-                              messages: {
-                                    error: req.flash('error'),
-                                    success: req.flash('success'),
-                                    info: req.flash('info'),
-                              },                  
-
+                               });
                         });
+                        //let tagString = [];
+
                   }
             });
 

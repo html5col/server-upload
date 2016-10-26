@@ -20,6 +20,7 @@
 // The elegant solution Node.js provides for scaling up the applications is to split a single process into multiple processes or workers, in Node.js terminology. This can be achieved through a cluster module. The cluster module allows you to create child processes (workers), which share all the server ports with the main Node process (master).
 
 const cluster = require('cluster');//NODEJS CONTAINS CLUSTER MODULE SO WE CAN ALSO NOT USE THE npm install cluster to use it.but seems npm install cluster to use it ,which has more functions...
+const logger = require('lib/logger');
 const stopWorkers = function stopWorkers() {
 	//One important result that can be achieved using workers is (almost) zero down-time servers. Within the master process, you can terminate and restart the workers one at a time, after you make changes to your application. This allows you to have older version running, while loading the new one.
 
@@ -59,9 +60,9 @@ function startWorker(){
 	//?
 	//To listen for messages from the work in a master
 	worker.on('message', function() {
-		console.log('arguments', arguments);
+		logger.debug('arguments', arguments);
 	});	
-	console.log(`CLUSTER: Worker ${worker.id} started`);
+	logger.debug(`CLUSTER: Worker ${worker.id} started`);
 }
 
 //cluster.isMaster or cluster.isWorker decides in which context your app is running
@@ -86,20 +87,20 @@ if(cluster.isMaster){
 
 	//Record all disconnected worker(工作线程). It should exit if the worker disconnected. so we can wait for exit event and create a new worker to replace it .
 	cluster.on('disconnect', (_worker)=>{
-		console.log(`CLUSTER: Worker ${_worker.process.pid} disconnected from the cluster.`);
+		logger.warn(`CLUSTER: Worker ${_worker.process.pid} disconnected from the cluster.`);
 	});
 
      //In this example, I also set a listener for an online event, which is emitted whenever a worker is forked and ready to receive incoming requests. This can be used for logging or other operations.
 	cluster.on('online', function(_worker) {
-        console.log('Worker ' + _worker.process.pid + ' is online');
+        logger.debug('Worker ' + _worker.process.pid + ' is online');
     });
 
 	//create a new worker to replace it when a old worker dies(drop)
 	//When a worker dies, the cluster module emits an exit event
 	//In the callback, we fork a new worker in order to maintain the intended number of workers. This allows us to keep the application running, even if there are some unhandled exceptions.
 	cluster.on('exit',(_worker,code,signal)=>{
-		console.log(`CLUSTER: Worker ${_worker.process.pid} died with exit code ${code} (${signal})`);
-		console.log('starting a new worker...');
+		logger.error(`CLUSTER: Worker ${_worker.process.pid} died with exit code ${code} (${signal})`);
+		logger.debug('starting a new worker...');
 		startWorker();
 	});
 
@@ -110,7 +111,7 @@ if(cluster.isMaster){
 			process.exit(0);
 		}
 	});
-	console.log('Worker ' + process.pid + ' is alive!');
+	logger.debug('Worker ' + process.pid + ' is alive!');
 
 	//start our server in this worker, see app.js
 	require('./app.js')();

@@ -11,57 +11,31 @@ const User    = require('../models/User'),
 
 module.exports = {
 
-        modifyPosts: function(posts){
-            let modifiedPosts = posts.map(post=>{
-                    let modifiedPost = post.processPost(post)
-                    post.comments(post._id,function(comments){
-                        modifiedPost.comments = comments;
-                    });
-                    post.group(post.group_id,function(group){
-                        modifiedPost.group = group;
-                    });
-                    return modifiedPost;
-            }); 
-            return modifiedPosts;           
-        },
-        modifyPost: function(post){
-            let modifiedPost = post.processPost(post);
-            let modifiedComments;
+        modifyPost: function(post,cb){
+             let modifiedPost = post.processPost(post);
+             let modifiedComments;
 
-            post.comments(post._id,function(comments){                         
-                        ////add user object to post.comments
-                    //console.log('comments...'+JSON.stringify(comments));
-                    modifiedComments = comments.map(function(v){
-                        let modifiedComment = v;
-                        User.findOne({'_id':v.user_id}).exec().then(function(user){
-                            modifiedComment.user = user.processUser(user);
-                            logger.debug('userbyid\'s commnet first'+JSON.stringify( modifiedComment));
-                            return modifiedComment;
-                        });
-                        logger.debug('modifiedComment first'+JSON.stringify( modifiedComment));
-                        return modifiedComment;
-                    });
-                    
+            let getComments = new Promise(function(resolve,reject){
+                 post.comments(post._id,function(comments){ 
+                     resolve(comments);
+                 });   
+             });
+             let getGroup = new Promise(function(resolve,reject){
+                 post.group(post.group_id,function(group){
+                     resolve(group);
+                 });
+             });
 
-                    logger.debug('modifiedComments...'+JSON.stringify(modifiedComments));
+             Promise.all([getComments,getGroup]).then(function(values){
+                for(let i=0;i<values.length;i++){
+                    modifiedPost.comments = values[0];
+                    modifiedPost.group = values[1];
+                }
+                //logger.debug('modifiedPost in modifyPost function'+modifiedPost);
+                cb(modifiedPost);
+             });
 
-                    //add post.comments              
-                    modifiedPost.comments = modifiedComments;
-                    logger.debug('modifiedPost in modifiedPost util func'+JSON.stringify(modifiedPost));
-                   
-            });
-            logger.debug('console.log(modifiedComments);'+modifiedComments);
-            
-            
-            post.group(post.group_id,function(group){
-                modifiedPost.group = group;
-                
-            });  
-            return modifiedPost;
-    
-
-            
-        },            
+        },          
         /**
          * 根据用户名列表查找用户列表
          * Callback:
@@ -151,35 +125,32 @@ module.exports = {
                         });
                 });
                 findPost.then(function(post){
-                    let newPost = globalThis.modifyPost(post);
-                    post.user(post.user_id,theuser=>{
-                                let loginedUser;
-                                if(req.user){
-                                    loginedUser = req.user.processUser(req.user);
-                                }      
-                                //newPost.comments
-                                // for(let c of newPost.comments){
-                                //     console.log(c.user);
-                                // }
-                              logger.debug('post.comments',JSON.stringify(newPost.comments));
-                
+                   // let newPost = globalThis.modifyPost(post);
+                    globalThis.modifyPost(post,function(myPost){
+                            post.user(post.user_id,theuser=>{
+                                        let loginedUser;
+                                        if(req.user){
+                                            loginedUser = req.user.processUser(req.user);
+                                        }      
+                                        logger.debug('post.comments',JSON.stringify(myPost.comments));
+                                        res.render(path, {
+                                                user: req.user ? req.user.processUser(req.user) : req.user,
+                                                postUser: req.user ? (req.user._id == post.user_id ? loginedUser : theuser) : theuser,
+                                                post: myPost,
+                                                //user_created_at: user_created_at,
 
-                                res.render(path, {
-                                        user: req.user ? req.user.processUser(req.user) : req.user,
-                                        postUser: req.user ? (req.user._id == post.user_id ? loginedUser : theuser) : theuser,
-                                        post: newPost,
-                                        //user_created_at: user_created_at,
+                                                title: myPost.title,
+                                                keywords:myPost.title,
+                                                description:myPost.intro,
 
-                                        title: newPost.title,
-                                        keywords:newPost.title,
-                                        description:newPost.intro,
+                                                messages: {
+                                                    error: req.flash('error'),
+                                                    success: req.flash('success'),
+                                                    info: req.flash('info'),
+                                                }, // get the user out of session and pass to template
+                                        });
 
-                                        messages: {
-                                            error: req.flash('error'),
-                                            success: req.flash('success'),
-                                            info: req.flash('info'),
-                                        }, // get the user out of session and pass to template
-                                });
+                            });
 
                     });
                     logger.debug("Done");
@@ -219,10 +190,10 @@ module.exports = {
                     }else if(args[3]){
                         query.group_id = name;
                     }
-                    console.log(`query[${name}] is`+ Object.keys(query));
+                    //console.log(`query[${name}] is`+ Object.keys(query));
                 }
                 
-                const promis = new Promise(function(resolve,reject){
+                const getCount = new Promise(function(resolve,reject){
                     //使用 count 返回特定查询的文档数 total    
                     Post.count(query, ( err, count)=>{
                         //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
@@ -235,7 +206,7 @@ module.exports = {
                         resolve(count);
                     });  
                 });
-                promis.then(function(count){
+                getCount.then(function(count){
                     Post.find(query).skip((page-1)*10).limit(10).sort({'updated_at':-1}).exec((err,posts)=>{
                             if (err) {
                                logger.error(`no posts found: ${err}`);
@@ -243,11 +214,19 @@ module.exports = {
                                res.redirect('/response/error/404');
                             }
                             //console.log('Posts inthe getTen function is: '+posts);
-                            const modifiedPosts = globalThis.modifyPosts(posts); 
+                            
+                                // console.log('modifiedPosts: '+JSON.stringify(modifiedPosts));
+                               // let modifiedPosts = globalThis.modifyPosts(posts);
+                               let myPosts = [];
+                               posts.forEach(function(post){
+                                  globalThis.modifyPost(post,function(apost){
+                                      myPosts.push(apost);
+                                      if(myPosts.length == posts.length){
+                                        callback(null, myPosts, count);//provide the params(caluated values),and what to do? you need to figure it out yourself
+                                      }
 
-                            logger.debug('modifiedPosts: '+modifiedPosts);
-                            callback(null, modifiedPosts, count);//provide the params(caluated values),and what to do? you need to figure it out yourself
-
+                                  });
+                               });
                                     
                     });
                 })
