@@ -249,7 +249,7 @@ module.exports =  {
        showPost: (req,res)=>{
              const title = req.params.title;
              logger.debug('title is '+title);
-             postProxy.getPostByTitle(req,res,title,'post/showOne');
+             postProxy.getPostByTitle(req,res, title,'post/showOne');
        },
 
       //  getAllPosts: function(req,res){

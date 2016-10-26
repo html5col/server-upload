@@ -4,7 +4,9 @@ const User    = require('../models/User'),
       Comment = require('../models/Comment'),
       userProxy = require('../db_proxy/user'),
       moment = require('moment'),
-      util = require('../lib/utility'),
+      helper = require('../lib/utility'),
+      validator = require('validator'),
+      xss = require('xss'),      
       logger = require('../lib/logger');                           
 
 module.exports = {
@@ -122,7 +124,6 @@ module.exports = {
 
         getPostByTitle:  function(req,res,title,path){
             const globalThis = this;
-            
 
             if(!title){
                 req.flash('error','文章标题不存在！');

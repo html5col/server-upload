@@ -8,6 +8,7 @@ const mongoose = require('mongoose'),
       Comment = require('./Comment'),
       Group  = require('./Group'),
       logger = require('../lib/logger'),
+      helper = require('../lib/utility'),
       moment = require('moment');
 
 // create a schema
@@ -60,9 +61,14 @@ postSchema.pre('save', function(next) {
   if (!this.created_at){
     this.created_at = currentDate;
   }
+
+  
   next();
 });
 
+postSchema.methods.slugify = function(text){
+   return helper.slugify(text);
+};
 
 postSchema.methods.time = time=> {
     return moment(time).format('L');
