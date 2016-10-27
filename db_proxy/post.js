@@ -207,7 +207,7 @@ module.exports = {
                     });  
                 });
                 getCount.then(function(count){
-                    Post.find(query).skip((page-1)*10).limit(10).sort({'updated_at':-1}).exec((err,posts)=>{
+                    Post.find(query).skip((page-1)*5).limit(5).sort({'updated_at':-1}).exec((err,posts)=>{
                             if (err) {
                                logger.error(`no posts found: ${err}`);
                                //throw.error('no post found');
