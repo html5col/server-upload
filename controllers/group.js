@@ -194,7 +194,7 @@ module.exports = {
                                             group.save((err)=>{
                                                     if(err){
                                                         logger.error(err);
-                                                        req.flash('error',`出现错误： ${err}`);
+                                                        req.flash('error',`Please try agian`);
                                                         res.redirect('back');
                                                     }else{
                                                         
@@ -208,7 +208,7 @@ module.exports = {
 										saveFileInfo();
                                     }else{
 										logger.info('user not login');
-										req.flash('error','请先登录！');
+										req.flash('error','Log In first！');
 										res.redirect(303, '/user/login');
 									}								
 							}
@@ -428,7 +428,7 @@ module.exports = {
                                         const group_id = req.params.group_id;
                                         Group.findById(group_id, function(err,group){
                                             if(err){
-                                                req.flash('error','小组不存在！');
+                                                req.flash('error','No such group！');
                                                 res.redirect('back');
                                             }
                                             //fs.unlink(`/upload/groupLogo/${time}${group.logo}`,function(err){
@@ -445,7 +445,7 @@ module.exports = {
                                                                 }else{
                                                                     //tagProxy.saveSingle(req,res,post,tags);
                                                                     logger.debug(`your group updated successfully: ${group._id}`);
-                                                                    req.flash('success','更新成功！');
+                                                                    req.flash('success','Updating successfully！');
                                                                     res.redirect(`/group/single/${group._id}`);
                                                                     //res.redirect('/');
                                                                 }
@@ -461,14 +461,14 @@ module.exports = {
                                         
                                      
                                     }else{
-                                        req.flash('error','提交不符合规则！');
+                                        req.flash('error','Please fill the right data！');
                                         res.redirect(303, 'back');                                        
                                     }
 
 
                               }else{
                                     logger.info('user not login');
-                                    req.flash('error','请先登录！');
+                                    req.flash('error','Log in frist！');
                                     res.redirect(303, '/user/login');
                               }	
 
@@ -480,7 +480,7 @@ module.exports = {
                   } catch(ex){
                         logger.error(ex);
                         return res.xhr ?
-                        res.json({error: '数据库错误！'}):
+                        res.json({error: 'error in database！'}):
                         res.redirect(303, '/response/error/500');
                   }            
 

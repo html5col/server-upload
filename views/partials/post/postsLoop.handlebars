@@ -16,18 +16,19 @@
             <div class="leftText">
               <h2>{{title}}</h2>
               <p><a href="/post/show/{{title}}" external> {{{intro}}}...</a></p>
-            </div><!----><div class="rightImg" style="background-image:url('/upload/postLogo/{{image}}');">
+            </div><!--
+            --><div class="rightImg" style="background-image:url('/upload/postLogo/{{image}}');">
             </div>
           </div>
           <div style="clear:all" class="bottomLine">
 
-            <p>{{author}} 作品</p> 
+            <p>{{author}}'s Work</p> 
 
 
             {{#if ../isProfile}}
                {{#if ../isMyPosts}}
                 <span>
-                  <a href="#" class="create-actions">管理</a>
+                  <a href="#" class="create-actions">Manage</a>
                   <input type="hidden" value="/post/edit/{{_id}}" class="editId">
                   <input type="hidden" value="/post/delete/{{_id}}" class="deleteId">                
                 </span>

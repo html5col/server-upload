@@ -103,7 +103,6 @@ module.exports = function(grunt){
                 src: [
                    '<%= paths.release %>/js/app.min.js',
                    '<%= paths.release %>/css/app.min.css',
- 
                 ],
                 dest: [
                    'views/layouts/main.handlebars',

@@ -88,7 +88,7 @@ module.exports = {
                    //err.message is for error object
                    //Promise chaining allows you to catch errors that may occur in a fulfillment or rejection handler from a previous promise. For example:
                   logger.debug(err.message ? err.message : err);
-                  req.flash('error','没找到用户!');
+                  req.flash('error','No such user!');
                   res.redirect('back');
                });
             
@@ -100,7 +100,7 @@ module.exports = {
             const globalThis = this;
 
             if(!title){
-                req.flash('error','文章标题不存在！');
+                req.flash('error','No title exsit！');
                 res.redirect('back');
             }else{
 
@@ -157,7 +157,7 @@ module.exports = {
                 })
                .catch(function(err){
                   logger.error(`error With title ${title}: ${err.message ? err.message : err}`);
-                  req.flash('error','读取文章出错!');
+                  req.flash('error','No such post!');
                   res.redirect('back');
                });
 

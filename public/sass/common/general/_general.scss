@@ -13,9 +13,7 @@
 //two ways to do this ,first without using sass,as follows:
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color:    lighten(#e3e3e3,3%);
-
     font-size: 1em;
-
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
    color:    lighten(#e3e3e3,3%);
@@ -50,7 +48,6 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{
 a{text-decoration:none;}
 
 a,input[type="button"],input[type="submit"],input[type="search"]{
-
 	-ms-touch-action:none;
 	touch-action:none;
 	//the following two attribute is very important in iphone in case the padding bug and the radius bug //Some browsers use additional default CSS for some input types (email, search). These might affect the rendering in unexpected ways. Use the properties -webkit-appearance and -moz-appearance to change that.
@@ -62,7 +59,6 @@ a,input[type="button"],input[type="submit"],input[type="search"]{
     @include user-select-none;   
     @include radius(0px);
     border:0;  
-
 }
 
 pre{

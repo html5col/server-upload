@@ -19,7 +19,7 @@
                 返回-->
               </a>
                <a class="icon icon-menu pull-right open-panel" href="#"></a>
-              <h1 class='title'>最新话题</h1>
+              <h1 class='title'>Latest Topic</h1>
             </header>            
 
             <!-- 工具栏 -->
@@ -67,22 +67,25 @@
 
 
       
-       {{#extend 'js'}}
-         <!--<script>
-           (function(){
-             var download = document.getElementsByClassName('download');
+    {{#extend 'js'}}
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/layzr.js/2.0.2/layzr.min.js"></script>
+    <script>
+      (function(){
+        var instance = Layzr({
+          normal: 'data-normal',
+          //retina: 'data-retina',
+          //srcset: 'data-srcset',
+          //threshold: 5
+        });
+        instance.on('src:after', function(element) {
+          element.parentNode.style.backgroundImage = "url(" + element.getAttribute('src') + ")";
+        })
 
+      }());
 
-               [].prototype.forEach.call(download,function(v){
-                 if($.device.webView){
-                   v.display = none;
-                  }
-               });
+    </script>-->
 
-             
-           }());
-         </script>-->
-       {{/extend}}
+    {{/extend}}
 
     
 

@@ -16,7 +16,7 @@
               
 
                <a class="pull-right open-form" href="#form"><span class="icon icon-message"></span></a>
-              <h1 class='title'>来自 {{post.group.title}}</h1>
+              <h1 class='title'>From {{post.group.title}}</h1>
             </header>            
 
 
@@ -40,7 +40,7 @@
                             {{/if}}
                         </div><!--
                       --><div class="rightIntro">
-                            <span>{{ postUser.username }} <span>的日记</span></span> 
+                            <span>{{ postUser.username }}'s <span>的日记</span></span> 
                             <span>{{ post.updated_at }} &nbsp {{post.pv}} pv</span>
                          </div>
                     </div>
@@ -62,9 +62,9 @@
 
                     <p class="commentTop"> 
                         {{#if post.comments.length}}
-                        {{post.comments.length}} 回复
+                        {{post.comments.length}} Responses
                         {{else}}
-                        暂无回复
+                        No response yet
                         {{/if}}
                         
                     </p>
