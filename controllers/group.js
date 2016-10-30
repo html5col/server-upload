@@ -125,64 +125,159 @@ module.exports = {
         },
         newGroupUpload(req,res){
 
-                const uploadFiles = require('../common/file')(req,res,null,null,'group_exist');
-                logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
-                uploadFiles.getData(function(err,fields,files,photoName){
-                    logger.debug('enter into getData');
-                    if(err){
-                            logger.error('error when uploadFile: '+err);
-                            res.redirect('/');
-                    }     
+            //     const uploadFiles = require('../common/file')(req,res,null,null,'group_exist');
+            //     logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
+            //     uploadFiles.getData(function(err,fields,files,photoName){
+            //         logger.debug('enter into getData');
+            //         if(err){
+            //                 logger.error('error when uploadFile: '+err);
+            //                 res.redirect('/');
+            //         }     
 
-                    if(req.user){
-                        function saveFileInfo(){
+            //         if(req.user){
+            //             function saveFileInfo(){
                             
-                            const group = new Group(),
-                                    user = req.user,
-                                    title = validator.trim(xss(fields.title)),
-                                    category = fields.category,
-                                    //privateOnly = fields.private,
-                                    intro = validator.trim(xss(fields.intro));
+            //                 const group = new Group(),
+            //                         user = req.user,
+            //                         title = validator.trim(xss(fields.title)),
+            //                         category = fields.category,
+            //                         //privateOnly = fields.private,
+            //                         intro = validator.trim(xss(fields.intro));
                                     
-                            if(!(title.length > 4)  || !(files.photo.name.length) || !(intro.length>10)){
-                                    logger.info('input need to do like it required');
-                                    req.flash('error','Fill it as required!');
-                                    return res.redirect(303, 'back');                                      
-                            }    
+            //                 if(!(title.length > 4)  || !(files.photo.name.length) || !(intro.length>10)){
+            //                         logger.info('input need to do like it required');
+            //                         req.flash('error','Fill it as required!');
+            //                         return res.redirect(303, 'back');                                      
+            //                 }    
 
-                            group.author = user.local.username;
-                            group.user_id = user._id;
-                            group.title = title;
-                            group.intro = intro;
-                            //group.private = privateOnly;
-                            group.category = category;
-                            group.logo = photoName;
-                            logger.debug('group: '+ JSON.stringify(group));
+            //                 group.author = user.local.username;
+            //                 group.user_id = user._id;
+            //                 group.title = title;
+            //                 group.intro = intro;
+            //                 //group.private = privateOnly;
+            //                 group.category = category;
+            //                 group.logo = photoName;
+            //                 logger.debug('group: '+ JSON.stringify(group));
                             
                             
-                            group.save((err)=>{
-                                    if(err){
-                                        logger.error(err);
-                                        req.flash('error',`Please try agian`);
-                                        res.redirect('back');
-                                    }else{
-                                        logger.debug('enter into save');
-                                        logger.debug(`创建小组成功: ${group._id}`);
-                                        req.flash('success','创建小组成功，等待审核!');
-                                        res.redirect('/group/single/'+ group._id);
+            //                 group.save((err)=>{
+            //                         if(err){
+            //                             logger.error(err);
+            //                             req.flash('error',`Please try agian`);
+            //                             res.redirect('back');
+            //                         }else{
+            //                             logger.debug('enter into save');
+            //                             logger.debug(`创建小组成功: ${group._id}`);
+            //                             req.flash('success','创建小组成功，等待审核!');
+            //                             res.redirect('/group/single/'+ group._id);
+            //                         }
+            //                 });                                            
+
+            //             }
+            //             saveFileInfo();
+            //         }else{
+            //             logger.info('user not login');
+            //             req.flash('error','Log In first！');
+            //             res.redirect(303, '/user/login');
+            //         }
+
+            //   });
+                    let dataDir = config.uploadDir;
+					logger.debug(dataDir);
+					let photoDir = dataDir + 'groupLogo/';
+
+                    helper.checkDir(dataDir);
+					helper.checkDir(photoDir);		
+				    try{
+				        //store the data to the database
+				        const form = new formidable.IncomingForm();
+				        form.parse(req,(err,fields,file)=>{
+				            if(err){
+									req.flash('error','form parse error:' + err);
+									return res.redirect(500, '/response/err/500');
+							}else{
+									const photo = file.photo;
+									
+									//let personalDir = `${req.user._id}/`;
+									let thedir = photoDir;
+									//prevent uploading file with the same name
+                                    if(validator.isEmpty(file.photo.name)){
+                                        logger.error('the photo uploaded in groupUpload is emtpy or the photo name not existing');
+                                        req.flash('error','The image uploaded is empty!');
+                                        return res.redirect('back');
                                     }
-                            });                                            
 
-                        }
-                        saveFileInfo();
-                    }else{
-                        logger.info('user not login');
-                        req.flash('error','Log In first！');
-                        res.redirect(303, '/user/login');
-                    }
+									const photoName = Date.now() + validator.trim(xss(photo.name)); 
+									
+									const fullPath = thedir + photoName;
 
-              });
-                 
+									//checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
+									helper.checkDir(thedir,()=>{
+										fs.rename(photo.path, fullPath, err=>{
+											if (err) {logger.error(err); return; }
+											logger.debug('The file has been re-named to: ' + fullPath);
+										});										
+									});
+
+									logger.debug('the dir is :' + thedir);
+									logger.debug(photo.name,photo.path,fullPath);
+                                    
+									//rename or move the file uploaded;and photo.path is the temp file Formidable give
+													
+									if(req.user){
+										function saveFileInfo(){
+                                            
+                                            const group = new Group(),
+                                                    user = req.user,
+                                                    title = validator.trim(xss(fields.title)),
+                                                    category = fields.category,
+                                                    //privateOnly = fields.private,
+                                                    intro = validator.trim(xss(fields.intro));
+                                                    
+                                            if(validator.isEmpty(title) && validator.isEmpty(intro)){
+                                                logger.error('Field(s) empty!');
+                                                req.flash('error','Field(s) empty!');
+                                                return res.redirect('back');                                            
+                                            }
+                                            group.author = user.local.username;
+                                            group.user_id = user._id;
+                                            group.title = title;
+                                            group.intro = intro;
+                                            //group.private = privateOnly;
+                                            group.category = category;
+                                            group.logo = photoName;
+                                            
+                                            
+                                            group.save((err)=>{
+                                                    if(err){
+                                                        logger.error(err);
+                                                        req.flash('error',`Please try agian`);
+                                                        res.redirect('back');
+                                                    }else{
+                                                        
+                                                        logger.debug(`创建小组成功: ${group._id}`);
+                                                        req.flash('success','创建小组成功，等待审核!');
+                                                        res.redirect('/group/single/'+ group._id);
+                                                    }
+                                            });                                            
+
+										}
+										saveFileInfo();
+                                    }else{
+										logger.info('user not login');
+										req.flash('error','Log In first！');
+										res.redirect(303, '/user/login');
+									}								
+							}
+
+				        });
+
+
+				    } catch(ex){
+				        return res.xhr ?
+				            res.json({error: 'Database error.'}):
+				            res.redirect(303, '/response/error/500');
+				    }                
 
         },
         singleGroup(req,res){
