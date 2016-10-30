@@ -70,19 +70,18 @@
     {{#extend 'js'}}
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/layzr.js/2.0.2/layzr.min.js"></script>
     <script>
-      (function(){
+     (function(){
         var instance = Layzr({
-          normal: 'data-normal',
-          //retina: 'data-retina',
-          //srcset: 'data-srcset',
-          //threshold: 5
+          threshold: 20,
         });
-        instance.on('src:after', function(element) {
-          element.parentNode.style.backgroundImage = "url(" + element.getAttribute('src') + ")";
-        })
 
-      }());
-
+        document.addEventListener('DOMContentLoaded', function(event) {
+          instance
+            .update()           // track initial elements
+            .check()            // check initial elements
+            .handlers(true)     // bind scroll and resize handlers
+        });
+     }());
     </script>-->
 
     {{/extend}}

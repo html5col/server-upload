@@ -95,77 +95,6 @@ module.exports = {
   
         },
 
-
-        getPostByTitle:  function(req,res,title,path){
-            const globalThis = this;
-
-            if(!title){
-                req.flash('error','No title exsit！');
-                res.redirect('back');
-            }else{
-
-               let findPost =  new Promise(function(resolve,reject){
-                       let conditions = { 'title': title };
-                        Post.findOne(conditions,function(err,post){
-                                if (err) {
-                                    reject(err);
-                                    return
-                                } else {
-                                    //setting view times
-                                    let update = { $inc: { 'pv': 1 }};//increment
-                                    Post.findOneAndUpdate(conditions, update, function(err,post){
-                                        if(err){
-                                            logger.error(`there is error when update the pv: ${err}`);
-                                            reject(err);
-                                        }
-                                    });   
-                                    resolve(post);                                 
-                            
-                              }                            
-                        });
-                });
-                findPost.then(function(post){
-                   // let newPost = globalThis.modifyPost(post);
-                    globalThis.modifyPost(post,function(myPost){
-                            post.user(post.user_id,theuser=>{
-                                        let loginedUser;
-                                        if(req.user){
-                                            loginedUser = req.user.processUser(req.user);
-                                        }      
-                                        logger.debug('post.comments',JSON.stringify(myPost.comments));
-                                        res.render(path, {
-                                                user: req.user ? req.user.processUser(req.user) : req.user,
-                                                postUser: req.user ? (req.user._id == post.user_id ? loginedUser : theuser) : theuser,
-                                                post: myPost,
-                                                //user_created_at: user_created_at,
-
-                                                title: myPost.title,
-                                                keywords:myPost.title,
-                                                description:myPost.intro,
-
-                                                messages: {
-                                                    error: req.flash('error'),
-                                                    success: req.flash('success'),
-                                                    info: req.flash('info'),
-                                                }, // get the user out of session and pass to template
-                                        });
-
-                            });
-
-                    });
-                    logger.debug("Done");
-                })
-               .catch(function(err){
-                  logger.error(`error With title ${title}: ${err.message ? err.message : err}`);
-                  req.flash('error','No such post!');
-                  res.redirect('back');
-               });
-
-
-        }//end of else
-            
-   },
-
         /**
          * get 10 posts per page
          * Callback:
@@ -251,6 +180,63 @@ module.exports = {
         // },
 
 
+        /**
+         * get post by id.return a promise
+         * @param {String} id 
+         */        
+        getPostById: function(id){
+            if(!id){
+                req.flash('error','No id exsit！');
+                res.redirect('back');
+            }else{
+               const findPost =  new Promise(function(resolve,reject){
+                       Post.findById(id,function(err,post){
+                                if (err) {
+                                    logger.error(`something wrong when getPostById:${err}`);
+                                    reject(err);
+                                    return
+                                } else {
+                                    //setting view times
+                                    resolve(post.processPost(post));
+                              }                            
+                        });
+              }); //findPost
+              return findPost;
+           }//else  
+        },
+
+        /**
+         * get post by title.return a promise
+         * @param {String} title 
+         */
+        getPostByTitle: function(title){
+            if(!title){
+                req.flash('error','No title exsit！');
+                res.redirect('back');
+            }else{
+               let findPost =  new Promise(function(resolve,reject){
+                       let conditions = { 'title': title };
+                        Post.findOne(conditions,function(err,post){
+                                if (err) {
+                                    reject(err);
+                                    return
+                                } else {
+                                    //setting view times
+                                    let update = { $inc: { 'pv': 1 }};//increment
+                                    Post.findOneAndUpdate(conditions, update, function(err,post){
+                                        if(err){
+                                            logger.error(`there is error when update the pv: ${err}`);
+                                            reject(err);
+                                        }
+                                        resolve(post);   
+                                    });   
+                              }                            
+                        });
+              }); //findPost
+
+              return findPost;
+          }//else   
+      },
 
 
 };                       

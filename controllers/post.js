@@ -1,5 +1,5 @@
 "use strict";
-let moment = require('moment'),
+const moment = require('moment'),
     Post = require('../models/Post'),
     User = require('../models/User'),
     Comment = require('../models/Comment'),
@@ -9,13 +9,18 @@ let moment = require('moment'),
     tagProxy = require('../db_proxy/tag'),
     config = require('../config/config'),
     seo = require('../config/seo'),
-    fs = require('fs'),
     helper = require('../lib/utility'),
     bodyParser   = require('body-parser'),
+    path = require('path'),
     logger = require('../lib/logger'),
     validator = require('validator'),
     xss = require('xss'),  
-    formidable = require('formidable');
+    fs = require('fs'),
+    formidable = require('formidable'),
+    im = require('gm').subClass({imageMagick: true});
+
+const appDir = path.dirname(require.main.filename),
+      uploadDir = path.join(appDir,'public/upload/');
 
 module.exports =  {
      
@@ -66,101 +71,194 @@ module.exports =  {
             
       },
       postWithUpload:(req,res)=>{
+                const uploadFiles = require('../common/file')(req,res,'post_exist');
+                logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
+                uploadFiles.getData(function(err,fields,file,photoName){
+                  if(err){
+                        logger.debug('error when uploadFile: '+err);
+                        redirect.back('/');;
+                  }
 
-                  let dataDir = config.uploadDir;
+                  logger.debug('get into the getData func');
+                   if(req.user){
+                        function saveFileInfo(){
+                              const user = req.user.processUser(req.user),
+                                    title = validator.trim(xss(fields.title)),
+                                    content = validator.trim(xss(fields.content)),
+                                    tags = validator.trim(xss(fields.tags)),
+                                    category = fields.category,
+                                    // intro = fields.intro,
+                                    group_id = fields.group_id;
 
-                  logger.debug(dataDir);
-                  let photoDir = dataDir + 'postLogo/';
-
-                  helper.checkDir(dataDir);
-			helper.checkDir(photoDir);		
-                  try{
-                        //store the data to the database
-                    const form = new formidable.IncomingForm();
-                    form.parse(req,(err,fields,file)=>{
-                        if(err){
-                              logger.error('formidable form parse error'+err);
-                              req.flash('error','form parse error:' + err);
-                              return res.redirect(500, '/response/err/500');
-                        }else{
-                              const photo = file.photo;
                               
-                              //let personalDir = `${req.user._id}/`;
-                              let thedir = photoDir;
-                              //prevent uploading file with the same name
+                              const post = new Post();
+                              post.author = user.username;
+                              post.user_id = user._id;
+                              post.title = title;
+                              post.content = content;
+                              //post.intro = intro;
+                              post.group_id = group_id;
 
-                              const photoName = Date.now() + validator.trim(xss(photo.name)); 
+                              post.category = category;
+                              post.image = photoName;
+
                               
-                              const fullPath = thedir + photoName;
-
-                              //checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-                              helper.checkDir(thedir,()=>{
-                                    fs.rename(photo.path, fullPath, err=>{
-                                          if (err) {logger.error(err); return; }
-                                          logger.debug('The file has been re-named to: ' + fullPath);
-                                    });										
-                              });
-
-                              logger.debug('the dir is :' + thedir);
-                              logger.debug(photo.name,photo.path,fullPath);
             
-                              //rename or move the file uploaded;and photo.path is the temp file Formidable give
+                              post.save((err)=>{
+                                    if(err){
+                                          logger.error('post save error'+err);
+                                          req.flash('error',`发布文章失败`);
+                                          res.redirect('back');
+                                    }else{
+                                          tagProxy.saveSingle(req,res,post,tags);
+                                          logger.debug(`your post saved successfully: ${post._id}`);
+                                          req.flash('success','发布成功！');
+                                          
+                                          res.redirect(`/post/show/${post.title}`);
+                                          //res.redirect('/');
+                                    }
+                              });                                            
+
+                        }
+                        saveFileInfo();
+                  }else{
+                        logger.info('user not login');
+                        req.flash('error','请先登录！');
+                        res.redirect(303, '/user/login');
+                  }                     
+                });
+            //     .catch(function(err){
+            //             logger.error(`error when post the post ${err}`);
+            //             req.flash('error',"数据库出错");
+            //             return res.xhr ?
+            //             res.json({error: '数据库错误！'}):
+            //             res.redirect('back');                      
+            //     });
+             
+
+                  // let dataDir = config.uploadDir;
+
+                  // logger.debug(dataDir);
+                  // let photoDir = dataDir + 'postLogo/';
+
+                  // helper.checkDir(dataDir);
+			// helper.checkDir(photoDir);		
+                  // try{
+                  //       //store the data to the database
+
+                  // // formiable: {"photo":{"size":105397,"path":"/var/folders/vq/cdlwyckx68zdf586bd3c789h0000gn/T/upload_ab831f8c46383a1c8262ae71beac828c","name":"<script>leee<:script>.jpg","type":"image/jpeg","mtime":"2016-10-27T11:56:16.271Z"}}
+                  //   const form = new formidable.IncomingForm();
+                  //   form.parse(req,(err,fields,files)=>{
+                  //       if(err){
+                  //             logger.error('formidable form parse error'+err);
+                  //             req.flash('error','form parse error:' + err);
+                  //             return res.redirect(500, '/response/err/500');
+                  //       }else{
+                  //             const photo = files.photo,
+                  //                   size = photo.size,
+                  //                   path = photo.path;
+
+                  //             logger.debug(`file in formiable: ${JSON.stringify(files)}`);
+                  //            //1TB = 1024GB = 1024*1024MB = 1024*1024*1024KB = 1024*1024*1024*1024Byte = 1024*1024*1024*8 bit
+                  //             if(size > 1*1024*1024){//1mb
+                  //               fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
+                  //                  logger.debug('file is more than 1 mb and be deleted.Please upload smaller one');
+                  //                  res.redirect('back');
+                  //               });                                   
+                  //             }else if(photo.type.split('/')[0] != 'image'){
+                  //                   logger.debug('file is not a valid image file');
+                  //                   res.redirect('back');                                 
+                  //             }
+                              
+                  //             //let personalDir = `${req.user._id}/`;
+                  //             let thedir = photoDir;
+                  //             //prevent uploading file with the same name
+
+                  //             const photoName = Date.now() + validator.trim(xss(photo.name)); 
+                              
+                  //             const fullPath = thedir + photoName;
+
+                  //             //checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
+                  //             im(path)
+                  //             .resize(300,250,'!')
+                  //             .autoOrient()
+                  //             .write(fullPath,function(err){
+                  //                   if (err) {
+                  //                         logger.error('imageMagic write error: '+ err); 
+                  //                         return; 
+                  //                   }
+                  //                   logger.debug('The file has been re-named to: ' + fullPath);
+                  //                   fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
+                  //                     logger.debug('file is removed after renaming it');
+                  //                   });   
+                  //             });
+                  //             // helper.checkDir(thedir,()=>{
+                  //             //       fs.rename(path, fullPath, err=>{
+                  //             //             if (err) {logger.error(err); return; }
+                  //             //             logger.debug('The file has been re-named to: ' + fullPath);
+                  //             //       });										
+                  //             // });
+
+                  //             logger.debug('the dir is :' + thedir);
+                  //             logger.debug(photo.name,photo.path,fullPath);
+            
+                  //             //rename or move the file uploaded;and photo.path is the temp file Formidable give
                                                       
-                              if(req.user){
-                                    function saveFileInfo(){
-                                          const user = req.user.processUser(req.user),
-                                                title = validator.trim(xss(fields.title)),
-                                                content = validator.trim(xss(fields.content)),
-                                                tags = validator.trim(xss(fields.tags)),
-                                                category = fields.category,
-                                               // intro = fields.intro,
-                                                group_id = fields.group_id;
+                  //             if(req.user){
+                  //                   function saveFileInfo(){
+                  //                         const user = req.user.processUser(req.user),
+                  //                               title = validator.trim(xss(fields.title)),
+                  //                               content = validator.trim(xss(fields.content)),
+                  //                               tags = validator.trim(xss(fields.tags)),
+                  //                               category = fields.category,
+                  //                              // intro = fields.intro,
+                  //                               group_id = fields.group_id;
 
                                           
-                                          const post = new Post();
-                                          post.author = user.username;
-                                          post.user_id = user._id;
-                                          post.title = title;
-                                          post.content = content;
-                                          //post.intro = intro;
-                                          post.group_id = group_id;
+                  //                         const post = new Post();
+                  //                         post.author = user.username;
+                  //                         post.user_id = user._id;
+                  //                         post.title = title;
+                  //                         post.content = content;
+                  //                         //post.intro = intro;
+                  //                         post.group_id = group_id;
 
-                                          post.category = category;
-                                          post.image = photoName;
+                  //                         post.category = category;
+                  //                         post.image = photoName;
 
                                           
                         
-                                          post.save((err)=>{
-                                                if(err){
-                                                      logger.error('post save error'+err);
-                                                      req.flash('error',`发布文章失败`);
-                                                      res.redirect('back');
-                                                }else{
-                                                      tagProxy.saveSingle(req,res,post,tags);
-                                                      logger.debug(`your post saved successfully: ${post._id}`);
-                                                      req.flash('success','发布成功！');
+                  //                         post.save((err)=>{
+                  //                               if(err){
+                  //                                     logger.error('post save error'+err);
+                  //                                     req.flash('error',`发布文章失败`);
+                  //                                     res.redirect('back');
+                  //                               }else{
+                  //                                     tagProxy.saveSingle(req,res,post,tags);
+                  //                                     logger.debug(`your post saved successfully: ${post._id}`);
+                  //                                     req.flash('success','发布成功！');
                                                      
-                                                      res.redirect(`/post/show/${post.title}`);
-                                                      //res.redirect('/');
-                                                }
-                                          });                                            
+                  //                                     res.redirect(`/post/show/${post.title}`);
+                  //                                     //res.redirect('/');
+                  //                               }
+                  //                         });                                            
 
-                                    }
-                                    saveFileInfo();
-                              }else{
-                                    logger.info('user not login');
-                                    req.flash('error','请先登录！');
-                                    res.redirect(303, '/user/login');
-                              }								
-                         }
+                  //                   }
+                  //                   saveFileInfo();
+                  //             }else{
+                  //                   logger.info('user not login');
+                  //                   req.flash('error','请先登录！');
+                  //                   res.redirect(303, '/user/login');
+                  //             }								
+                  //        }
 
-                    });//end of form.parse
+                  //   });//end of form.parse
 
-                  } catch(ex){
-                        return res.xhr ?
-                        res.json({error: '数据库错误！'}):
-                        res.redirect(303, '/response/error/500');
-                  }
+                  // } catch(ex){
+                  //       return res.xhr ?
+                  //       res.json({error: '数据库错误！'}):
+                  //       res.redirect(303, '/response/error/500');
+                  // }
 
     },
 
@@ -248,8 +346,42 @@ module.exports =  {
 
        showPost: (req,res)=>{
              const title = req.params.title;
-             logger.debug('title is '+title);
-             postProxy.getPostByTitle(req,res, title,'post/showOne');
+             postProxy.getPostByTitle(title).then(function(post){
+
+                    postProxy.modifyPost(post,function(myPost){
+                            post.user(post.user_id,theuser=>{
+                                        let loginedUser;
+                                        if(req.user){
+                                            loginedUser = req.user.processUser(req.user);
+                                        }      
+                                        logger.debug('post.comments',JSON.stringify(myPost.comments));
+                                        res.render('post/showOne', {
+                                                user: req.user ? req.user.processUser(req.user) : req.user,
+                                                postUser: req.user ? (req.user._id == post.user_id ? loginedUser : theuser) : theuser,
+                                                post: myPost,
+                                                //user_created_at: user_created_at,
+
+                                                title: myPost.title,
+                                                keywords:myPost.title,
+                                                description:myPost.intro,
+
+                                                messages: {
+                                                    error: req.flash('error'),
+                                                    success: req.flash('success'),
+                                                    info: req.flash('info'),
+                                                }, // get the user out of session and pass to template
+                                        });
+
+                            });
+
+                    });
+                    logger.debug("Done");
+                })
+               .catch(function(err){
+                  logger.error(`error With title ${title}: ${err.message ? err.message : err}`);
+                  req.flash('error','No such post!');
+                  res.redirect('back');
+               });
        },
 
       //  getAllPosts: function(req,res){
@@ -267,8 +399,8 @@ module.exports =  {
                         res.redirect('back');
                   }else{
                         postProxy.modifyPost(post, function(myPost){
-                              let tagObjArray = modifiedPost.tags;              
-                              logger.debug('tags'+JSON.stringify(modifiedPost.tags));
+                              //let tagObjArray = modifiedPost.tags;              
+                              //logger.debug('tags'+JSON.stringify(myPost.tags));
                               res.render('form/editPost', {
                                     user: req.user ? req.user.processUser(req.user) : req.user,
                                     post: myPost,
@@ -296,94 +428,148 @@ module.exports =  {
 
       editPost:(req,res)=>{
 
-                  let dataDir = config.uploadDir;
-                  logger.debug(dataDir);
-                  let photoDir = dataDir + 'postLogo/';
-		
-                  try{
-                        //store the data to the database
-                    const form = new formidable.IncomingForm();
-                    form.parse(req,(err,fields,file)=>{
+
+                const uploadFiles = require('../common/file')(req,res,'post_exist');
+                logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
+                uploadFiles.getData(function(err,fields,file,photoName){
+
+                        logger.debug('enter into getData');
                         if(err){
-                              logger.error('form parse error:' + err);
-                              req.flash('error','提交出错');
-                              return res.redirect(500, '/response/err/500');
+                              logger.error('error when uploadFile: '+err);
+                              redirect.back('/');;
+                        }
+
+                        let title = validator.trim(xss(fields.title)),
+                              //category = xss(fields.category),
+                              //image = photoName,
+                              content = validator.trim(xss(fields.content));
+                        
+                        if(!(title.length > 4)  || !(file.photo.name.length) || !(content.length>10)){
+                              logger.info('input need to do like it required');
+                              req.flash('error','提交不符合规则！');
+                              return res.redirect(303, 'back');                                      
+                        }     
+                        logger.debug('entering into restore data');
+            
+                        if(req.user){
+
+                              const options = {
+                                    title: title,
+                                    image: photoName,  
+                                    content:content,
+                                    
+                              };
+                              const  post_id = req.params.post_id;
+
+                              //const tags = xss(fields.tags);
+
+                              
+                              Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
+                                          if(err){
+                                                logger.error(err);
+                                                req.flash('error',`更新失败`);
+                                                res.redirect('back');
+                                          }else{
+                                                //tagProxy.saveSingle(req,res,post,tags);
+                                                logger.debug(`your post saved successfully: ${post._id}`);
+                                                req.flash('success','更新成功！');
+                                                res.redirect(`/post/show/${post.title}`);
+                                                //res.redirect('/');
+                                          }
+                             });
+
                         }else{
-                              const photo = file.photo;
+                              logger.info('user not login');
+                              req.flash('error','请先登录！');
+                              res.redirect(303, '/user/login');
+                        }                                   
+
+
+                });//uploadFile.getData
+
+
+                  // let dataDir = config.uploadDir;
+                  // logger.debug(dataDir);
+                  // let photoDir = dataDir + 'postLogo/';
+            
+                  //       //store the data to the database
+                  //       const form = new formidable.IncomingForm();
+                  //       form.parse(req,(err,fields,file)=>{
+                  //       if(err){
+                  //             logger.error('form parse error:' + err);
+                  //             req.flash('error','提交出错');
+                  //             return res.redirect(500, '/response/err/500');
+                  //       }else{
+                  //             const photo = file.photo;
                               
-                              //let personalDir = `${req.user._id}/`;
-                              let thedir = photoDir;
-                              //prevent uploading file with the same name
+                  //             //let personalDir = `${req.user._id}/`;
+                  //             let thedir = photoDir;
+                  //             //prevent uploading file with the same name
 
-                              const photoName = Date.now() + validator.trim(xss(photo.name)); 
+                  //             const photoName = Date.now() + validator.trim(xss(photo.name)); 
                               
-                              const fullPath = thedir + photoName;
-                              let title = validator.trim(xss(fields.title)),
-                                  //category = xss(fields.category),
-                                  //image = photoName,
-                                  content = validator.trim(xss(fields.content));
-                             
-                             if(title.length > 4  && photo.name.length && content.length>10){
+                  //             const fullPath = thedir + photoName;
+                  //             let title = validator.trim(xss(fields.title)),
+                  //                   //category = xss(fields.category),
+                  //                   //image = photoName,
+                  //                   content = validator.trim(xss(fields.content));
+                              
+                  //             if(title.length > 4  && photo.name.length && content.length>10){
 
-                                    helper.checkDir(thedir,()=>{
-                                          fs.rename(photo.path, fullPath, err=>{
-                                                if (err) {logger.error(err); return; }
-                                                logger.debug('The file has been re-named to: ' + fullPath);
-                                          });										
-                                    });                 
-                                    if(req.user){
+                  //                   helper.checkDir(thedir,()=>{
+                  //                         fs.rename(photo.path, fullPath, err=>{
+                  //                               if (err) {logger.error(err); return; }
+                  //                               logger.debug('The file has been re-named to: ' + fullPath);
+                  //                         });										
+                  //                   });                 
+                  //                   if(req.user){
 
-                                          const options = {
-                                                title: title,
-                                               
-                                                image: photoName,  
-                                                content:content,
+                  //                         const options = {
+                  //                               title: title,
                                                 
-                                          };
-                                          const  post_id = req.params.post_id;
+                  //                               image: photoName,  
+                  //                               content:content,
+                                                
+                  //                         };
+                  //                         const  post_id = req.params.post_id;
 
-                                          //const tags = xss(fields.tags);
+                  //                         //const tags = xss(fields.tags);
 
                                           
-                                          Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
-                                                      if(err){
-                                                            logger.error(err);
-                                                            req.flash('error',`更新失败`);
-                                                            res.redirect('back');
-                                                      }else{
-                                                            //tagProxy.saveSingle(req,res,post,tags);
-                                                            logger.debug(`your post saved successfully: ${post._id}`);
-                                                            req.flash('success','更新成功！');
-                                                            res.redirect(`/post/show/${post.title}`);
-                                                            //res.redirect('/');
-                                                      }
-                                          });
+                  //                         Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
+                  //                                     if(err){
+                  //                                           logger.error(err);
+                  //                                           req.flash('error',`更新失败`);
+                  //                                           res.redirect('back');
+                  //                                     }else{
+                  //                                           //tagProxy.saveSingle(req,res,post,tags);
+                  //                                           logger.debug(`your post saved successfully: ${post._id}`);
+                  //                                           req.flash('success','更新成功！');
+                  //                                           res.redirect(`/post/show/${post.title}`);
+                  //                                           //res.redirect('/');
+                  //                                     }
+                  //                         });
 
-                                    }else{
-                                          logger.info('user not login');
-                                          req.flash('error','请先登录！');
-                                          res.redirect(303, '/user/login');
-                                    }                                   
+                  //                   }else{
+                  //                         logger.info('user not login');
+                  //                         req.flash('error','请先登录！');
+                  //                         res.redirect(303, '/user/login');
+                  //                   }                                   
 
-                             }else{//if &&
-                                    logger.info('input need to do like it required');
-                                    req.flash('error','提交不符合规则！');
-                                    res.redirect(303, 'back');                                    
+                  //             }else{//if &&
+                  //                   logger.info('input need to do like it required');
+                  //                   req.flash('error','提交不符合规则！');
+                  //                   res.redirect(303, 'back');                                    
 
-                             }
+                  //             }
 
                               
 
-								
-                         }
+                                                
+                  //             }
 
-                    });//end of form.parse
+                  //       });//end of form.parse
 
-                  } catch(ex){
-                        return res.xhr ?
-                        res.json({error: '数据库错误！'}):
-                        res.redirect(303, '/response/error/500');
-                  }
 
       
     },
@@ -391,18 +577,31 @@ module.exports =  {
 
      deletePost: (req,res)=>{
            const post_id = req.params.post_id;
-            Post.remove({ '_id': post_id }, (err)=>{
-                  if(err){
-                        logger.error(`there is an error when removing the post : ${err}`);
-                        req.flash('error','删除文章错误！');
-                        res.redirect('back');
-                  }else{
-                        logger.debug(`The post with id of ${req.params.post_id} deleted successfully `);
-                        req.flash('success','文章已删除!');
-                        res.redirect('back');
+            postProxy.getPostById(post_id).then(function(post){
+                  if(post.image){
+                        logger.debug('post image: ' + post.image);
+                        fs.unlink(`${uploadDir}postLogo/${post.image}`, function() {	   //fs.unlink 删除用户上传的文件
+                              logger.debug('file is removed before deleting it');
+                        });  
                   }
-            });
+                  Post.remove({ '_id': post._id}, (err)=>{
+                        if(err){
+                              logger.error(`there is an error when removing the post : ${err}`);
+                              req.flash('error','删除文章错误！');
+                              res.redirect('back');
+                        }else{
 
+                              logger.debug(`The post with id of ${req.params.post_id} deleted successfully `);
+                              req.flash('success','文章已删除!');
+                              res.redirect('back');
+                        }
+                  });
+            })
+            .catch(function(err){
+                  logger.error(`error With deletepost with id ${post_id}: ${err.message ? err.message : err}`);
+                  req.flash('error','error with deleting post!');
+                  res.redirect('back');
+            });           
      },
 
      comment: (req,res)=>{

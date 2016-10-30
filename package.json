@@ -37,6 +37,7 @@
     "express-logger": "0.0.3",
     "express-session": "^1.14.0",
     "formidable": "^1.0.17",
+    "gm": "1.23.0",
     "helmet": "2.3.0",
     "ioredis": "^2.3.0",
     "method-override": "^2.3.6",

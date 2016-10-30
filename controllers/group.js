@@ -125,130 +125,76 @@ module.exports = {
         },
         newGroupUpload(req,res){
 
-                    let dataDir = config.uploadDir;
-					logger.debug(dataDir);
-					let photoDir = dataDir + 'groupLogo/';
+                const uploadFiles = require('../common/file')(req,res,null,null,'group_exist');
+                logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
+                uploadFiles.getData(function(err,fields,files,photoName){
+                    logger.debug('enter into getData');
+                    if(err){
+                            logger.error('error when uploadFile: '+err);
+                            res.redirect('/');
+                    }     
 
-                    helper.checkDir(dataDir);
-					helper.checkDir(photoDir);		
-				    try{
-				        //store the data to the database
-				        const form = new formidable.IncomingForm();
-				        form.parse(req,(err,fields,file)=>{
-				            if(err){
-									req.flash('error','form parse error:' + err);
-									return res.redirect(500, '/response/err/500');
-							}else{
-									const photo = file.photo;
-									
-									//let personalDir = `${req.user._id}/`;
-									let thedir = photoDir;
-									//prevent uploading file with the same name
-                                    if(validator.isEmpty(file.photo.name)){
-                                        logger.error('the photo uploaded in groupUpload is emtpy or the photo name not existing');
-                                        req.flash('error','The image uploaded is empty!');
-                                        return res.redirect('back');
-                                    }
-
-									const photoName = Date.now() + validator.trim(xss(photo.name)); 
-									
-									const fullPath = thedir + photoName;
-
-									//checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-									helper.checkDir(thedir,()=>{
-										fs.rename(photo.path, fullPath, err=>{
-											if (err) {logger.error(err); return; }
-											logger.debug('The file has been re-named to: ' + fullPath);
-										});										
-									});
-
-									logger.debug('the dir is :' + thedir);
-									logger.debug(photo.name,photo.path,fullPath);
+                    if(req.user){
+                        function saveFileInfo(){
+                            
+                            const group = new Group(),
+                                    user = req.user,
+                                    title = validator.trim(xss(fields.title)),
+                                    category = fields.category,
+                                    //privateOnly = fields.private,
+                                    intro = validator.trim(xss(fields.intro));
                                     
-									//rename or move the file uploaded;and photo.path is the temp file Formidable give
-													
-									if(req.user){
-										function saveFileInfo(){
-                                            
-                                            const group = new Group(),
-                                                    user = req.user,
-                                                    title = validator.trim(xss(fields.title)),
-                                                    category = fields.category,
-                                                    //privateOnly = fields.private,
-                                                    intro = validator.trim(xss(fields.intro));
-                                                    
-                                            if(validator.isEmpty(title) && validator.isEmpty(intro)){
-                                                logger.error('Field(s) empty!');
-                                                req.flash('error','Field(s) empty!');
-                                                return res.redirect('back');                                            
-                                            }
-                                            group.author = user.local.username;
-                                            group.user_id = user._id;
-                                            group.title = title;
-                                            group.intro = intro;
-                                            //group.private = privateOnly;
-                                            group.category = category;
-                                            group.logo = photoName;
-                                            
-                                            
-                                            group.save((err)=>{
-                                                    if(err){
-                                                        logger.error(err);
-                                                        req.flash('error',`Please try agian`);
-                                                        res.redirect('back');
-                                                    }else{
-                                                        
-                                                        logger.debug(`创建小组成功: ${group._id}`);
-                                                        req.flash('success','创建小组成功，等待审核!');
-                                                        res.redirect('/group/single/'+ group._id);
-                                                    }
-                                            });                                            
+                            if(!(title.length > 4)  || !(files.photo.name.length) || !(intro.length>10)){
+                                    logger.info('input need to do like it required');
+                                    req.flash('error','Fill it as required!');
+                                    return res.redirect(303, 'back');                                      
+                            }    
 
-										}
-										saveFileInfo();
+                            group.author = user.local.username;
+                            group.user_id = user._id;
+                            group.title = title;
+                            group.intro = intro;
+                            //group.private = privateOnly;
+                            group.category = category;
+                            group.logo = photoName;
+                            logger.debug('group: '+ JSON.stringify(group));
+                            
+                            
+                            group.save((err)=>{
+                                    if(err){
+                                        logger.error(err);
+                                        req.flash('error',`Please try agian`);
+                                        res.redirect('back');
                                     }else{
-										logger.info('user not login');
-										req.flash('error','Log In first！');
-										res.redirect(303, '/user/login');
-									}								
-							}
+                                        logger.debug('enter into save');
+                                        logger.debug(`创建小组成功: ${group._id}`);
+                                        req.flash('success','创建小组成功，等待审核!');
+                                        res.redirect('/group/single/'+ group._id);
+                                    }
+                            });                                            
 
-				        });
+                        }
+                        saveFileInfo();
+                    }else{
+                        logger.info('user not login');
+                        req.flash('error','Log In first！');
+                        res.redirect(303, '/user/login');
+                    }
 
-
-				    } catch(ex){
-				        return res.xhr ?
-				            res.json({error: 'Database error.'}):
-				            res.redirect(303, '/response/error/500');
-				    }
+              });
                  
 
         },
         singleGroup(req,res){
            let group_id = req.params.group_id;
-          // console.log('ground_id in singleGroup FUNCTION '+group_id);
+           //logger.debug('ground_id in singleGroup FUNCTION '+group_id);
            const page = req.query.p ? parseInt(req.query.p) : 1;
-           
-            let getGroup = new Promise(function(resolve,reject){
-                let findOption = {'_id': group_id};
-                Group.findOne(findOption,function(err,group){
-                    if(err){
-                        logger.error(`page not found: no group wih group_id : ${group_id}`);
-                        reject(err);
-                        //res.redirect('/response/error/404');
-                    }else{
-                        resolve(group.processGroup(group));
-                    }
-                });
-            });
 
+           groupProxy.getGroupById(group_id).then(function(group){
 
-            getGroup.then(function(group){
-               let belongToGroup = false;
-    
-                let user = req.user?req.user.processUser(req.user):req.user;
-                logger.debug('user'+user);    
-
+               let belongToGroup = false;    
+               let user = req.user?req.user.processUser(req.user):req.user;
+               logger.debug('user'+JSON.stringify(user));    
                let myGroups = user ? user.myGroups:false;
                 if(myGroups){
                     belongToGroup = myGroups.includes(group.title);
@@ -264,8 +210,8 @@ module.exports = {
 
                             page: page,
                             pageNumber: Math.ceil(count/10),
-                            isFirstPage: (page - 1) == 0,
-                            isLastPage: ((page - 1) * 10 + posts.length) == count,  
+                            isFirstPage: (page - 1) === 0,
+                            isLastPage: ((page - 1) * 10 + posts.length) === count,  
 
                             title:group.title,
                             keywords:group.title,
@@ -279,12 +225,8 @@ module.exports = {
                         res.render('group/group',option);
 
                 },undefined,undefined,undefined,'exit_group_id');
-
-            
-
-
-            }).
-            catch(function(e){
+           })
+           .catch(function(e){
                     logger.error(`something wrong with getting the group page : ${e}`);
                     req.flash('error',`Error getting the single group page!`);
                     return res.redirect('back');
