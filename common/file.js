@@ -48,7 +48,7 @@ module.exports = function(req,res,...arg){
                             callback(err);
                         }else{
                             
-                            function processUpload(){
+                          let processUpload = function (){
 
                                     const photo = files.photo,
                                             size = photo.size,
@@ -64,10 +64,10 @@ module.exports = function(req,res,...arg){
                                         return res.redirect('back');
                                     }
                                     //1TB = 1024GB = 1024*1024MB = 1024*1024*1024KB = 1024*1024*1024*1024Byte = 1024*1024*1024*8 bit
-                                    if(size > 1*1024*1024){//1mb
+                                    if(size > 2*1024*1024){//1mb
                                         fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
-                                            logger.debug('file is more than 1 mb and be deleted.Please upload smaller one');
-                                            req.flash('error',"file not more than 1MB");
+                                            logger.debug('file is more than 2 mb and be deleted.Please upload smaller one');
+                                            req.flash('error',"file more than 2MB");
                                             res.redirect('back');
                                         });                                   
                                     }else if(photo.type.split('/')[0] != 'image'){
@@ -89,7 +89,7 @@ module.exports = function(req,res,...arg){
                                         .write(fullPath,function(err){
                                             if (err) {
                                                     logger.error('imageMagic write error: '+ err); 
-                                                    return callback(err); 
+                                                    callback(err); 
                                             }
                                             logger.debug('The file has been re-named to: ' + fullPath);
                                             fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
@@ -106,7 +106,7 @@ module.exports = function(req,res,...arg){
                                         .write(fullPath,function(err){
                                             if (err) {
                                                     logger.error('imageMagic write error: '+ err); 
-                                                    return callback(err); 
+                                                    callback(err); 
                                             }
                                             logger.debug('The file has been re-named to: ' + fullPath);
                                             fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
@@ -122,7 +122,7 @@ module.exports = function(req,res,...arg){
                                         .write(fullPath,function(err){
                                             if (err) {
                                                     logger.error('imageMagic write error: '+ err); 
-                                                    return callback(err); 
+                                                    callback(err); 
                                             }
                                             logger.debug('The file has been re-named to: ' + fullPath);
                                             fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
@@ -153,7 +153,7 @@ module.exports = function(req,res,...arg){
         //     res.json({error: '数据库错误！'}):
         //     res.redirect(303, '/response/error/500');
         //  }
-         logger.debug('file'+ JSON.stringify(file.getData));
+         logger.debug('file'+ JSON.stringify(file));
          return file;
 
 };

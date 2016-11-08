@@ -10,6 +10,62 @@ const User    = require('../models/User'),
       logger = require('../lib/logger');                           
 
 module.exports = {
+        modifyPosts: function(posts){
+            // let arr = [];
+
+            
+                 
+                
+            //    let getArr = new Promise(function(resolve,reject){
+            //       posts.forEach(function(post,i,a){
+            //             let modifiedPost = post.processPost(post);
+            //             //let modifiedComments;
+
+            //             let getComments = new Promise(function(resolve1,reject1){
+            //                 post.comments(post._id,function(comments){ 
+            //                     resolve1(comments);
+            //                 });   
+            //             });
+            //             let getGroup = new Promise(function(resolve2,reject2){
+            //                 post.group(post.group_id,function(group){
+            //                     resolve2(group);
+            //                 });
+            //             });
+
+            //             Promise.all([getComments,getGroup]).then(function(values){
+                        
+            //                 modifiedPost.comments = values[0];
+            //                 modifiedPost.group = values[1];
+                    
+            //                 logger.debug('modifiedPost in modifyPost function'+modifiedPost);
+                            
+            //                 if(i === posts.length-1){
+            //                   resolve(a);
+            //                 }
+                            
+            //             })
+            //             .catch(function(err){
+            //                 logger.error('err:'+err);
+            //             });
+            //       });
+
+                  
+            //    });
+        
+            //   return getArr;
+
+            let modifiedPosts = posts.map(post=>{
+                    let modifiedPost = post.processPost(post);
+                    post.comments(post._id,function(comments){
+                        modifiedPost.comments = comments;
+                    });
+                    post.group(post.group_id,function(group){
+                        modifiedPost.group = group;
+                    });
+                    return modifiedPost;
+            }); 
+            return modifiedPosts;           
+        },
 
         modifyPost: function(post,cb){
              let modifiedPost = post.processPost(post);
@@ -31,7 +87,7 @@ module.exports = {
                     modifiedPost.comments = values[0];
                     modifiedPost.group = values[1];
                 }
-                //logger.debug('modifiedPost in modifyPost function'+modifiedPost);
+                logger.debug('modifiedPost in modifyPost function'+modifiedPost);
                 cb(modifiedPost);
              });
 
@@ -78,7 +134,7 @@ module.exports = {
                             resolve(posts,count);                           
 
                         }
-                   },undefined,undefined,'exit_user_id');
+                   },undefined,undefined,'exit_user_id','undefined');
 
                });
                p.then(function(posts,count){
@@ -146,16 +202,39 @@ module.exports = {
                             
                                 // console.log('modifiedPosts: '+JSON.stringify(modifiedPosts));
                                // let modifiedPosts = globalThis.modifyPosts(posts);
-                               let myPosts = [];
-                               posts.forEach(function(post){
-                                  globalThis.modifyPost(post,function(apost){
-                                      myPosts.push(apost);
-                                      if(myPosts.length == posts.length){
-                                        callback(null, myPosts, count);//provide the params(caluated values),and what to do? you need to figure it out yourself
-                                      }
 
-                                  });
-                               });
+                            let modifiedPosts = globalThis.modifyPosts(posts);
+                                callback(null, modifiedPosts, count);   
+                            // .catch(function(err){
+                            //     logger.debug('err when using modifyPosts in getTen func '+err);
+                            //     res.redirect('back');
+                            // }); 
+                            //console.log('modifiedPosts: '+modifiedPosts);  
+
+
+                            //    let myPosts = [];
+                               
+                            //    posts.forEach(function(post){
+
+                                  
+                            //       let modifyPost = new Promise(function(resolve,reject){
+                            //           globalThis.modifyPost(post,function(apost){
+                            //               resolve(apost);
+                            //           });
+                            //       });
+                            //       modifyPost.then(function(apost){
+                            //           myPosts.push(apost);
+                                     
+                            //       }).catch(function(e){
+                            //           logger.error('error'+ e);
+                            //       });
+
+                            //    });
+                            //    if(myPosts.length === posts.length){
+                            //        callback(null, myPosts, count);
+
+                            //    }
+                               
                                     
                     });
                 })
@@ -194,7 +273,7 @@ module.exports = {
                                 if (err) {
                                     logger.error(`something wrong when getPostById:${err}`);
                                     reject(err);
-                                    return
+                                    return;
                                 } else {
                                     //setting view times
                                     resolve(post.processPost(post));

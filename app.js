@@ -89,6 +89,7 @@ function startServer(){
     // 	res.locals.csrfToken = req.csrfToken();
     // 	next();
     // });
+
 	require('./routes')(app,passport,User);
     require('./part/autoView')(app);
 	

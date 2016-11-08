@@ -10,8 +10,8 @@ module.exports = function(){
       router.get('/groups', group.groups);
       router.get('/newGroup', auth.isLoggedIn, group.newGroup);
       router.get('/update/:group_id', group.getGroupUpdate);
-      router.post('/doUpdate/:group_id', group.groupUpdate);
-      router.post('/newGroupPost',group.newGroupUpload);
+      router.post('/doUpdate/:group_id',auth.isLoggedIn, group.groupUpdate);
+      router.post('/newGroupPost',auth.isLoggedIn,group.newGroupUpload);
       router.get('/single/:group_id',group.singleGroup);
       router.get('/applyGroup',auth.isLoggedIn, group.applyGroup);
       //router.get('/askGroups',group.askGroups);

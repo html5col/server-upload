@@ -32,7 +32,7 @@ var initSample = ( function() {
 		if ( wysiwygareaAvailable ) {
 			//CKEDITOR.replace( 'editor' );
 			CKEDITOR.replace( 'editor', {
-				customConfig: '../../config/editorConfig.js'
+				customConfig: '/js/editor/editorConfig.js'
 			});
 		} else {
 			editorElement.setAttribute( 'contenteditable', 'true' );

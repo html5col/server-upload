@@ -4,7 +4,7 @@ const User    = require('../models/User'),
       Group = require('../models/Group'),
       userProxy = require('../db_proxy/user'),
       moment = require('moment'),
-      util = require('../lib/utility'),
+      helper = require('../lib/utility'),
       logger = require('../lib/logger'); 
 //var utility = require('utility');                              
 
@@ -16,7 +16,7 @@ module.exports = {
            if(!id){
                logger.error(`no group id found ${id}`);
                return;
-           }else{
+           }
             let getGroup = new Promise(function(resolve,reject){
                     Group.findById(id,function(err,group){
                         if(err){
@@ -25,14 +25,11 @@ module.exports = {
                             return;
                             //res.redirect('/response/error/404');
                         }
-                        
-                        resolve(group);
+                        let modifiedGroup = group.processGroup(group);         
+                        resolve(modifiedGroup);
                     });
-                });
-
-                return getGroup;
-           }
-
+            });
+            return getGroup;
 
       },
 
