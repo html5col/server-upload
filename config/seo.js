@@ -5,6 +5,7 @@
 var path = require('path');
 
 var config = {
+      
       home: {
           title: '语言学习社区',
           keywords: '英语，法语，日语，德语，中文，编程，学习计划，学习路径，国外交流生',
@@ -22,6 +23,13 @@ var config = {
             keywords: 'X-Plan英语口语计划，B-Plan欧美书籍计划，规则,契约计划',
             description: 'X-Plan英语口语计划,B-Plan欧美书籍计划契约规则',                
           },              
+      },
+      vip: {
+        download: {
+            title: 'VIP资源',
+            keywords: 'VIP语言学习精华资源',
+            description: 'X-Plan计划英语学习视音频资源',           
+        }
       },
       group: {
           groups:{

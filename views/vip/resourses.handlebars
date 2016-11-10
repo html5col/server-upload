@@ -1,0 +1,111 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+             {{#if user}}
+                {{#if user.vip}}
+                  <a class="button button-link button-nav pull-right" external href="">
+                    <!--<span class="icon icon-edit"></span>-->
+                    VIP
+                  </a>
+                {{else}}
+                  <a class="button button-link button-nav pull-right" external href="/services">
+                    <!--<span class="icon icon-edit"></span>-->
+                   成为VIP
+                  </a>
+                {{/if}} 
+              {{/if}}  
+              <h1 class='title'>VIP 资源库</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+           
+              <div class="content-block">
+                {{#if user}}
+                {{#if user.vip}}
+                <div class="list-block media-list" style="margin:0;">
+                    <ul>
+                        <li>
+                        <a href="/user/vip/files/audio1" class="item-link item-content" external>
+                            <!--<div class="item-media"><img src="/upload/groupLogo/{{logo}}" style='width: 4rem;max-height:3rem;'></div>-->
+                            <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">#201611期 第一周音频资料1/2</div>
+                                <!--<div class="item-after">{{created_at}}</div>-->
+                            </div>
+                            <!--<div class="item-subtitle">标题</div>-->
+                            <div class="item-text">X-Plan计划2016.11月第一周音频资料下载...</div>
+                            </div>
+                        </a>
+                        </li>
+                    </ul>
+                    </div>
+
+             {{else}}
+             <p style="text-align:center;">本资源库限X-Plan学员使用下载！成为VIP? 报名详情 <a href="/services"></a></p>
+              {{/if}}
+
+              {{else}}
+               <p style="text-align:center;">本资源库限X-Plan学员使用下载！</p>
+              {{/if}}
+
+
+
+              </div>
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+       
+           

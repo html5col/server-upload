@@ -30,8 +30,8 @@ var userSchema = new Schema({
           resetPasswordToken: String,
           resetPasswordExpires: Date,
           roles:[String],
-          admin: {Boolean: Boolean, default: false},
-          vip:{Boolean: Boolean, default: false},
+          admin: {type: Boolean, default: false},
+          vip:{type: Boolean, default: false},
           //location: String,
           meta: {
             age: Number

@@ -20,6 +20,20 @@ const flash = require('connect-flash'),
 
 module.exports = {
 
+	    vipfile: (req,res)=>{
+			res.render('vip/resourses',{
+				title:seo.vip.download.title,
+				keywords:seo.vip.download.keywords,
+				description:seo.vip.download.description,						
+				messages: {
+					error: req.flash('error'),
+					success: req.flash('success'),
+					info: req.flash('info'),
+				}, 
+				user: req.user ? req.user.processUser(req.user) : req.user,				
+			});
+		},
+
 		signup: (req,res)=>{
 					//render the page and pass in any flash data if it exists, req.flash is provided by connect-flash
 				    res.render('form/signup', { 

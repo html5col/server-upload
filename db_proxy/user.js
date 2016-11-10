@@ -9,6 +9,15 @@ var makeGravatar = function (email) {
 };
 
 module.exports = {
+     /**
+      *@param users: array 
+    */
+      modifyUsers: (users)=>{
+        let modifiedUsers = users.map(user=>{
+           return user.processUser(user);
+        });
+        return modifiedUsers;
+      },
       getUserById: (user_id,fn)=>{
               User.findById(user_id).exec((err,user)=>{
                       if(err){

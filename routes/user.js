@@ -2,6 +2,7 @@
 let express = require('express'),
       router = express.Router(),
       user = require('../controllers/user'),
+      file = require('../controllers/file'),
       auth = require('../middlewares/auth');
 
 module.exports = function(User,passport){
@@ -32,6 +33,10 @@ module.exports = function(User,passport){
         router.post('/updateUser',auth.isLoggedIn, user.putUpdateUser(User));        
         router.post('/postSignup', user.postSignup(passport));        
         router.post('/postLogin', user.postLogin(passport));
-        router.post("/process/:year/:month", user.postFileUpload);        
+        router.post("/process/:year/:month", user.postFileUpload);
+        router.get('/vip/files', user.vipfile);  
+        router.get('/vip/files/audio1', file.audio1);  
+           
+
         return router;
 };

@@ -10,6 +10,8 @@ const user = require('./routes/user'),
 	  group = require('./routes/group'),
 	  file = require('./routes/file');
 
+const adminUsers = require('./routes/backend/user');
+
 module.exports   = function(app, passport,User) {
 	 app.use('/',index);  
 	 app.use('/response',respond);   
@@ -20,6 +22,7 @@ module.exports   = function(app, passport,User) {
 	 //app.use('/test',test);
 	 app.use('/group',group());
 	 app.use('/file',file());
+	 app.use('/admin',adminUsers);
 		//to get form data using req.body
 		/*****form part end********/
 };

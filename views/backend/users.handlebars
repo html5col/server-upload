@@ -1,0 +1,96 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+
+              <h1 class='title'>Users Setting</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+           
+              <div class="content-block">
+                <table style="width:900px;text-align:left;margin:0 2em;">
+                    <thead>
+                        <!--<th>user_id</th>-->
+                        <th>username</th>
+                        <th>Email</th>
+                        <th>VIP</th>
+                        <th>Active</th>
+                       
+                    </thead>
+
+                    <tbody>
+                        {{#each siteUsers}}
+                        <tr>
+                            <!--<td>{{_id}}</td>-->
+                            <td>{{username}}</td>
+                            <td>{{email}}</td>
+                            <td>
+                                {{vip}}
+                                <a href="/admin/vip/delete?user_id={{_id}}">Delete Vip</a> &nbsp
+                                <a href="/admin/vip/make?user_id={{_id}}">Make Vip</a>
+
+                            </td>
+                            <td>{{active}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+
+                </table>
+
+              </div>
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+       
+           
