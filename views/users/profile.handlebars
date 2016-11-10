@@ -11,16 +11,28 @@
                 <span class="icon icon-left"></span>
                 BACK
               </a>
-
-            {{#if user.logo}}
-                <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;">
-                     <img src="/upload/logo/{{postUser._id}}/{{postUser.logo}}" style="display:inline-block;width:1em;height:1em;">
-                </a>
+            {{#if postUser.vip}}
+            <!--<span style="overflow:hidden;">
+                <img class="vip" style="display:inline-block;width:13px;height:13px;" src="/img/vip.png">
+            </span>-->
+                    <!--<a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:3em;height:2em;display:block;overflow:hidden;">
+                        <img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;"><img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;"><img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;">
+                    </a>-->
+                    <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;">
+                        <img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;">
+                    </a>
             {{else}}
-                <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;background-color:transparent;">
-                  <span class="icon icon-me"></span>
-                </a>
-            {{/if}}
+                {{#if user.logo}}
+                    <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;">
+                        <img src="/upload/logo/{{postUser._id}}/{{postUser.logo}}" style="display:inline-block;width:1em;height:1em;">
+                    </a>
+                {{else}}
+                    <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;background-color:transparent;">
+                    <span class="icon icon-me"></span>
+                    </a>
+                {{/if}}           
+            {{/if}}  
+
 
             
               <h1 class='title'>User Profile</h1>

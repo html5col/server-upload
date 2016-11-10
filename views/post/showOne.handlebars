@@ -40,8 +40,13 @@
                             {{/if}}
                         </div><!--
                       --><div class="rightIntro">
-                            <span>{{ postUser.username }}'s <span>的日记</span></span> 
-                            <span>{{ post.updated_at }} &nbsp {{post.pv}} pv</span>
+                            <span>                              
+                                {{ postUser.username }}'s <span>的日记</span>
+                            </span> 
+                            <span>
+                                {{ post.updated_at }} &nbsp {{post.pv}} pv 
+
+                            </span>
                          </div>
                     </div>
                     {{#if post.image}}
