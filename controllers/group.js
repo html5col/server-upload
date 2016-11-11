@@ -36,6 +36,10 @@ module.exports = {
                         let thegroups = groups.map(function(v){
                             return v.processGroup(v);
                         });
+                        let modifiedGroup,modifiedUser;
+                        if(req.user){
+                            modifiedUser = req.user.processUser(req.user);
+                        }
                         res.render('group/groups',{
 
                             //pageTestScript: '/js/page-test/tests-about.js',//know which test file to be used in this route
@@ -48,6 +52,7 @@ module.exports = {
                                 success: req.flash('success'),
                                 info: req.flash('info'),
                             },	
+                            vip: modifiedUser ? modifiedUser.vip : false,
                             	        
                             user: req.user ? req.user.processUser(req.user) : req.user,
                             groups: thegroups,
@@ -58,20 +63,29 @@ module.exports = {
         },
 
         newGroup(req,res){
+          
+          if(req.user){
+              let user = req.user.processUser(req.user);
+              if(user.vip){
+                    res.render('form/newGroup',{
+                        // pageTestScript: '/js/page-test/tests-about.js',//know which test file to be used in this route
+                        title:seo.group.new.title,
+                        keywords:seo.group.new.keywords,
+                        description:seo.group.new.description,  
+                        isMobile: helper.isMobile(req),             
+                        messages: {
+                            error: req.flash('error'),
+                            success: req.flash('success'),
+                            info: req.flash('info'),
+                        },		        
+                        user: req.user ? req.user.processUser(req.user) : req.user,
+                    });
+              }else{
+                  req.flash('error','Only VIP can create groups!');
+                  res.render('/services');
+              }
+          }
 
-            res.render('form/newGroup',{
-                // pageTestScript: '/js/page-test/tests-about.js',//know which test file to be used in this route
-                title:seo.group.new.title,
-                keywords:seo.group.new.keywords,
-                description:seo.group.new.description,  
-                isMobile: helper.isMobile(req),             
-                messages: {
-                    error: req.flash('error'),
-                    success: req.flash('success'),
-                    info: req.flash('info'),
-                },		        
-                user: req.user ? req.user.processUser(req.user) : req.user,
-            });
 
 
 

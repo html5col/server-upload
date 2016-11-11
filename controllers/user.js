@@ -33,7 +33,7 @@ module.exports = {
 				user: req.user ? req.user.processUser(req.user) : req.user,				
 			});
 		},
-
+		
 		signup: (req,res)=>{
 					//render the page and pass in any flash data if it exists, req.flash is provided by connect-flash
 				    res.render('form/signup', { 
@@ -49,7 +49,6 @@ module.exports = {
 				    	user: req.user ? req.user.processUser(req.user) : req.user,
 				    });
 		},
-
 		login: (req,res)=>{
 					//render the page and pass in any flash data if it exists
 				    res.render('form/login', { 
@@ -65,7 +64,6 @@ module.exports = {
 				    	user: req.user ? req.user.processUser(req.user) : req.user,
 				    });
 		},
-
 		fileupload: (req,res)=>{
 				    var now = new Date();
 				    res.render('form/fileupload', {
@@ -84,23 +82,25 @@ module.exports = {
 			            
 				    });
 		},
-
-
 		profile: (req, res)=> {
 				    const user_id = req.params.user_id,
 					      page = req.query.p ? parseInt(req.query.p) : 1;
 					logger.debug('user_id is in proifle function'+user_id);
+					
 					postProxy.getPostsByUserId(req,res,user_id,function(posts,count){
 						   // logger.debug("profile posts and count:" ,posts,count);
 							let loginedUser;
 							if(req.user){
 								loginedUser = req.user.processUser(req.user);
 							}
+						
 							userProxy.getUserById(user_id, theuser=>{ 
 							     	let postUser = req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser;
 									 let isProfile = true;
 									 logger.debug('postUser'+JSON.stringify(postUser));
-										
+
+									
+
 									res.render("users/profile", {
 										user: req.user ? req.user.processUser(req.user) : req.user,
 										isMyPosts: req.user ? (req.user._id == user_id ? true : false) : false,
@@ -446,117 +446,41 @@ module.exports = {
 
 
 		postFileUpload: (req,res)=>{
-                    let dataDir = config.uploadDir;
-					logger.debug(dataDir);
-					let photoDir = dataDir + 'logo/';
-					//existsSync depreciated!! do not use it any more
-					// fs.existsSync(dataDir)  || fs.mkdirSync(dataDir);
-					// fs.existsSync(photoDir) || fs.mkdirSync(photoDir);
-
-					//also can use:
-                    helper.checkDir(dataDir);
-					helper.checkDir(photoDir);		
-					// fs.access(dataDir, fs.constants.F_OK, function(err) {
-					//     if (!err) {
-					//         // Do something
-					//         console.log(dataDir + 'the folder exits!')
-
-					//     } else {
-					//         // It isn't accessible
-					//         fs.mkdirSync(dataDir);
-					//     }
-					// });
-					// fs.access(photoDir, fs.constants.F_OK, function(err) {
-					//     if (!err) {
-					//         // Do something
-					//         console.log(photoDir + 'the folder exits!')
-
-					//     } else {
-					//         // It isn't accessible
-					//         fs.mkdirSync(photoDir);
-					//     }
-					// });			
-					//fs.constants.F_OK - path is visible to the calling process. This is useful for determining if a file exists, but says nothing about rwx permissions. Default if no mode is specified.
-					// fs.constants.R_OK - path can be read by the calling process.
-					// fs.constants.W_OK - path can be written by the calling process.
-					// fs.constants.X_OK - path can be executed by the calling process. This has no effect on Windows (will behave like fs.constants.F_OK).
-
-		            
-
-				    try{
-				        //store the data to the database
-				        //...
-				        //console.info('Received contact from ' + req.user.local.username + " <" + req.user.local.email + '>' );
-				        
-				        const form = new formidable.IncomingForm();
-
-				        form.parse(req,(err,fields,file)=>{
-
-				            if(err){
-									req.flash('error','form parse error:' + err);
-									return res.redirect(500, '/response/err/500');
-							}else{
-									const photo = file.photo;
-									
-									let personalDir = `${req.user._id}/`;
-									let thedir = photoDir + personalDir;
-									//prevent uploading file with the same name
 
 
+                const uploadFiles = require('../common/file')(req,res,undefined,'logo_exist');
+                logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
+                uploadFiles.getData(function(err,fields,file,photoName){
+                  if(err){
+                        logger.debug('error when uploadFile: '+err);
+                        redirect.back('/');;
+                  }else{
+						if(req.user){
+							function saveFileInfo(){
+								
+								const user = req.user;
+								user.local.logo = photoName;
+								user.save(err=>{
+									if(err){throw err}
+									req.flash('success','上传头像成功');
+									res.redirect('/user/profile/'+ user._id);
+								});
 
-									const photoName = Date.now() + validator.trim(xxs(photo.name)); 
-									
-									const fullPath = thedir + photoName;
-
-									//checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-									helper.checkDir(thedir,()=>{
-										fs.rename(photo.path, fullPath, err=>{
-											if (err) {logger.error('error in rename the file'+err); return; }
-											logger.debug('The file has been re-named to: ' + fullPath);
-										});										
-									});
-
-									console.log('the dir is :' + thedir);
-									console.log(photo.name,photo.path,fullPath);
-                                    
-									//rename or move the file uploaded;and photo.path is the temp file Formidable give
-													
-									if(req.user){
-										function saveFileInfo(){
-											
-											const user = req.user;
-											user.local.logo = photoName;
-											user.save(err=>{
-												if(err){throw err}
-												req.flash('success','上传头像成功');
-												res.redirect('/user/profile/'+ user._id);
-											});
-
-										}
-										saveFileInfo();
-										// req.flash('success', 'Uploading successfully!');
-										// return res.xhr ? res.json({success: true}) :
-										// res.redirect(303, '/success');
-									//  saveFileInfo('upload-photo', fields.email,req.params.year,fields.params.year,fields.params.month,path);
-									}else{
-										logger.info('user not login');
-										req.flash('eror','You need to login first to upload your logo');
-										res.redirect(303, '/user/login');
-									}								
 							}
+							saveFileInfo();
+							// req.flash('success', 'Uploading successfully!');
+							// return res.xhr ? res.json({success: true}) :
+							// res.redirect(303, '/success');
+						//  saveFileInfo('upload-photo', fields.email,req.params.year,fields.params.year,fields.params.month,path);
+						}else{
+							logger.info('user not login');
+							req.flash('eror','You need to login first to upload your logo');
+							res.redirect(303, '/user/login');
+						}						  
+				  }
 
+			 });
 
-				            //console.log('received fields:', fields);
-				            //console.log('received files:', photo.name);
-
-				        });
-
-
-				    } catch(ex){
-				        return res.xhr ?
-				            res.json({error: 'Database error.'}):
-				            res.redirect(303, '/response/error/500');
-				    }
 
 		},
 

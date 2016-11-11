@@ -3,6 +3,7 @@
 const mongoose = require('mongoose'),
       bcrypt   = require('bcrypt-nodejs'),
       moment = require('moment'),
+      helper = require('../lib/utility'),
      // logger = require('./logger'),
       Schema = mongoose.Schema;
 
@@ -31,7 +32,8 @@ var userSchema = new Schema({
           resetPasswordExpires: Date,
           roles:[String],
           admin: {type: Boolean, default: false},
-          vip:{type: Boolean, default: false},
+          contractMoney: {type:String, default: 0},
+          expiryDate: {type:String,default: 'Expired'},
           //location: String,
           meta: {
             age: Number
@@ -131,6 +133,28 @@ userSchema.methods.time = time=> {
 };
 
 userSchema.methods.processUser = user=>{
+    let roles = user.local.roles;
+    let latestRole,vip;
+
+        if(helper.inArray(roles,'Super')){
+            latestRole = 'Super Admin';
+        }else if(helper.inArray(roles,'Junior')){
+            latestRole = 'Junior Admin';
+        }else if(helper.inArray(roles,'Yearly')){
+            latestRole = 'Yearly VIP';
+        }else if(helper.inArray(roles,'Trial')){
+            latestRole = 'Trial VIP';
+        }else{
+            latestRole = 'Nope';
+        }
+
+ 
+        if(latestRole!=='Nope'){
+            vip = true;
+        } 
+    
+
+
     return {
         _id: user._id,
         username: user.local.username,
@@ -138,7 +162,11 @@ userSchema.methods.processUser = user=>{
         logo: user.local.logo,
         myGroups: user.local.myGroups,
         active: user.local.active,      
-        vip: user.local.vip,
+        vip: vip,//for vip above 'Nope'
+        roles: user.local.roles,
+        contractMoney: user.local.contractMoney,
+        expiryDate: user.local.expiryDate,
+        latestRole: latestRole,
         created_at: moment(user.local.created_at).format('L'),
         updated_at: moment(user.local.updated_at).format('L'),        
     };

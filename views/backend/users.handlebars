@@ -1,6 +1,14 @@
 <!--if the single page has the single css file,then use the folling-->
 {{#extend "css"}}
     <link rel="stylesheet" href="">
+    <style>
+     .showMe{
+         display:block;
+     }
+     .hideMe{
+         display:none;
+     }
+    </style>
 {{/extend}}
 
    <div class="page-group">
@@ -39,10 +47,41 @@
                             <!--<td>{{_id}}</td>-->
                             <td>{{username}}</td>
                             <td>{{email}}</td>
-                            <td>
-                                {{vip}}
-                                <a href="/admin/vip/delete?user_id={{_id}}">Delete Vip</a> &nbsp
-                                <a href="/admin/vip/make?user_id={{_id}}">Make Vip</a>
+                            <td style="width:auto;">
+                                {{roles}}
+                                <!--<a href="/admin/vip/delete?user_id={{_id}}" class="deleteToggle">Delete Vip</a> &nbsp-->
+
+                                <a class="deleteToggle{{username}}">Delete VIP</a>
+                                <ul class="deleteDetails{{username}} hideMe">
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Trial">Delete Trial VIP</a></li>
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Yearly">Delete Yearly VIP</a></li>
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Super">Delete Super Admin</a></li>
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Junior">Delete Admin</a></li>
+                                </ul>
+
+
+                                <!--<a href="/admin/vip/make?user_id={{_id}}">Make Vip</a>-->
+                                <a class="makeToggle{{username}}">Make VIP</a>
+                                <ul class="makeDetails{{username}} hideMe">
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Trial">Trial VIP</a></li>
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Yearly">Yearly VIP</a></li>
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Super">Super Admin</a></li>
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Junior">Admin</a></li>
+                                </ul>
+                                    <script>
+                                    (function(){
+                                        function getByClass(myclass){
+                                            return document.getElementsByClassName(myclass);
+                                        }
+                                        var clickToToggle = getByClass('makeToggle{{username}}')[0] || getByClass('deleteToggle{{username}}')[0],
+                                            clickDetails = getByClass('makeDetails{{username}}')[0] || getByClass('deleteDetails{{username}}')[0];
+
+                                        clickToToggle.onclick = function(e){
+                                            e.preventDefault();
+                                            clickDetails.classList.toggle('hideMe');
+                                        };
+                                    }());
+                                    </script>
 
                             </td>
                             <td>{{active}}</td>
@@ -66,7 +105,9 @@
     <!-- Left Panel with Reveal effect -->
     {{> general/slide}}
 
+    {{#extend 'js'}}
 
+    {{/extend}}
 
 
 

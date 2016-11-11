@@ -1,4 +1,5 @@
 "use strict";
+const logger = require('../lib/logger');
 module.exports = {
 			// route middleware to make sure a user is logged in
 		isLoggedIn: (req, res, next)=> {
@@ -27,21 +28,32 @@ module.exports = {
 		    
 
 		},
-		//roles is a string with , ,eg:"customer,seller"
+		/***
+		 * @params: Array
+		 */
 		allow: (roles)=> {
 			return function(req,res,next){
 					if(req.user){
-						let user      = req.user;
-						let roleExist = roles.split(',').every(function(v){
-							user.local.roles.indexOf(v) !== -1;
+						let user      = req.user.processUser(req.user);
+						let roleExist = roles.some(function(v){
+							return user.roles.join(',').includes(v);
 						});
+						// let roleExist = roles.split(',').every(function(v){
+							
+						// 	user.roles.indexOf(v) !== -1;
+
+						// });
 						if(roleExist){
+							logger.debug('');
 							return next();
+						}else{
+							req.flash('error','VIP Required to view it！');
+							res.redirect('back');//unauthorized							
 						}
 					}else{
 						//next('route');
-						req.flash('error','您的权限不足！');
-						res.redirect(303,'response/error');//unauthorized
+						req.flash('error','请先登录！');
+						res.redirect(303,'/user/login');//unauthorized
 					}				
 			};
 

@@ -8,7 +8,10 @@ const user = require('./routes/user'),
 	  //api = require('./routes/api'),
 	  post = require('./routes/post'),
 	  group = require('./routes/group'),
+	  vip = require('./routes/vip'),
 	  file = require('./routes/file');
+
+
 
 const adminUsers = require('./routes/backend/user');
 
@@ -23,6 +26,7 @@ module.exports   = function(app, passport,User) {
 	 app.use('/group',group());
 	 app.use('/file',file());
 	 app.use('/admin',adminUsers);
+	 app.use('/vip',vip);
 		//to get form data using req.body
 		/*****form part end********/
 };

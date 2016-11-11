@@ -30,9 +30,9 @@ module.exports = {
 
     audio1(req,res){
         res.render('vip/file/audio1',{
-				// title:seo.vip.download.title,
-				// keywords:seo.vip.download.keywords,
-				// description:seo.vip.download.description,						
+				title:'the_Quiet_Valley音频学习',
+				keywords:'X-Plan音频学习,The Legend of Sleepy Hollow,英语听力,英语学习',
+				description:'X-Plan音频学习',						
 				messages: {
 					error: req.flash('error'),
 					success: req.flash('success'),

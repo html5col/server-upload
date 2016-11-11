@@ -127,138 +127,6 @@ module.exports =  {
                         res.redirect(303, '/user/login');
                   }                     
                 });
-            //     .catch(function(err){
-            //             logger.error(`error when post the post ${err}`);
-            //             req.flash('error',"数据库出错");
-            //             return res.xhr ?
-            //             res.json({error: '数据库错误！'}):
-            //             res.redirect('back');                      
-            //     });
-             
-
-                  // let dataDir = config.uploadDir;
-
-                  // logger.debug(dataDir);
-                  // let photoDir = dataDir + 'postLogo/';
-
-                  // helper.checkDir(dataDir);
-			// helper.checkDir(photoDir);		
-                  // try{
-                  //       //store the data to the database
-
-                  // // formiable: {"photo":{"size":105397,"path":"/var/folders/vq/cdlwyckx68zdf586bd3c789h0000gn/T/upload_ab831f8c46383a1c8262ae71beac828c","name":"<script>leee<:script>.jpg","type":"image/jpeg","mtime":"2016-10-27T11:56:16.271Z"}}
-                  //   const form = new formidable.IncomingForm();
-                  //   form.parse(req,(err,fields,files)=>{
-                  //       if(err){
-                  //             logger.error('formidable form parse error'+err);
-                  //             req.flash('error','form parse error:' + err);
-                  //             return res.redirect(500, '/response/err/500');
-                  //       }else{
-                  //             const photo = files.photo,
-                  //                   size = photo.size,
-                  //                   path = photo.path;
-
-                  //             logger.debug(`file in formiable: ${JSON.stringify(files)}`);
-                  //            //1TB = 1024GB = 1024*1024MB = 1024*1024*1024KB = 1024*1024*1024*1024Byte = 1024*1024*1024*8 bit
-                  //             if(size > 1*1024*1024){//1mb
-                  //               fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
-                  //                  logger.debug('file is more than 1 mb and be deleted.Please upload smaller one');
-                  //                  res.redirect('back');
-                  //               });                                   
-                  //             }else if(photo.type.split('/')[0] != 'image'){
-                  //                   logger.debug('file is not a valid image file');
-                  //                   res.redirect('back');                                 
-                  //             }
-                              
-                  //             //let personalDir = `${req.user._id}/`;
-                  //             let thedir = photoDir;
-                  //             //prevent uploading file with the same name
-
-                  //             const photoName = Date.now() + validator.trim(xss(photo.name)); 
-                              
-                  //             const fullPath = thedir + photoName;
-
-                  //             //checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-                  //             im(path)
-                  //             .resize(300,250,'!')
-                  //             .autoOrient()
-                  //             .write(fullPath,function(err){
-                  //                   if (err) {
-                  //                         logger.error('imageMagic write error: '+ err); 
-                  //                         return; 
-                  //                   }
-                  //                   logger.debug('The file has been re-named to: ' + fullPath);
-                  //                   fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
-                  //                     logger.debug('file is removed after renaming it');
-                  //                   });   
-                  //             });
-                  //             // helper.checkDir(thedir,()=>{
-                  //             //       fs.rename(path, fullPath, err=>{
-                  //             //             if (err) {logger.error(err); return; }
-                  //             //             logger.debug('The file has been re-named to: ' + fullPath);
-                  //             //       });										
-                  //             // });
-
-                  //             logger.debug('the dir is :' + thedir);
-                  //             logger.debug(photo.name,photo.path,fullPath);
-            
-                  //             //rename or move the file uploaded;and photo.path is the temp file Formidable give
-                                                      
-                  //             if(req.user){
-                  //                   function saveFileInfo(){
-                  //                         const user = req.user.processUser(req.user),
-                  //                               title = validator.trim(xss(fields.title)),
-                  //                               content = validator.trim(xss(fields.content)),
-                  //                               tags = validator.trim(xss(fields.tags)),
-                  //                               category = fields.category,
-                  //                              // intro = fields.intro,
-                  //                               group_id = fields.group_id;
-
-                                          
-                  //                         const post = new Post();
-                  //                         post.author = user.username;
-                  //                         post.user_id = user._id;
-                  //                         post.title = title;
-                  //                         post.content = content;
-                  //                         //post.intro = intro;
-                  //                         post.group_id = group_id;
-
-                  //                         post.category = category;
-                  //                         post.image = photoName;
-
-                                          
-                        
-                  //                         post.save((err)=>{
-                  //                               if(err){
-                  //                                     logger.error('post save error'+err);
-                  //                                     req.flash('error',`发布文章失败`);
-                  //                                     res.redirect('back');
-                  //                               }else{
-                  //                                     tagProxy.saveSingle(req,res,post,tags);
-                  //                                     logger.debug(`your post saved successfully: ${post._id}`);
-                  //                                     req.flash('success','发布成功！');
-                                                     
-                  //                                     res.redirect(`/post/show/${post.title}`);
-                  //                                     //res.redirect('/');
-                  //                               }
-                  //                         });                                            
-
-                  //                   }
-                  //                   saveFileInfo();
-                  //             }else{
-                  //                   logger.info('user not login');
-                  //                   req.flash('error','请先登录！');
-                  //                   res.redirect(303, '/user/login');
-                  //             }								
-                  //        }
-
-                  //   });//end of form.parse
-
-                  // } catch(ex){
-                  //       return res.xhr ?
-                  //       res.json({error: '数据库错误！'}):
-                  //       res.redirect(303, '/response/error/500');
-                  // }
 
     },
 
@@ -355,22 +223,28 @@ module.exports =  {
                                             loginedUser = req.user.processUser(req.user);
                                         }      
                                         logger.debug('post.comments',JSON.stringify(myPost.comments));
-                                        res.render('post/showOne', {
-                                                user: req.user ? req.user.processUser(req.user) : req.user,
-                                                postUser: req.user ? (req.user._id == post.user_id ? loginedUser : theuser) : theuser,
-                                                post: myPost,
-                                                //user_created_at: user_created_at,
+                                        //commentUserId = myPost.comments.user_id;
+                                        //let commentUser = 
+                                        
+                                          res.render('post/showOne', {
+                                                      user: req.user ? req.user.processUser(req.user) : req.user,
+                                                      postUser: req.user ? (req.user._id == post.user_id ? loginedUser : theuser) : theuser,
+                                                      post: myPost,
+                                                      
+                                                      //user_created_at: user_created_at,
 
-                                                title: myPost.title,
-                                                keywords:myPost.title,
-                                                description:myPost.intro,
+                                                      title: myPost.title,
+                                                      keywords:myPost.title,
+                                                      description:myPost.intro,
 
-                                                messages: {
-                                                    error: req.flash('error'),
-                                                    success: req.flash('success'),
-                                                    info: req.flash('info'),
-                                                }, // get the user out of session and pass to template
-                                        });
+                                                      messages: {
+                                                      error: req.flash('error'),
+                                                      success: req.flash('success'),
+                                                      info: req.flash('info'),
+                                                      }, // get the user out of session and pass to template
+                                          });
+                                   
+
 
                             });
 

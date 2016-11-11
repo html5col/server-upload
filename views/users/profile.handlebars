@@ -11,27 +11,16 @@
                 <span class="icon icon-left"></span>
                 BACK
               </a>
-            {{#if postUser.vip}}
-            <!--<span style="overflow:hidden;">
-                <img class="vip" style="display:inline-block;width:13px;height:13px;" src="/img/vip.png">
-            </span>-->
-                    <!--<a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:3em;height:2em;display:block;overflow:hidden;">
-                        <img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;"><img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;"><img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;">
-                    </a>-->
-                    <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;">
-                        <img src="/img/vip.png" style="display:inline-block;width:1em;height:1em;">
-                    </a>
-            {{else}}
+
                 {{#if user.logo}}
                     <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;">
-                        <img src="/upload/logo/{{postUser._id}}/{{postUser.logo}}" style="display:inline-block;width:1em;height:1em;">
+                        <img src="/upload/logo/{{postUser.logo}}" style="display:inline-block;width:1em;height:1em;">
                     </a>
                 {{else}}
                     <a href="/user/fileupload" class="personLogo button button-link button-nav pull-right" style="width:2em;height:2em;display:block;overflow:hidden;background-color:transparent;">
                     <span class="icon icon-me"></span>
                     </a>
                 {{/if}}           
-            {{/if}}  
 
 
             
@@ -51,6 +40,29 @@
                 </div>
                 <div class="list-block">
                     <ul>
+                    <li class="item-content item-link">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                        <div class="item-title">VIP Members</div>
+                        <div class="item-after">{{postUser.latestRole}}</div>
+                        </div>
+                    </li>
+                    <li class="item-content item-link">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                        <div class="item-title">Motivation Contract（契约金）</div>
+                        <div class="item-after">{{postUser.contractMoney}}</div>
+                        </div>
+                    </li>  
+                    <li class="item-content item-link">
+                        <div class="item-media"><i class="icon icon-f7"></i></div>
+                        <div class="item-inner">
+                        <div class="item-title">Expiry Date</div>
+                        <div class="item-after">
+                            {{postUser.expiryDate}}
+                        </div>
+                        </div>
+                    </li>                      
                     <li class="item-content item-link">
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
