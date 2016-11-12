@@ -47,19 +47,22 @@
                         <div class="item-after">{{postUser.latestRole}}</div>
                         </div>
                     </li>
+
+
+
                     <li class="item-content item-link">
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
-                        <div class="item-title">Motivation Contract（契约金）</div>
+                        <div class="item-title">Motivation Contract（契约金)</div>
                         <div class="item-after">{{postUser.contractMoney}}</div>
                         </div>
                     </li>  
                     <li class="item-content item-link">
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
-                        <div class="item-title">Expiry Date</div>
+                        <div class="item-title">MC-VIP Left</div>
                         <div class="item-after">
-                            {{postUser.expiryDate}}
+                            {{postUser.vipTimeLeft}} Week(s)/{{postUser.monthLeft}} Month(s)
                         </div>
                         </div>
                     </li>                      
@@ -85,6 +88,15 @@
                         </div>
                     </li>                    
                     </ul>
+                </div>
+                <div>
+                    {{#if postUser.needMoney}}
+                       {{#if isMyPosts}}
+                        <p style="border:1px dashed red;margin:1em 1em;">您的账户需要补交本月失败的金额才能继续参与下月的契约计划哦！</p>
+                       {{else}}
+                       <p style="border:1px dashed red;margin:1em 1em;">{{postUser.username}}的账户需要补交本月失败的金额才能继续参与下月的契约计划！</p>
+                       {{/if}}
+                    {{/if}}
                 </div>
                 <div class="content-block-title">
                   Post Records                 

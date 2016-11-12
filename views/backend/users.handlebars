@@ -31,12 +31,17 @@
             <div class="content">
            
               <div class="content-block">
+
+                <ul style="margin:2em;">
+                    <li><a href="/admin/users">Users</a></li>
+                </ul>
                 <table style="width:900px;text-align:left;margin:0 2em;">
                     <thead>
                         <!--<th>user_id</th>-->
                         <th>username</th>
                         <th>Email</th>
                         <th>VIP</th>
+                        <th>TimeLeft</th>
                         <th>Active</th>
                        
                     </thead>
@@ -51,40 +56,53 @@
                                 {{roles}}
                                 <!--<a href="/admin/vip/delete?user_id={{_id}}" class="deleteToggle">Delete Vip</a> &nbsp-->
 
-                                <a class="deleteToggle{{username}}">Delete VIP</a>
-                                <ul class="deleteDetails{{username}} hideMe">
+                                ## <a class="deleteToggle{{username}}" href="/admin/vip/delete?user_id={{_id}}">Delete VIP</a> ||
+                                <!--<ul class="deleteDetails{{username}} hideMe">
                                     <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Trial">Delete Trial VIP</a></li>
                                     <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Yearly">Delete Yearly VIP</a></li>
                                     <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Super">Delete Super Admin</a></li>
                                     <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Junior">Delete Admin</a></li>
-                                </ul>
+                                </ul>-->
 
 
                                 <!--<a href="/admin/vip/make?user_id={{_id}}">Make Vip</a>-->
-                                <a class="makeToggle{{username}}">Make VIP</a>
+                                <a class="makeToggle{{username}}">Make VIP</a> ||
                                 <ul class="makeDetails{{username}} hideMe">
                                     <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Trial">Trial VIP</a></li>
                                     <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Yearly">Yearly VIP</a></li>
                                     <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Super">Super Admin</a></li>
                                     <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Junior">Admin</a></li>
                                 </ul>
+
+                                <a href="/admin/vip/failOne?user_id={{_id}}">失败一周</a> 
+
+
                                     <script>
                                     (function(){
+                                        // var makeToggle = makeToggle{{username}};
+                                        // var makeDetails = makeDetails{{username}};
                                         function getByClass(myclass){
                                             return document.getElementsByClassName(myclass);
                                         }
-                                        var clickToToggle = getByClass('makeToggle{{username}}')[0] || getByClass('deleteToggle{{username}}')[0],
-                                            clickDetails = getByClass('makeDetails{{username}}')[0] || getByClass('deleteDetails{{username}}')[0];
-
-                                        clickToToggle.onclick = function(e){
-                                            e.preventDefault();
-                                            clickDetails.classList.toggle('hideMe');
-                                        };
+                                        var clickToToggle = getByClass('makeToggle{{username}}')[0],
+                                            deleteToggle = getByClass('deleteToggle{{username}}')[0],
+                                            clickDetails = getByClass('makeDetails{{username}}')[0],
+                                            deleteDetails = getByClass('deleteDetails{{username}}')[0];
+                                        function toggle(toggle,details){
+                                           toggle.onclick = function(e){
+                                                e.preventDefault();
+                                                details.classList.toggle('hideMe');
+                                            };                                            
+                                        }
+                                        toggle(clickToToggle,clickDetails);
+                                        toggle(deleteToggle,deleteDetails);
                                     }());
                                     </script>
 
                             </td>
+                             <td>{{vipTimeLeft}}</td>
                             <td>{{active}}</td>
+                            
                         </tr>
                         {{/each}}
                     </tbody>

@@ -86,7 +86,7 @@ module.exports = {
 				    const user_id = req.params.user_id,
 					      page = req.query.p ? parseInt(req.query.p) : 1;
 					logger.debug('user_id is in proifle function'+user_id);
-					
+
 					postProxy.getPostsByUserId(req,res,user_id,function(posts,count){
 						   // logger.debug("profile posts and count:" ,posts,count);
 							let loginedUser;
@@ -97,9 +97,95 @@ module.exports = {
 							userProxy.getUserById(user_id, theuser=>{ 
 							     	let postUser = req.user ? (req.user._id == user_id ? loginedUser : theuser) : theuser;
 									 let isProfile = true;
-									 logger.debug('postUser'+JSON.stringify(postUser));
+									 logger.debug('postUser in profle-getUserbyid'+JSON.stringify(postUser));
+
+									// for fixed vip money: not contract money
+									// let vip = postUser.vip;   
+									// let date  = new Date();
+									// let vipTimeLeft,fdate,difference;
+
+									// if(vip = 'Trial'){
+									//         fdate  = new Date();
+									//         fdate.setDate(09);
+									//         fdate.setMonth(11);//need to be added by 1
+									//         fdate.setFullYear(2016);
+									//         if(date.getTime()<fdate.getTime()){
+									//             difference = fdate.getTime() - date.getTime();
+									//             postUser.vipTimeLeft = Math.floor(difference / (1000*60*60*24));
+									//         }             
+									// }else if(vip = 'Yearly'){
+									//         fdate  = new Date();
+									//         fdate.setDate(9);
+									//         fdate.setMonth(7);
+									//         fdate.setFullYear(2017);
+									//         if(date.getTime()<fdate.getTime()){
+									//             difference = fdate.getTime()-date.getTime();
+									//             postUser.vipTimeLeft = Math.floor(difference / (1000*60*60*24));
+									//         }                
+									// }else if(vip = 'Super'){
+									//     postUser.vipTimeLeft = 'Infinite';
+									// }
+									// logger.debug(difference);
+
+
+									let contractLeft = Number(postUser.contractMoney);   
+									//let vip = postUser.vip; 
+									
+									let latestRole = postUser.latestRole;
+									let yearlyCharge = config.yearlyCharge;
+									let contractPerMonth;
+									let needMoney = false;
+									if(latestRole == 'Yearly'){
+										contractPerMonth = yearlyCharge/8;
+									}else if(latestRole == 'Trial'){
+										contractPerMonth = 99;
+									}
+
+									    
+									let monthLeft = Math.floor(contractLeft/contractPerMonth);
+
+								    if(monthLeft == 0){
+										needMoney = true;
+										postUser.needMoney = needMoney;
+									}								
+									postUser.monthLeft = monthLeft;
+
+
+									logger.debug(`contractLeft: ${contractLeft}`);
+
+
+
+									function getVipLeft(weekContract){
+										//let weekContract = 24.75;  //99/4;
+										if(contractLeft >= weekContract*3){
+											postUser.vipTimeLeft = 4;
+											
+										}else if(contractLeft >= weekContract*2 ){
+											postUser.vipTimeLeft = 3;
+										}else if(contractLeft >= weekContract*1 ){
+											postUser.vipTimeLeft = 2;
+										}else if(contractLeft >= 0 ){
+											postUser.vipTimeLeft = 0;
+										}else{
+											postUser.vipTimeLeft = 0;
+										}
+										logger.debug(`postUser.vipTimeLeft ${postUser.vipTimeLeft}`); 
+									}
 
 									
+									logger.debug(`latestRole is: ${latestRole}`);//latestRole is modified like Junior Admin
+
+									if(latestRole == 'Trial'){ 
+										getVipLeft(24.75);//99/4;
+										logger.debug(`enter into trial if`);
+									}else if(latestRole == 'Yearly'){
+										logger.debug(`enter into yearly if`);
+										getVipLeft(18.375);
+									}else if(latestRole === 'Super Admin' || latestRole === 'Junior Admin' ){
+										postUser.vipTimeLeft = 'Infinite';
+									}
+									logger.debug(`postUser.vipTimeLeft ${postUser.vipTimeLeft}`);      
+
 
 									res.render("users/profile", {
 										user: req.user ? req.user.processUser(req.user) : req.user,

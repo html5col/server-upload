@@ -33,7 +33,7 @@ var userSchema = new Schema({
           roles:[String],
           admin: {type: Boolean, default: false},
           contractMoney: {type:String, default: 0},
-          expiryDate: {type:String,default: 'Expired'},
+          //expiryDate: {type:String,default: 'Expired'},
           //location: String,
           meta: {
             age: Number
@@ -134,16 +134,17 @@ userSchema.methods.time = time=> {
 
 userSchema.methods.processUser = user=>{
     let roles = user.local.roles;
-    let latestRole,vip;
+    let latestRole;
+    let vip = false;
 
         if(helper.inArray(roles,'Super')){
             latestRole = 'Super Admin';
         }else if(helper.inArray(roles,'Junior')){
             latestRole = 'Junior Admin';
         }else if(helper.inArray(roles,'Yearly')){
-            latestRole = 'Yearly VIP';
+            latestRole = 'Yearly';
         }else if(helper.inArray(roles,'Trial')){
-            latestRole = 'Trial VIP';
+            latestRole = 'Trial';
         }else{
             latestRole = 'Nope';
         }
@@ -165,7 +166,7 @@ userSchema.methods.processUser = user=>{
         vip: vip,//for vip above 'Nope'
         roles: user.local.roles,
         contractMoney: user.local.contractMoney,
-        expiryDate: user.local.expiryDate,
+        //expiryDate: user.local.expiryDate,
         latestRole: latestRole,
         created_at: moment(user.local.created_at).format('L'),
         updated_at: moment(user.local.updated_at).format('L'),        

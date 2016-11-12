@@ -16,27 +16,29 @@ var config = {
   // debug 为 true 时，用于本地调试
   debug: true,
   env: 'production',
-
+  yearlyCharge: 588,
+  trialCharge: 99,
+  contractVipYear: 8,//month long
   //get mini_assets() { return !this.debug; }, // 是否启用静态文件的合并压缩，详见视图中的Loader
 
-  site_logo: '/public/images/cnodejs_light.svg', // default is `name`
-  site_icon: '/public/img/node_icon_32.png', // 默认没有 favicon, 这里填写网址
-  // 右上角的导航区
-  site_navs: [
-    // 格式 [ path, title, [target=''] ]
-    [ '/about', '关于' ]
-  ],
-  // cdn host，如 http://cnodejs.qiniudn.com
-  site_static_host: '', // 静态文件存储域名
+  // site_logo: '/public/images/cnodejs_light.svg', // default is `name`
+  // site_icon: '/public/img/node_icon_32.png', // 默认没有 favicon, 这里填写网址
+  // // 右上角的导航区
+  // site_navs: [
+  //   // 格式 [ path, title, [target=''] ]
+  //   [ '/about', '关于' ]
+  // ],
+  // // cdn host，如 http://cnodejs.qiniudn.com
+  // site_static_host: '', // 静态文件存储域名
   // 社区的域名
   host: hostname,
   // 默认的Google tracker ID，自有站点请修改，申请地址：http://www.google.com/analytics/
 
   uploadDir: path.join(appDir,'public/upload/'),
 
-  google_tracker_id: '',
-  // 默认的cnzz tracker ID，自有站点请修改
-  cnzz_tracker_id: '',
+  // google_tracker_id: '',
+  // // 默认的cnzz tracker ID，自有站点请修改
+  // cnzz_tracker_id: '',
 
   // mongodb 配置
   db: {
