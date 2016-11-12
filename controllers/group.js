@@ -403,113 +403,83 @@ module.exports = {
         },
 
         groupUpdate(req,res){
-                  let dataDir = config.uploadDir;
-                  logger.debug(dataDir);
-                  let photoDir = dataDir + 'groupLogo/';
-                  
 
-		
-                  try{
-
-                    const form = new formidable.IncomingForm();
-                    form.parse(req,(err,fields,file)=>{
+               let uploadFiles = require('../common/file')(req,res,undefined,undefined,'group_exist');
+                logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
+                let getData = new Promise(function(resolve,reject){
+                    uploadFiles.getData(function(err,...arg){//fields,files,photoName
                         if(err){
-                              logger.error('form parse error:' + err);
-                              req.flash('error','提交出错');
-                              return res.redirect(500, '/response/err/500');
-                        }else{
-                              const photo = file.photo;
-                              let thedir = photoDir;
-                              const time = Date.now();
+                            reject(err);
+                            logger.debug('error in getData: '+err);
+                            return;
+                        }
+                        resolve(arg);
+                    });
+                });
+                getData.then(function(arg){
+                     logger.debug('enter into getData');   
+                     let fields = arg[0],
+                         files = arg[1],
+                         photoName = arg[2];
+                     logger.debug(`fields ${JSON.stringify(fields)} files ${JSON.stringify(files)} photoName ${JSON.stringify(photoName)}`);
 
-                              const photoName = time + validator.trim(xss(photo.name)); 
-                              logger.debug('file.photo is' + JSON.stringify(photo));
-                              
-                              const fullPath = thedir + photoName;
-
-                              helper.checkDir(thedir,()=>{
-                                    fs.rename(photo.path, fullPath, err=>{
-                                          if (err) {
-                                              logger.error('rename error'+err); return; 
-                                           }else{
-                                               logger.debug('The file has been re-named to: ' + fullPath);
-                                           }
-                                          
-                                    });										
-                              });                 
-                              if(req.user){
-                                   let title = validator.trim(xss(fields.title)),
-                                       category = fields.category,
-                                       logo = photoName,
-                                       intro = validator.trim(xss(fields.intro));
+                    if(req.user){
+                        let title = validator.trim(xss(fields.title)),
+                            category = fields.category,
+                            logo = photoName,
+                            intro = validator.trim(xss(fields.intro));
 
 
-                                    if(title.length >= 2 && category && validator.trim(xss(photo.name)) && intro.length>=5){
-                                        const options = {
-                                            title: title,
-                                            category: category,
-                                            logo: logo,  
-                                            intro:intro,
-                                        };
-                                        const group_id = req.params.group_id;
-                                        Group.findById(group_id, function(err,group){
-                                            if(err){
-                                                req.flash('error','No such group！');
-                                                res.redirect('back');
-                                            }
-                                            //fs.unlink(`/upload/groupLogo/${time}${group.logo}`,function(err){
-                                                // if(err){
-                                                //     console.log('unlink the groupLogo fails');
-                                                // }else{
-                                                   // console.log('unlink the groupLogo successfully');
-                                                    Group.findOneAndUpdate({'_id': group_id}, {$set: options}, {new: true},function(err, group) {
-                                                                
-                                                                if(err){
-                                                                    logger.error(err);
-                                                                    req.flash('error',`更新小组失败`);
-                                                                    res.redirect('back');
-                                                                }else{
-                                                                    //tagProxy.saveSingle(req,res,post,tags);
-                                                                    logger.debug(`your group updated successfully: ${group._id}`);
-                                                                    req.flash('success','Updating successfully！');
-                                                                    res.redirect(`/group/single/${group._id}`);
-                                                                    //res.redirect('/');
-                                                                }
-                                                    });                                                       
-
-                                               // }
+                        if(title.length >= 2 && category && validator.trim(xss(photoName)) && intro.length>=5){
+                            const options = {
+                                title: title,
+                                category: category,
+                                logo: logo,  
+                                intro:intro,
+                            };
+                            const group_id = req.params.group_id;
+                            Group.findById(group_id, function(err,group){
+                                if(err){
+                                    req.flash('error','No such group！');
+                                    res.redirect('back');
+                                }else{
+                                    Group.findOneAndUpdate({'_id': group_id}, {$set: options}, {new: true},function(err, group) {
                                                 
-                                           // });
-                                            
+                                                if(err){
+                                                    logger.error(err);
+                                                    req.flash('error',`更新小组失败`);
+                                                    res.redirect('back');
+                                                }else{
+                                                    //tagProxy.saveSingle(req,res,post,tags);
+                                                    logger.debug(`your group updated successfully: ${group._id}`);
+                                                    req.flash('success','Updating successfully！');
+                                                    res.redirect(`/group/single/${group._id}`);
+                                                    //res.redirect('/');
+                                                }
+                                    });
+                                }
+                                                       
 
-                                        });
-
-                                        
-                                     
-                                    }else{
-                                        req.flash('error','Please fill the right data！');
-                                        res.redirect(303, 'back');                                        
-                                    }
-
-
-                              }else{
-                                    logger.info('user not login');
-                                    req.flash('error','Log in frist！');
-                                    res.redirect(303, '/user/login');
-                              }	
-
+                            });
+                            
+                        }else{
+                            req.flash('error','Please fill the right data！');
+                            res.redirect(303, 'back');                                        
                         }
 
 
-                    });//end of form.parse
+                    }else{
+                        logger.info('user not login');
+                        req.flash('error','Log in frist！');
+                        res.redirect(303, '/user/login');
+                    }	
 
-                  } catch(ex){
-                        logger.error(ex);
-                        return res.xhr ?
-                        res.json({error: 'error in database！'}):
-                        res.redirect(303, '/response/error/500');
-                  }            
-
+                })
+                .catch(function(err){
+                    logger.error('something wrong with the upload update getData func: '+ err.stack);
+                    req.flash('error','wrong when updating the getData func');
+                    res.redirect('back');
+                });
         },
 
 
