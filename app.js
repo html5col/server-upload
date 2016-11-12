@@ -4,10 +4,11 @@ function startServer(){
 
     const config = require('./config/config'),
 	      logger = require('./lib/logger'),
+		  mongoose = require('mongoose'),//In your app.js, load mongoose first before express.
           express = require('express'),
           bodyParser = require('body-parser'),
 	//to get the info of the form submit , you need to use req.body, which must require the body-parser middleware first
-          mongoose = require('mongoose'),
+          
 	      passport = require('passport'),
 		  mailService  = require('./lib/email')(config);
 
@@ -17,11 +18,14 @@ function startServer(){
 	      session      = require('express-session');
 
 	require('./lib/passport')(passport); // pass passport for configuration
+
+	
 	const User = require('./models/User'),
           app = express();
+	require('./part/context').env1(app,mongoose);//load mongoose first before express.
 	require('./part/security')(app);
 	//for logs, db ... in the different context (development or production)
-	require('./part/context').env1(app,mongoose);
+	
 	require('./part/set')(app);
 
 	app.use(express.static(__dirname + '/public'));

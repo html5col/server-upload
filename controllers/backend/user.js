@@ -254,9 +254,9 @@ module.exports = {
 
     failOne(req,res){
         let myid = req.query.user_id;
-        logger.debug('user_id in delete'+myid);
+        logger.debug('user_id in failOne'+myid);
         User.findOne({'_id': myid}, function(err,user){
- 
+
               if (err){
                   logger.error('findOne error in delete vip func'+err.stack);
                   return;
@@ -270,8 +270,8 @@ module.exports = {
              if(Number(money) === 0){
                  logger.error('error','Cannot set it below 0');
                  res.redirect(303, '/admin/users');
-             }else{
-                let punish;
+             }
+                let punish = 0;
                 if(role == 'Trial'){
                     punish = 24.75;
                 }else if(role == 'Yearly'){
@@ -287,7 +287,7 @@ module.exports = {
                         res.redirect('/admin/users');
 
                 });
-             }
+             
 
 
             

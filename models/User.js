@@ -28,7 +28,7 @@ var userSchema = new Schema({
           logo: {type: String},
           myGroups: [String],
           //Properties resetPasswordToken and resetPassword are not part of the above document, because they are set only after password reset is submitted. And since we haven’t specified default values, those properties will not be set when creating a new user.
-          resetPasswordToken: String,
+          resetPasswordToken: String, 
           resetPasswordExpires: Date,
           roles:[String],
           admin: {type: Boolean, default: false},

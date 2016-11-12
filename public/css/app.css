@@ -385,11 +385,38 @@ div.paging {
       margin-left: 0.9em;
       margin-top: 0; }
 
-.leftSlide .content-block p {
-  padding: 0.2rem 0;
-  padding-left: 0.7rem; }
-  .leftSlide .content-block p a {
-    color: white; }
+.leftSlide {
+  background-color: #35393f;
+  color: #fff; }
+  .leftSlide .content-block {
+    margin-bottom: 0; }
+    .leftSlide .content-block p {
+      padding: 0.2rem 0;
+      padding-left: 0.7rem; }
+      .leftSlide .content-block p a {
+        color: white; }
+  .leftSlide .slideTop {
+    border-bottom: 1px solid #2e3238; }
+    .leftSlide .slideTop .loginArea {
+      color: #fff; }
+  .leftSlide .slideService {
+    border-top: 1px solid #2e3238; }
+  .leftSlide .slideDownload {
+    border-top: 1px solid #2e3238;
+    margin-top: 10%; }
+  .leftSlide .slideFooter {
+    height: 36px;
+    width: 100%;
+    line-height: 36px;
+    color: #6e7784;
+    background-color: #31343b;
+    padding-left: 0;
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-left: 0 span;
+      margin-left-display: inline-block;
+      margin-left-margin-left: 1rem;
+      margin-left-font-size: 12px; }
 
 .groupArticles .tabContent {
   padding-left: 1rem;

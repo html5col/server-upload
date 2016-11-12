@@ -29,7 +29,7 @@ module.exports = function(User,passport){
         router.get('/forgotPassword', auth.notLoggedIn, user.forgotPassword);
         router.get('/logout', auth.isLoggedIn,user.logout);	
 
-        router.post('/postForgotPassword', user.postForgotPassword(User));
+        router.post('/postForgotPassword', user.postForgotPassword);
         router.post('/updateUser',auth.isLoggedIn, user.putUpdateUser(User));        
         router.post('/postSignup', user.postSignup(passport));        
         router.post('/postLogin', user.postLogin(passport));

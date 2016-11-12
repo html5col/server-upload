@@ -342,8 +342,8 @@ module.exports = {
 		       	 
 		},
 
-		postForgotPassword: User=>{
-		       return function(req,res){
+		postForgotPassword: (req,res)=>{
+		       
 					//var token;
 					//console.log();
 					crypto.randomBytes(20, (err, buf) => {
@@ -353,38 +353,52 @@ module.exports = {
 		              if(buf){
 		              	       logger.debug(`${buf.length} bytes of random data: ${buf.toString('hex')}`);
 		              	       const token = buf.toString('hex'),
-								     email = validator.trim(xxs(req.body.email));
+								     email = validator.trim(xss(req.body.email));
 
 
 					 			console.log(email);
-					            User.findOne({ 'local.email': email }, (err, user)=> {
-					                        if(err){logger.error(err);}
-									        if (!user) {
-									          req.flash('error', 'No account with that email address exists.');
-									          res.redirect('/user/forgotPassword');
-									        }
-									        let expires = Date.now() + 3600000;
+					            User.findOne({ 'local.email': email }, function(err, user) {
+					                        if(err){
+												logger.error(err);
+												req.flash('error','Error when getting email!');
+												res.redirect('back');
+											}
+											logger.debug(`user by email is : ${user}` );
+									        // if (!user) {
+									        //   req.flash('error', 'Email Token!');
+									        //   return res.redirect('/user/forgotPassword');
+									        // }
+											if(!!user){
+												let expires = Date.now() + 3600000;
+												logger.debug('entering into findOne in postForgotPassword func. user: '+ JSON.stringify(user));
 
-									        user.local.resetPasswordToken = token;
+												user.local.resetPasswordToken = token;
 
-									        user.local.resetPasswordExpires = expires; // 1 hour
-									        //user.local.password = user.generateHash(req.body.password);
-									       // console.log(Date.now().getDate(),Date.now().getTime());
+												user.local.resetPasswordExpires = expires; // 1 hour
+												//user.local.password = user.generateHash(req.body.password);
+											// console.log(Date.now().getDate(),Date.now().getTime());
 
-					                        mailService.send(user.local.email, 'Password Reset', 
-												          '<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-												          'Please click on the following link, or paste this into your browser to complete the process(the password reset will be invalid in 1 hour ):</p>\n\n' +
-												          '<strong> http://' + req.headers.host + '/user/reset/' + token + '</strong>\n\n' +
-												          '<p>If you did not request this, please ignore this email and your password will remain unchanged.</p>\n'
+												mailService.send(user.local.email, 'Password Reset', 
+															'<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+															'Please click on the following link, or paste this into your browser to complete the process(the password reset will be invalid in 1 hour ):</p>\n\n' +
+															'<strong> http://' + req.headers.host + '/user/reset/' + token + '</strong>\n\n' +
+															'<p>If you did not request this, please ignore this email and your password will remain unchanged.</p>\n'
 
-					                        	);
-									        user.save(err=> {
-					                            if (err){logger.error(`err in saving user: ${err}`);}
-					                            req.flash('info', 'An e-mail has been sent to ' + user.local.email + ' with further instructions.!');
-					                            res.redirect('/user/login');
-					                            //return done(null, user, );
+													);
+												user.save(err=> {
+													if (err){logger.error(`err in saving user: ${err}`);}
+													req.flash('info', 'An e-mail has been sent to ' + user.local.email + ' with further instructions.!');
+													res.redirect('/user/login');
+													//return done(null, user, );
 
-									        });
+												});
+											}else{
+											  req.flash('error', 'No user found by the Email!');
+									          return res.redirect('/user/forgotPassword');
+											}
+
+			
+
 
 					             });   
 
@@ -392,8 +406,6 @@ module.exports = {
 
 					});
 
-
-		      };
 		},
 
 		putUpdateUser: User=>{
