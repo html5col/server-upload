@@ -4,7 +4,7 @@
             <div class="slideTop">
              {{#if user}}
              <!--<p class="welcome">Welcome back</p>-->
-              <p class="loginArea"> <a href="/user/profile/{{user._id}}">{{user.username}}</a> &nbsp <a href="/user/logout" external>Logout</a></p>
+              <p class="loginArea"> <a href="/user/profile/{{user._id}}" external>{{user.username}}</a> &nbsp <a href="/user/logout" external>Logout</a></p>
              {{else}}
                <p class="loginArea"> <a href="/user/login" external>Login</a> &nbsp <a href="/user/signup" external>Signup</a></p>
              {{/if}}
