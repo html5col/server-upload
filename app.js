@@ -21,7 +21,7 @@ function startServer(){
 
 	
 	const User = require('./models/User'),
-          app = express();
+          app = express(); 
 	require('./part/context').env1(app,mongoose);//load mongoose first before express.
 	require('./part/security')(app);
 	//for logs, db ... in the different context (development or production)

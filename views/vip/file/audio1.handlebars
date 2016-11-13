@@ -14,17 +14,17 @@
               </a>
              {{#if user}}
                 {{#if user.vip}}
-                  <a class="button button-link button-nav pull-right" external href="">
+                  <a class="button button-link button-nav pull-right" external href="javascript:void(0)">
                     VIP
                   </a>
                 {{else}}
-                  <a class="button button-link button-nav pull-right" external href="/services">
+                  <a class="button button-link button-nav pull-right" external href="/service">
                    成为VIP
                   </a>
                 {{/if}} 
 
               {{else}}
-                   <a class="button button-link button-nav pull-right" external href="/services">
+                   <a class="button button-link button-nav pull-right" external href="/service">
                    成为VIP
                   </a>             
               {{/if}}  
@@ -44,18 +44,151 @@
                <ul>
                  <li>精选学习音频下载: <a href="https://pan.baidu.com/s/1qXUQTZ2">Download</a></li>
                  <li>
-                    密钥：VIP用户可见<br>
+                    
                   {{#if user}}
                     {{#if user.vip}}
-                      dxvw
+                      <p>密钥: dxvw</p>
+                      <p>在线音频: </p>
+                      <p><audio controls src="/media/valley.mp3"></audio></p>
+                      <!--http://av.voanews.com/clips/VLE/2014/09/24/bd1e75fa-0f81-4b01-957e-8784f081cde1.mp3-->
                     {{else}}
                       <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
                     {{/if}}
                   {{else}}
-                      
-                      <p>成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
+                      <p>密钥: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p>在线音频: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p style="border:1px dashed red;padding:0.7rem 1rem;">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
                   {{/if}}
                  </li>
+
+
+                 <li>背景:
+                   <p>1789年4月3日，华盛顿·欧文出生于纽约市。那时独立战争已接近尾声。他的父母以乔治·华盛顿将军的姓氏给他起名华盛顿·欧文。1809年，欧文完成了他的第一本书——《纽约外史》。这本书嘲讽了当地的历史和政治。欧文还写了许多品评人们的信仰和政治观点的讽刺作品和幽默故事。《睡谷传奇》和《瑞普·凡·温克尔》是他的最著名的两部短篇小说。欧文是美国历史上第一位以写作为生的作家，被誉为“美国短篇小说之父”。</p>
+                 </li>
+                 <li>词汇讲解:
+                   <pre>
+1, The Legend of Sleepy Hollow 沉睡的山谷
+2, Washington Irving 人名
+3, Doug Johnson.人名
+4, Tarry Town 地名，详情见参考文献
+5, American Revolutionary War美国独立战争
+6, burial place 墓地
+7, Ichabod Crane 人名，职业老师
+8, crane（ a tall bird, a crane） 鹤，详情见参考文献
+                  {{#if user}}
+                    {{#if user.vip}}
+9, large glassy green eyes： glassy
+10, flat adj 平的
+11, a rich Dutch farmer : 富裕的荷兰农民
+12, a girl in bloom： 花开少女
+13, a strong young man named Brom Van Brunt：Brom Van Brunt 人名
+14, Brom Van Brunt 人名
+15, his hair was short and curly： 短而卷曲的头发
+16, A farmer loaned him an old horse for the long trip to the party：loan vt 借
+17, the revolutionary war: 美国独立战争, 详情见参考文献
+18, The horseman followed over bush and stone until they came to the end of the valley.
+那人在树梢和岩石上紧追不舍
+
+19, He began to whistle as he came close to the tree where a man had been killed years ago by rebels.
+20, whistle： n 口哨
+21, rebels：n 反叛者
+
+22, to Ichabod's horror he saw it was a horse
+23, kick vt.踢
+    例句 He threw me to the ground and started to kick.
+    他把我摔倒在地开始踢我。
+24, to sb’s horror 使某人感到恐惧的是
+                  {{else}}
+                      <p><span style="color:#e3e3e3;">剩余内容VIP用户可见</span></p>
+                  {{/if}}
+
+                {{else}}
+                  <p><span style="color:#e3e3e3;">剩余内容登录用户可见</span></p>
+                {{/if}}
+25, the sound of thunder： 闪电声
+26, a round orange pumpkin. pumpkin 南瓜
+27, they wondered why he laughed out loud ： 这是我们在X-Plan计划 VIP群里聊过的LOL 的缩写
+
+28. believe vt.相信;以为
+例句：If you believe in yourself you can succeed.
+只要自信，就能成功。
+29. kick vt.踢
+例句：He threw me to the ground and started to kick.
+他把我摔倒在地开始踢我。
+30. remember vt.记得; 牢记
+例句：Did you remember your other appointment for today?
+还记得今天的另一个约会吗？
+31. wonder vt.惊奇; 对…感到好奇的例句：I wonder if you supply toys.
+不知贵公司是否供应玩具。
+32. laugh vi.笑; 发笑; 嘲笑
+例句：I laugh all alone at my complete inanity.
+十分无聊时，我就独自大笑。                     
+                   </pre>
+
+                 </li>
+                 <li>短语讲解:
+                   <pre>
+1. His head was shot off.
+shoot off 打掉; 炸掉; 放枪
+例句：Children like to shoot off firecrackers in the Spring Festival.
+孩子们喜欢在春节时放鞭炮。
+2. It was in front of the rider, resting on the horse.
+in front of 面前; 在…前面; 当着…的面
+例句：A doctor has the title 'Dr' in front of his name.
+医生的名字前有“Dr”这个称呼。
+3. He saw the man pick up his head and throw it with a powerful force.
+pick up 捡起; 接载; 学会
+例句：I'd really like to pick up Grandpa at the railroad station.
+我真想去火车站接爷爷。
+4. He said he was sure he saw Ichabod there.
+be sure 确信; 诚然; 有谱儿
+例句：It was worth a thought, to be sure.
+真的，这确是一件值得注意的事情。                     
+                   </pre>
+                 </li>
+
+                 <li>疑难句子释义：
+                   <pre>
+1, Among the ladies Ichabod taught was one Katrina Van Tassel.
+中文意思为“Lchabod教的女学生中其中有一个叫Katrina Van Tassel”
+这个句子看起来有点奇怪，它是
+                  {{#if user}}
+                    {{#if user.vip}}
+在以上这个句子中转变而来的，具体我们会在线上聚会详细再讲解:
+one was {Katrina Van Tassel} among the ladies( the ladies Ichabod taught )
+2， there were many problems blocking the road to Katrina's heart.
+                    {{else}}
+                    <p><span style="color:#e3e3e3;">剩余内容VIP用户可见</span></p>
+                    {{/if}}
+                 {{else}}
+                  <p><span style="color:#e3e3e3;">剩余内容登录用户可见</span></p>
+                 {{/if}}
+
+要想得到Katrina的心，还有很多障碍
+                   </pre>
+
+                 </li>
+
+                 <li>音频文本:
+                   <pre>
+周末发布！                   
+                   </pre>
+
+                 </li>
+
+                 <li>相关文献参考
+                   <p><a href="https://en.wikipedia.org/wiki/Tarrytown,_New_York">Harry Town介绍【Wikipedia】</a></p>
+                   <p><a href="https://en.wikipedia.org/wiki/Crane_(bird)">Crane(a tall bird)【Wikipedia】</a></p>
+                   <p><a href="http://blog.sina.com.cn/s/blog_459a903501011vm1.html">Harry Town介绍及美景【sina】</a></p>
+                   <p><a href="https://en.wikipedia.org/wiki/American_Revolutionary_War">American Revolutionary War</a></p>
+                   
+                   
+                   
+                 </li>
+
+
+
+
                </ul>
               </div>
 

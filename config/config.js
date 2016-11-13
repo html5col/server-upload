@@ -76,7 +76,7 @@ var config = {
   port: 8000,
 
   // 话题列表显示的话题数量
-  list_topic_count: 20,
+  list_topic_count: 3,
 
   // 邮箱配置
   mail_opts: {

@@ -6,7 +6,8 @@ const User    = require('../models/User'),
       moment = require('moment'),
       helper = require('../lib/utility'),
       validator = require('validator'),
-      xss = require('xss'),      
+      xss = require('xss'),     
+      config = require('../config/config'), 
       logger = require('../lib/logger');                           
 
 module.exports = {
@@ -164,7 +165,8 @@ module.exports = {
         getTen:  function(name,page,callback, ...args){
 
                 let query = {};
-                const globalThis = this;
+                const globalThis = this,
+                      topicCount = config.list_topic_count;
                 if(name){
                     if(args[0]){         
                         query.tag_id = name;
@@ -192,7 +194,7 @@ module.exports = {
                     });  
                 });
                 getCount.then(function(count){
-                    Post.find(query).skip((page-1)*3).limit(3).sort({'updated_at':-1}).exec((err,posts)=>{
+                    Post.find(query).skip((page-1)*topicCount).limit(topicCount).sort({'updated_at':-1}).exec((err,posts)=>{
                             if (err) {
                                logger.error(`no posts found: ${err}`);
                                //throw.error('no post found');
