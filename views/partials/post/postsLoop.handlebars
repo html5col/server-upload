@@ -2,6 +2,8 @@
 {{#if posts}} 
   {{#each posts}}      
       <div class="listWrapper">
+
+        
           <div class="topGroup">
             
                 {{#if ../group}}
@@ -16,9 +18,10 @@
             <div class="leftText">
               <h2>{{title}}</h2>
               <p><a href="/post/show/{{title}}" external> {{{intro}}}...</a></p>
-            </div><!----><div class="rightImg" style="background-image:url('/upload/postLogo/{{image}}');">
-            </div>
+            </div><!----><div class="rightImg" style="background-image:url('/upload/postLogo/{{image}}');"></div>
           </div>
+
+
           <div style="clear:all" class="bottomLine">
 
             <p>{{author}} 作品</p> 
@@ -40,11 +43,14 @@
       </div>
       <!--for getting url-->
 
+    {{/each}}
+    {{/if}}
+
 
       
 
-  {{/each}}
+
   {{> post/paging }}     
-{{/if}}  
+
 
 

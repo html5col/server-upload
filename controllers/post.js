@@ -252,7 +252,7 @@ module.exports =  {
                     logger.debug("Done");
                 })
                .catch(function(err){
-                  logger.error(`error With title ${title}: ${err.message ? err.message : err}`);
+                  logger.error(`error With title ${title}: ${err.message ? err.message : err.stack}`);
                   req.flash('error','No such post!');
                   res.redirect('back');
                });
