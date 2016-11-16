@@ -31,6 +31,9 @@ module.exports = {
                           fn(modifiedUser);  
                     }
               });
+
+
+              //return user;
       },
 
 

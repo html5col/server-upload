@@ -94,7 +94,7 @@ module.exports =  {
                               const post = new Post();
                               post.author = user.username;
                               post.user_id = user._id;
-                              post.title = title;
+                              
                               post.content = content;
                               //post.intro = intro;
                               post.group_id = group_id;
@@ -102,6 +102,15 @@ module.exports =  {
                               post.category = category;
                               post.image = photoName;
 
+                              //const specialStr = '#' || '/' || '?';
+                              let newTitle;
+                              if(title.match(/#\/\?/)){
+                                newTitle = title.replace(/#\/\?/g,'11');
+                                logger.debug(newTitle);
+                              }else{
+                                   newTitle = title;
+                              }
+                              post.title = newTitle;
                               
             
                               post.save((err)=>{
