@@ -44,9 +44,13 @@ function startServer(){
 
 	app.use(cookieParser()); // read cookies (needed for auth)
 	/******form part start：  get information from html forms*******/
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({ extended: false }));
+	//app.use(bodyParser.json());
+	app.use(bodyParser.json({limit: "50mb"}));
+	//app.use(bodyParser.urlencoded({ extended: false }));
+	app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 	//or app.use(require('body-parser')());
+
+
 
 	//redis session starts:
 	// Create express-session and pass it to connect-redis object as parameter. This will initialize it.
