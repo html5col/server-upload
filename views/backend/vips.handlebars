@@ -34,6 +34,7 @@
 
                 <ul style="margin:2em;">
                     <li><a href="/admin/users">Users</a></li>
+                     <li><a href="/admin/vips">VIPs</a></li>
                 </ul>
                 <table style="width:900px;text-align:left;margin:0 2em;">
                     <thead>
@@ -43,6 +44,8 @@
                         <th>VIP</th>
                         <th>TimeLeft</th>
                         <th>Active</th>
+                        <th>Money Left</th>
+
                        
                     </thead>
 
@@ -102,7 +105,7 @@
                             </td>
                              <td>{{vipTimeLeft}}</td>
                             <td>{{active}}</td>
-                            
+                            <td>{{contractMoney}}</td>
                         </tr>
                         {{/each}}
                     </tbody>
