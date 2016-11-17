@@ -1,0 +1,155 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+    <style>
+     .showMe{
+         display:block;
+     }
+     .hideMe{
+         display:none;
+     }
+    </style>
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+
+              <h1 class='title'>Users Setting</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+           
+              <div class="content-block">
+
+                <ul style="margin:2em;">
+                    <li><a href="/admin/users">Users</a></li>
+                </ul>
+                <table style="width:900px;text-align:left;margin:0 2em;">
+                    <thead>
+                        <!--<th>user_id</th>-->
+                        <th>username</th>
+                        <th>Email</th>
+                        <th>VIP</th>
+                        <th>TimeLeft</th>
+                        <th>Active</th>
+                       
+                    </thead>
+
+                    <tbody>
+                        {{#each vips}}
+                        <tr>
+                            <!--<td>{{_id}}</td>-->
+                            <td>{{username}}</td>
+                            <td>{{email}}</td>
+                            <td style="width:auto;">
+                                {{roles}}
+                                <!--<a href="/admin/vip/delete?user_id={{_id}}" class="deleteToggle">Delete Vip</a> &nbsp-->
+
+                                ## <a class="deleteToggle{{username}}" href="/admin/vip/delete?user_id={{_id}}">Delete VIP</a> ||
+                                <!--<ul class="deleteDetails{{username}} hideMe">
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Trial">Delete Trial VIP</a></li>
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Yearly">Delete Yearly VIP</a></li>
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Super">Delete Super Admin</a></li>
+                                    <li><a href="/admin/vip/delete?user_id={{_id}}&vip=Junior">Delete Admin</a></li>
+                                </ul>-->
+
+
+                                <!--<a href="/admin/vip/make?user_id={{_id}}">Make Vip</a>-->
+                                <a class="makeToggle{{username}}">Make VIP</a> ||
+                                <ul class="makeDetails{{username}} hideMe">
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Trial">Trial VIP</a></li>
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Yearly">Yearly VIP</a></li>
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Super">Super Admin</a></li>
+                                    <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Junior">Admin</a></li>
+                                </ul>
+
+                                <a href="/admin/vip/failOne?user_id={{_id}}">失败一周</a> 
+
+
+                                    <script>
+                                    (function(){
+                                        // var makeToggle = makeToggle{{username}};
+                                        // var makeDetails = makeDetails{{username}};
+                                        function getByClass(myclass){
+                                            return document.getElementsByClassName(myclass);
+                                        }
+                                        var clickToToggle = getByClass('makeToggle{{username}}')[0],
+                                            deleteToggle = getByClass('deleteToggle{{username}}')[0],
+                                            clickDetails = getByClass('makeDetails{{username}}')[0],
+                                            deleteDetails = getByClass('deleteDetails{{username}}')[0];
+                                        function toggle(toggle,details){
+                                           toggle.onclick = function(e){
+                                                e.preventDefault();
+                                                details.classList.toggle('hideMe');
+                                            };                                            
+                                        }
+                                        toggle(clickToToggle,clickDetails);
+                                        toggle(deleteToggle,deleteDetails);
+                                    }());
+                                    </script>
+
+                            </td>
+                             <td>{{vipTimeLeft}}</td>
+                            <td>{{active}}</td>
+                            
+                        </tr>
+                        {{/each}}
+                    </tbody>
+
+                </table>
+
+              </div>
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+    {{#extend 'js'}}
+
+    {{/extend}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+       
+           

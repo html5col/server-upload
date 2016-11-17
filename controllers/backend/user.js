@@ -294,13 +294,34 @@ module.exports = {
 
 
         });
-
-
-
-
-
-
-
     },
+
+    vipUsers(req,res){
+        User.find({},function(err,users){
+            if(err){logger.error(err);}
+            let vips = [];
+            users.forEach(function(user){
+                let roles = user.local.roles;
+                if(roles[0]){
+                    vips.push(user.processUser(user));
+                }
+            });
+            logger.debug(`the vips array ${JSON.stringify(vips)}`);
+            res.render('backend/vips',{
+                 user: req.user ? req.user.processUser(req.user) : req.user,
+                 vips: vips               
+            });
+
+
+        });
+    },
+
+
+
+
+
+
+
+
 
 };

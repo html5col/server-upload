@@ -41,7 +41,19 @@ module.exports = {
 				user: req.user ? req.user.processUser(req.user) : req.user,				
 		});
     },
-
+    audio2(req,res){
+        res.render('vip/file/audio2',{
+				title:'the_Free_Internet音频学习',
+				keywords:'X-Plan音频学习,Freedom House: Internet Continues to Become Less Free,英语听力,英语学习',
+				description:'X-Plan音频学习,在线Freedom House: Internet Continues to Become Less Free音频及详细释义',						
+				messages: {
+					error: req.flash('error'),
+					success: req.flash('success'),
+					info: req.flash('info'),
+				}, 
+				user: req.user ? req.user.processUser(req.user) : req.user,				
+		});
+    },
     
 
 };
