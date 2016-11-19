@@ -51,6 +51,7 @@ module.exports = {
             //    });
             //   return getArr;
                 let arr = [];
+                let i = 0;
                 posts.forEach(function(post){
                         let modifiedPost = post.processPost(post);
                         post.comments(post._id,function(comments){
@@ -59,8 +60,7 @@ module.exports = {
                             post.group(post.group_id,function(group){
                                 modifiedPost.group = group;
                                 arr.push(modifiedPost);
-                                
-                                
+                                i++;
                             });
 
                         });
@@ -217,9 +217,28 @@ module.exports = {
                                 // console.log('modifiedPosts: '+JSON.stringify(modifiedPosts));
                                // let modifiedPosts = globalThis.modifyPosts(posts);
 
-                            globalThis.modifyPosts(posts,function(newPosts){
-                                 callback(null, newPosts, count);   
-                            });
+                            // globalThis.modifyPosts(posts,function(newPosts){
+                            //      callback(null, newPosts, count);   
+                            // });
+                           
+                            for(let i=0,length=posts.length;i<length;i++){
+                                
+
+                                let modifiedPost = posts[i].processPost(posts[i]);
+                                posts[i].comments(posts[i]._id,function(comments){
+                                    modifiedPost.comments = comments;
+
+                                    posts[i].group(posts[i].group_id,function(group){
+                                        modifiedPost.group = group;
+                                        
+                                    });
+
+                                });
+
+                            }
+                            callback(null,posts,count);
+                             
+
                             // callback(null, modifiedPosts, count);   
                                
                             // .catch(function(err){
@@ -241,6 +260,7 @@ module.exports = {
                             //       });
                             //       modifyPost.then(function(apost){
                             //           myPosts.push(apost);
+
                                      
                             //       }).catch(function(e){
                             //           logger.error('error'+ e);
