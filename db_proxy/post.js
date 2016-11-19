@@ -8,10 +8,11 @@ const User    = require('../models/User'),
       validator = require('validator'),
       xss = require('xss'),     
       config = require('../config/config'), 
+      //co_handle = require('../lib/co-handler'),
       logger = require('../lib/logger');                           
 
 module.exports = {
-        modifyPosts: function(posts){
+        modifyPosts: function(posts,callback){
             // let arr = [];
             //    let getArr = new Promise(function(resolve,reject){
             //       posts.forEach(function(post,i,a){
@@ -49,18 +50,34 @@ module.exports = {
                   
             //    });
             //   return getArr;
+                let arr = [];
+                posts.forEach(function(post){
+                        let modifiedPost = post.processPost(post);
+                        post.comments(post._id,function(comments){
+                            modifiedPost.comments = comments;
 
-            let modifiedPosts = posts.map(post=>{
-                    let modifiedPost = post.processPost(post);
-                    post.comments(post._id,function(comments){
-                        modifiedPost.comments = comments;
-                    });
-                    post.group(post.group_id,function(group){
-                        modifiedPost.group = group;
-                    });
-                    return modifiedPost;
-            }); 
-            return modifiedPosts;           
+                            post.group(post.group_id,function(group){
+                                modifiedPost.group = group;
+                                arr.push(modifiedPost);
+                                
+                                
+                            });
+
+                        });
+                   });
+                   setTimeout(callback(arr),3000);
+            // let modifiedPosts = posts.map(post=>{
+            //         let modifiedPost = post.processPost(post);
+            //         post.comments(post._id,function(comments){
+            //             modifiedPost.comments = comments;
+            //         });
+            //         post.group(post.group_id,function(group){
+            //             modifiedPost.group = group;
+            //         });
+            //         return modifiedPost;
+            // }); 
+            // return modifiedPosts;      
+            
         },
 
         modifyPost: function(post,cb){
@@ -200,8 +217,11 @@ module.exports = {
                                 // console.log('modifiedPosts: '+JSON.stringify(modifiedPosts));
                                // let modifiedPosts = globalThis.modifyPosts(posts);
 
-                            let modifiedPosts = globalThis.modifyPosts(posts);
-                                callback(null, modifiedPosts, count);   
+                            globalThis.modifyPosts(posts,function(newPosts){
+                                 callback(null, newPosts, count);   
+                            });
+                            // callback(null, modifiedPosts, count);   
+                               
                             // .catch(function(err){
                             //     logger.debug('err when using modifyPosts in getTen func '+err);
                             //     res.redirect('back');

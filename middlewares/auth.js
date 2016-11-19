@@ -47,7 +47,7 @@ module.exports = {
 							logger.debug('');
 							return next();
 						}else{
-							req.flash('error','VIP Required to view it！');
+							req.flash('error','VIP required to view it！');
 							res.redirect('back');//unauthorized							
 						}
 					}else{
