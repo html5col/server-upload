@@ -13,5 +13,7 @@ router.get('/vips', user.vipUsers);
 router.get('/vip/choose', user.chooseVip);
 router.get('/vip/delete', user.deleteVip);
 router.get('/vip/count', user.xplanCount);
+router.get('/vip/reset', user.reset);
+
 
 module.exports = router;

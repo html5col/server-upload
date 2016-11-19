@@ -226,6 +226,43 @@ user.xplanCount = co_handle(function*(req,res,next){
         });
        // });   
 });
+user.reset = co_handle(function*(req,res,next){
+        let myid = req.query.user_id,
+            reset = req.query.reset;
+           // forFail = req.query.fail;
+        logger.debug('user_id in failOne'+myid);
+       // User.findOne({'_id': myid}, function(err,user){
+        let findUser = yield User.findOne({'_id': myid}).exec();
+
+        logger.debug('find user: '+ findUser);
+
+        let modifiedUser = findUser.processUser(findUser), 
+            money = modifiedUser.contractMoney,
+            role = modifiedUser.latestRole;
+
+        if(Number(money) === 0){
+            logger.error('error','already 0');
+            res.redirect(303, '/admin/vips');
+        }
+        if(reset == 'success'){
+            findUser.local.successCount = 0;
+            
+        }else if(reset == 'fail'){
+            findUser.local.failCount = 0;
+        }
+
+
+        findUser.save(function(err){
+                if (err){
+                    logger.error('reset fails'+err.stack);
+                    return;
+                }else{
+                    logger.debug('reset for id: '+myid);
+                    res.redirect('/admin/users');
+                }
+        });
+       // });   
+});
 
 user.vipUsers = co_handle(function*(req,res,next){
     let findUsers = yield User.find().exec();
