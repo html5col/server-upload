@@ -138,11 +138,16 @@ function startServer(){
 	});	
 }
 
-
 if(require.main === module){
 	//app runs directly, start server
 	startServer();
 }else{
-	//app runs through a module imported by 'require': export the function
-	module.exports = startServer;
+    module.exports = startServer;
 }
+// if(require.main === module){
+// 	//app runs directly, start server
+// 	startServer();
+// }else{
+// 	//app runs through a module imported by 'require': export the function
+// 	module.exports = startServer;
+// }

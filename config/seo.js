@@ -86,7 +86,12 @@ var config = {
              title: '重置密码',
             keywords: '密码重置',
             description: '用户密码重置...',               
-          },     
+          }, 
+          hotUsers: {
+             title: '活跃用户',
+            keywords: '活跃用户',
+            description: 'X-Plan计划活跃用户...',               
+          },      
       },
       post:{
           make: {

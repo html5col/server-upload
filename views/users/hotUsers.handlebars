@@ -1,0 +1,114 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+    <style>
+     .showMe{
+         display:block;
+     }
+     .hideMe{
+         display:none;
+     }
+     .userCard .card-content-inner ul>li{
+         position: relative;
+     }
+     .userCard .card-content-inner ul>li>span{
+         display:inline-block;
+         position:absolute;
+         left:40%;
+         
+     }
+
+    </style>
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+
+              <h1 class='title'>Hot Users &nbsp {前八排名}</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+           
+              <div class="content-block">
+                {{#each vips}}
+
+                    <div class="card userCard">
+                        <div class="card-header">{{username}} 
+                           {{#if vip}}
+                            <span>VIP</span>
+                           {{/if}}
+                        </div>
+                        <div class="card-content">
+                            <div class="card-content-inner">
+                                        <ul>
+                                            <li>角色: <span>{{latestRole}}</span></li>
+                                            <li>坚持成功周数: <span>{{successCount}} 周</span></li>
+                                            <li>学习失败周数: <span>{{failCount}} 周</span></li>                                        
+                                            <li>资金剩余: <span>￥ {{contractMoney}}</span></li>
+                                            <li>会员时长: <span>{{vipTimeLeft}} 时</span></li>
+                                            
+                                        </ul>          
+                            </div>
+                        </div>
+                        <div class="card-footer"><a href="/user/profile/{{_id}}">{{username}}'s homepage</a></div>
+                    </div>
+
+                {{/each}}
+              </div>
+                
+
+           </div><!--content-->
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+    {{#extend 'js'}}
+
+    {{/extend}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+       
+           

@@ -33,7 +33,76 @@ module.exports = {
 				user: req.user ? req.user.processUser(req.user) : req.user,				
 			});
 		},
-		
+
+		hotUsers: (req,res)=>{
+			User.find({
+				//'local.contractMoney': { $gt: 0,$lt: 100000},
+				'local.roles': { $in: ['Trial', 'Yearly'] },
+			}).
+			sort({ 'local.successCount': -1 }).
+			sort({ 'local.contractMoney': -1 }).
+			limit(8).
+			exec(function(err, users){
+				if(err){
+					logger.error(`err when find hotUser: ${err.stack}`);
+					req.flash('error', 'Error finding users!');
+					res.redirect('back');
+				}				
+				let modifiedUsers = userProxy.modifyUsers(users); 
+				require('../part/countTime').countTime(modifiedUsers);	
+				let options = {
+					title:seo.user.hotUsers.title,
+					keywords:seo.user.hotUsers.keywords,
+					description:seo.user.hotUsers.description,						
+					messages: {
+						error: req.flash('error'),
+						success: req.flash('success'),
+						info: req.flash('info'),
+					}, 
+					vips: modifiedUsers,
+					user: req.user ? req.user.processUser(req.user) : req.user,				
+				};		
+				res.render('users/hotUsers',options);
+			});
+
+		},
+
+		// hotUser: (req,res)=>{
+		// 	//let vip = false;
+		// 	User.find({},function(err,users){
+		// 		if(err){
+		// 			logger.error(`err when find hotUser: ${err.stack}`);
+		// 			req.flash('error', 'Error finding users!');
+		// 			res.redirect('back');
+		// 		}
+		// 		// let vipUsers = [];	
+		// 		// users.forEach(function(user){
+		// 		// 	let modifiedUser = user.processUser(user);
+		// 		// 	modifiedUser.isVip = false;
+		// 		// 	if(user.local.roles[0]){
+		// 		// 		modifiedUser.isVip = true;
+		// 		// 		vipUsers.push(modifiedUser);
+		// 		// 	}
+		// 		// });
+		// 		res.render('users/hotUsers',{
+		// 					title:seo.user.hotUsers.title,
+		// 					keywords:seo.user.hotUsers.keywords,
+		// 					description:seo.user.hotUsers.description,						
+		// 					messages: {
+		// 						error: req.flash('error'),
+		// 						success: req.flash('success'),
+		// 						info: req.flash('info'),
+		// 					}, 
+		// 					vips: vipUsers,
+		// 					user: req.user ? req.user.processUser(req.user) : req.user,
+
+		// 		});
+
+
+		// 	});
+
+
+		// },
 		signup: (req,res)=>{
 					//render the page and pass in any flash data if it exists, req.flash is provided by connect-flash
 				    res.render('form/signup', { 

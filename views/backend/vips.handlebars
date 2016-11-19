@@ -33,10 +33,10 @@
               <div class="content-block">
 
                 <ul style="margin:2em;">
-                    <li><a href="/admin/users">Users</a></li>
-                     <li><a href="/admin/vips">VIPs</a></li>
+                    <li><a href="/admin/users" external>Users</a></li>
+                     <li><a href="/admin/vips" external>VIPs</a></li>
                 </ul>
-                <table style="width:900px;text-align:left;margin:0 2em;">
+                <table style="min-width:1000px;text-align:left;margin:0 2em;">
                     <thead>
                         <!--<th>user_id</th>-->
                         <th>username</th>
@@ -45,6 +45,7 @@
                         <th>TimeLeft</th>
                         <th>Active</th>
                         <th>Money Left</th>
+                        <th>result</th>
 
                        
                     </thead>
@@ -77,9 +78,9 @@
                                     <li><a href="/admin/vip/choose?user_id={{_id}}&vip=Junior">Admin</a></li>
                                 </ul>
 
-                                <a href="/admin/vip/failOne?user_id={{_id}}">失败一周</a> 
-
-
+                                <a href="/admin/vip/count?user_id={{_id}}&&result=failOne">失败一周</a> ||
+                                <a href="/admin/vip/count?user_id={{_id}}&&result=successOne">成功一周</a>
+            
                                     <script>
                                     (function(){
                                         // var makeToggle = makeToggle{{username}};
@@ -106,6 +107,7 @@
                              <td>{{vipTimeLeft}}</td>
                             <td>{{active}}</td>
                             <td>{{contractMoney}}</td>
+                            <td>失败：{{failCount}} 次 $$ 成功： {{successCount}} 次</td>
                         </tr>
                         {{/each}}
                     </tbody>

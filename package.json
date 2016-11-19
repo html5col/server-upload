@@ -26,6 +26,7 @@
     "body-parser": "^1.15.2",
     "ckeditor": "4.5.10",
     "cluster": "^0.7.7",
+    "co": "4.6.0",
     "connect-flash": "^0.1.1",
     "connect-redis": "^3.1.0",
     "connect-rest": "2.7.5",

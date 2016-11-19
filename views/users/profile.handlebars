@@ -77,7 +77,15 @@
                         <div class="item-media"><i class="icon icon-f7"></i></div>
                         <div class="item-inner">
                         <div class="item-title">Email</div>
-                        <div class="item-after">{{ postUser.email }}</div>
+                        <div class="item-after">
+                            {{#if isMyPosts}}
+                             {{ postUser.email }}
+                            {{else}}
+                              ******
+                            {{/if}}                                
+                           
+                            
+                        </div>
                         </div>
                     </li>
                     <li class="item-content item-link">

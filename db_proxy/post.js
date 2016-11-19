@@ -13,10 +13,6 @@ const User    = require('../models/User'),
 module.exports = {
         modifyPosts: function(posts){
             // let arr = [];
-
-            
-                 
-                
             //    let getArr = new Promise(function(resolve,reject){
             //       posts.forEach(function(post,i,a){
             //             let modifiedPost = post.processPost(post);
@@ -52,7 +48,6 @@ module.exports = {
 
                   
             //    });
-        
             //   return getArr;
 
             let modifiedPosts = posts.map(post=>{

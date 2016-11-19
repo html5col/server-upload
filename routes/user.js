@@ -28,12 +28,14 @@ module.exports = function(User,passport){
         router.get('/updateUser', auth.isLoggedIn, user.updateUser);
         router.get('/forgotPassword', auth.notLoggedIn, user.forgotPassword);
         router.get('/logout', auth.isLoggedIn,user.logout);	
+        router.get('/hotUsers', user.hotUsers);	
 
         router.post('/postForgotPassword', user.postForgotPassword);
         router.post('/updateUser',auth.isLoggedIn, user.putUpdateUser(User));        
         router.post('/postSignup', user.postSignup(passport));        
         router.post('/postLogin', user.postLogin(passport));
         router.post("/process/:year/:month", user.postFileUpload);
+
 
         return router;
 };

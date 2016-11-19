@@ -32,7 +32,9 @@ var userSchema = new Schema({
           resetPasswordExpires: Date,
           roles:[String],
           admin: {type: Boolean, default: false},
-          contractMoney: {type:String, default: 0},
+          contractMoney: {type: Number, default: 0},
+          failCount: {type: Number,default:0},
+          successCount: {type: Number,default:0},
           //expiryDate: {type:String,default: 'Expired'},
           //location: String,
           meta: {
@@ -155,7 +157,7 @@ userSchema.methods.processUser = user=>{
         } 
     
 
-
+    
     return {
         _id: user._id,
         username: user.local.username,
@@ -166,6 +168,8 @@ userSchema.methods.processUser = user=>{
         vip: vip,//for vip above 'Nope'
         roles: user.local.roles,
         contractMoney: user.local.contractMoney,
+        failCount: user.local.failCount,
+        successCount: user.local.successCount,
         //expiryDate: user.local.expiryDate,
         latestRole: latestRole,
         created_at: moment(user.local.created_at).format('L'),
