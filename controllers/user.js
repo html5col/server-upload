@@ -38,6 +38,7 @@ module.exports = {
 			User.find({
 				//'local.contractMoney': { $gt: 0,$lt: 100000},
 				'local.roles': { $in: ['Trial', 'Yearly'] },
+				'local.username': {$ne: 'jason'},
 			}).
 			sort({ 'local.successCount': -1 }).
 			sort({ 'local.contractMoney': -1 }).
