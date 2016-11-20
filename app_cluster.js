@@ -77,6 +77,10 @@ if(cluster.isMaster){
 
 	// set up listener of file changes for restarting workers
 	fs.readdir('.', function(err, files) {
+		if(err){
+			logger.error(`err in app_cluster.js for fs.readdier func`);
+			return;
+		}
 		files.forEach(function(file) {
 			fs.watch(file, function() {
 				stopWorkers();

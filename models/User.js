@@ -33,8 +33,10 @@ var userSchema = new Schema({
           roles:[String],
           admin: {type: Boolean, default: false},
           contractMoney: {type: Number, default: 0},
+          rewards:  {type: Number, default:171.7},
           failCount: {type: Number,default:0},
           successCount: {type: Number,default:0},
+
           //expiryDate: {type:String,default: 'Expired'},
           //location: String,
           meta: {
@@ -168,6 +170,7 @@ userSchema.methods.processUser = user=>{
         vip: vip,//for vip above 'Nope'
         roles: user.local.roles,
         contractMoney: user.local.contractMoney,
+        rewards: user.local.rewards,
         failCount: user.local.failCount,
         successCount: user.local.successCount,
         //expiryDate: user.local.expiryDate,

@@ -41,28 +41,91 @@ module.exports = {
 			}).
 			sort({ 'local.successCount': -1 }).
 			sort({ 'local.contractMoney': -1 }).
-			limit(8).
+			//limit(8).
 			exec(function(err, users){
 				if(err){
 					logger.error(`err when find hotUser: ${err.stack}`);
 					req.flash('error', 'Error finding users!');
 					res.redirect('back');
-				}				
-				let modifiedUsers = userProxy.modifyUsers(users); 
-				require('../part/countTime').countTime(modifiedUsers);	
-				let options = {
-					title:seo.user.hotUsers.title,
-					keywords:seo.user.hotUsers.keywords,
-					description:seo.user.hotUsers.description,						
-					messages: {
-						error: req.flash('error'),
-						success: req.flash('success'),
-						info: req.flash('info'),
-					}, 
-					vips: modifiedUsers,
-					user: req.user ? req.user.processUser(req.user) : req.user,				
-				};		
-				res.render('users/hotUsers',options);
+				}else{
+					let modifiedUsers = userProxy.modifyUsers(users); 
+					require('../part/countTime').countTime(modifiedUsers);	
+
+
+					let sum = 0,rewards,contractLeftSum = 0;
+					//contractLeftSum = 0;
+					//let rewardsFromNow;
+					
+					for(let i=0;i<modifiedUsers.length;i++){
+						//let charge;
+						
+						let user = modifiedUsers[i];
+						let contractMoney = user.contractMoney;
+						logger.debug('contractMoney is'+contractMoney);
+						if(user.latestRole == 'Yearly'){
+							//charge = 588;
+							sum = sum + 588;
+						}else if(user.latestRole == 'Trial'){
+							//charge = 99;
+							sum = sum + 99;
+						}
+						
+						contractLeftSum = contractLeftSum + contractMoney;						
+					}
+					logger.debug(`contractLeftSum sould be ${contractLeftSum}, sum ${sum}`);
+					// users.map(function(vip){
+					// 	// if(err){
+					// 	// 	logger.error(`err when get single user in usrs.forEach : ${err.message?err.message:err.stack}`);
+
+					// 	// 	return;
+					// 	// }
+					// 	let contractMoney = vip.local.contractMoney;
+					// 	vip.sum = 0;
+					// 	vip.contractLeftSum = 0;
+					// 	//basedRewards = vip.local.rewards;
+						
+						
+					// 	if(vip.latestRole == 'Yearly'){
+					// 		vip.sum += 588;
+					// 	}else if(vip.latestRole == 'Trial'){
+					// 		vip.sum += 99;
+					// 	}
+					// 	vip.contractLeftSum += contractMoney;
+					// 	return vip;
+					// });
+					if(sum < 0){
+					    logger.debug('no money to calculate for');
+						return;
+					}
+                    rewards = 171.7 + 0.2*(sum - contractLeftSum);
+					users.forEach(function(theuser){
+						theuser.local.rewards = rewards;
+						theuser.save(function(errr,user){
+							if(err){
+								logger.error(`error saving the user : ${err}`);
+								return;
+							}
+						});	
+					});
+					logger.debug(`sum - contractLeftSum sould be ${sum - contractLeftSum}`);
+					logger.debug(`the rewards in the db sould be ${rewards}`);
+					let options = {
+						title:seo.user.hotUsers.title,
+						keywords:seo.user.hotUsers.keywords,
+						description:seo.user.hotUsers.description,						
+						messages: {
+							error: req.flash('error'),
+							success: req.flash('success'),
+							info: req.flash('info'),
+						}, 
+						vips: modifiedUsers,
+						rewards: modifiedUsers[0].rewards,
+						user: req.user ? req.user.processUser(req.user) : req.user,				
+					};					
+					res.render('users/hotUsers',options);	
+				}			
+
+				
 			});
 
 		},

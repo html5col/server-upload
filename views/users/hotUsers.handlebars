@@ -39,35 +39,67 @@
 
             <!-- 这里是页面内容区 -->
             <div class="content">
-           
+
+             <div class="buttons-tab">
+                <a href="#vipuser" class="tab-link active button">活跃用户</a>
+                <a href="#moneyRewards" class="tab-link button">奖金池累积</a>
+                <!--<a href="#tab3" class="tab-link button">待发货</a>-->
+              </div>          
               <div class="content-block">
-                {{#each vips}}
+                <div class="tabs">
 
-                    <div class="card userCard">
-                        <div class="card-header">{{username}} 
-                           {{#if vip}}
-                            <span>VIP</span>
-                           {{/if}}
-                        </div>
-                        <div class="card-content">
-                            <div class="card-content-inner">
-                                        <ul>
-                                            <li>角色: <span>{{latestRole}}</span></li>
-                                            <li>坚持成功周数: <span>{{successCount}} 周</span></li>
-                                            <li>学习失败周数: <span>{{failCount}} 周</span></li>                                        
-                                            <li>资金剩余: <span>￥ {{contractMoney}}</span></li>
-                                            <li>会员时长: <span>{{vipTimeLeft}} 时</span></li>
-                                            
-                                        </ul>          
+                <div id="vipuser" class="tab active">
+                                    
+                    <div class="content-block">
+                        {{#each vips}}
+
+                            <div class="card userCard">
+                                <div class="card-header">{{username}} 
+                                {{#if vip}}
+                                    <span>VIP</span>
+                                {{/if}}
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-content-inner">
+                                                <ul>
+                                                    <li>角色: <span>{{latestRole}}</span></li>
+                                                    <li>坚持成功周数: <span>{{successCount}} 周</span></li>
+                                                    <li>学习失败周数: <span>{{failCount}} 周</span></li>                                        
+                                                    <li>资金剩余: <span>￥ {{contractMoney}}</span></li>
+                                                    <li>会员时长: <span>{{vipTimeLeft}} 时</span></li>
+                                                    
+                                                </ul>          
+                                    </div>
+                                </div>
+                                <div class="card-footer"><a href="/user/profile/{{_id}}">{{username}}'s homepage</a></div>
                             </div>
-                        </div>
-                        <div class="card-footer"><a href="/user/profile/{{_id}}">{{username}}'s homepage</a></div>
+
+                        {{/each}}
                     </div>
-
-                {{/each}}
+                </div>
+                <div id="moneyRewards" class="tab">
+                    <div class="content-block">
+                        <div class="card-header">奖金累积</div>
+                        <div class="card-content">
+                        <div class="card-content-inner">
+                            <p>学员可分得的累积奖金统计！</p>
+                            <ul>
+                                
+                                <li>总累积: ￥<span>{{rewards}}</span></li>
+                                
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="card-footer">不设上线，学习的人数越多，累积金积累越快...</div>
+                    </div>
+                </div>
+                <!--<div id="tab3" class="tab">
+                    <div class="content-block">
+                    <p>This is tab 3 content</p>
+                    </div>
+                </div>-->
+                </div>                  
               </div>
-                
-
            </div><!--content-->
 
 
