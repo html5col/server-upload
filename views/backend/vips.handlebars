@@ -79,9 +79,12 @@
                                 </ul>
 
                                 <a href="/admin/vip/count?user_id={{_id}}&&result=failOne">失败一周</a> ||
-                                <a href="/admin/vip/count?user_id={{_id}}&&result=successOne">成功一周</a> ||
+                                <a href="/admin/vip/count?user_id={{_id}}&&result=successOne">成功一周</a> || <br>
+                                <a href="/admin/vip/add?user_id={{_id}}&&add=fail">增加一次失败次数</a> ||
+                                <a href="/admin/vip/add?user_id={{_id}}&&add=success">增加一次成功次数</a> ||
                                 <a href="/admin/vip/reset?user_id={{_id}}&&reset=success">reset 成功次数</a> ||
-                                <a href="/admin/vip/reset?user_id={{_id}}&&reset=fail">reset 失败次数</a>
+                                <a href="/admin/vip/reset?user_id={{_id}}&&reset=fail">reset 失败次数</a> 
+
 
             
                                     <script>
@@ -106,11 +109,11 @@
                                     }());
                                     </script>
 
-                            </td>
+                            </td> 
                              <td>{{vipTimeLeft}}</td>
                             <td>{{active}}</td>
                             <td>{{contractMoney}}</td>
-                            <td>失败：{{failCount}} 次 $$ 成功： {{successCount}} 次</td>
+                            <td>失败：{{failCount}} 次 $$ 成功： {{successCount}} 次</td> 
                         </tr>
                         {{/each}}
                     </tbody>

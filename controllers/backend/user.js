@@ -7,6 +7,27 @@ const logger = require('../../lib/logger'),
       co_handle = require('../../lib/co-handle');
 
 let user = {};
+user.vipUsers = co_handle(function*(req,res,next){
+    let findUsers = yield User.find().exec();
+    //User.find({},function(err,users){
+    //if(err){logger.error(err);}
+    let vips = [];
+    let modifiedUsers = userProxy.modifyUsers(findUsers); 
+    require('../../part/countTime').countTime(modifiedUsers);
+    modifiedUsers.forEach(function(user){
+        let roles = user.roles;
+        if(roles[0]){
+            vips.push(user);
+        }
+    });
+    
+    logger.debug(`the vips array ${JSON.stringify(vips)}`);
+    res.render('backend/vips',{
+            user: req.user ? req.user.processUser(req.user) : req.user,
+            vips: vips               
+    });
+    //});
+});
 user.getUsers = co_handle(function* (req,res,next){
        
         let users = yield User.find({}).exec();
@@ -258,42 +279,40 @@ user.reset = co_handle(function*(req,res,next){
                     return;
                 }else{
                     logger.debug('reset for id: '+myid);
-                    res.redirect('/admin/users');
+                    res.redirect('/admin/vips');
                 }
         });
        // });   
 });
+user.add = co_handle(function*(req,res,next){
+        let myid = req.query.user_id,
+            add = req.query.add;
+           // forFail = req.query.fail;
+        logger.debug('user_id in failOne'+myid);
+       // User.findOne({'_id': myid}, function(err,user){
+        let findUser = yield User.findOne({'_id': myid}).exec();
 
-user.vipUsers = co_handle(function*(req,res,next){
-    let findUsers = yield User.find().exec();
-    //User.find({},function(err,users){
-    //if(err){logger.error(err);}
-    let vips = [];
-    let modifiedUsers = userProxy.modifyUsers(findUsers); 
-    require('../../part/countTime').countTime(modifiedUsers);
-    modifiedUsers.forEach(function(user){
-        let roles = user.roles;
-        if(roles[0]){
-            vips.push(user);
+        logger.debug('find user: '+ findUser);
+
+        let modifiedUser = findUser.processUser(findUser), 
+            //money = modifiedUser.contractMoney,
+            role = modifiedUser.latestRole;
+
+        if(add == 'success'){
+            findUser.local.successCount = findUser.local.successCount + 1;
+        }else if(add == 'fail'){
+            findUser.local.failCount = findUser.local.failCount - 1;
         }
-    });
-    
-    logger.debug(`the vips array ${JSON.stringify(vips)}`);
-    res.render('backend/vips',{
-            user: req.user ? req.user.processUser(req.user) : req.user,
-            vips: vips               
-    });
-    //});
-});
-// module.exports = {
-//     chooseVip(req,res){
-//     },
-//     deleteVip(req,res){
-//     },
-//     failOne(req,res){
-//     },
-//     vipUsers(req,res){
-//     },
-// };
 
+        findUser.save(function(err){
+                if (err){
+                    logger.error('add func fails'+err.stack);
+                    return;
+                }else{
+                    logger.debug('add for id: '+ add +myid);
+                    res.redirect('/admin/vips');
+                }
+        });
+       // });   
+});
 module.exports = user;
