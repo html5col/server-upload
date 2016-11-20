@@ -12,72 +12,32 @@ const User    = require('../models/User'),
       logger = require('../lib/logger');                           
 
 module.exports = {
-        modifyPosts: function(posts,callback){
-            // let arr = [];
-            //    let getArr = new Promise(function(resolve,reject){
-            //       posts.forEach(function(post,i,a){
-            //             let modifiedPost = post.processPost(post);
-            //             //let modifiedComments;
-
-            //             let getComments = new Promise(function(resolve1,reject1){
-            //                 post.comments(post._id,function(comments){ 
-            //                     resolve1(comments);
-            //                 });   
-            //             });
-            //             let getGroup = new Promise(function(resolve2,reject2){
-            //                 post.group(post.group_id,function(group){
-            //                     resolve2(group);
-            //                 });
-            //             });
-
-            //             Promise.all([getComments,getGroup]).then(function(values){
-                        
-            //                 modifiedPost.comments = values[0];
-            //                 modifiedPost.group = values[1];
-                    
-            //                 logger.debug('modifiedPost in modifyPost function'+modifiedPost);
-                            
-            //                 if(i === posts.length-1){
-            //                   resolve(a);
-            //                 }
-                            
-            //             })
-            //             .catch(function(err){
-            //                 logger.error('err:'+err);
-            //             });
-            //       });
-
-                  
-            //    });
-            //   return getArr;
-                let arr = [];
-                let i = 0;
-                posts.forEach(function(post){
-                        let modifiedPost = post.processPost(post);
-                        post.comments(post._id,function(comments){
-                            modifiedPost.comments = comments;
-
-                            post.group(post.group_id,function(group){
-                                modifiedPost.group = group;
-                                arr.push(modifiedPost);
-                                i++;
-                            });
-
+        modifyPosts: function(posts,fn){
+            // 这是你请求数据的方法，注意我是用steTimeout模拟的
+            let that = this;
+            function fetchData(post) {
+                return new Promise(function(resolve,reject) {
+                    //posts.forEach(function(post){
+                        that.modifyPost(post,function(newPost){
+                            resolve(newPost);
                         });
-                   });
-                   setTimeout(callback(arr),3000);
-            // let modifiedPosts = posts.map(post=>{
-            //         let modifiedPost = post.processPost(post);
-            //         post.comments(post._id,function(comments){
-            //             modifiedPost.comments = comments;
-            //         });
-            //         post.group(post.group_id,function(group){
-            //             modifiedPost.group = group;
-            //         });
-            //         return modifiedPost;
-            // }); 
-            // return modifiedPosts;      
-            
+                    //});
+                });
+            }
+
+            // 用数组里面的元素做请求，去获取响应数据
+            var promiseArr = posts.map(function(thepost) {
+                    return fetchData(thepost);
+            });
+
+            Promise.all(promiseArr).then(function(respDataArr) {
+                // 在这里使用最终的数据
+                logger.debug(respDataArr);
+                fn(respDataArr);
+            }).catch(function(er){
+                logger.error(`err when using promise in modifiedPosts func: ${er.message?er.message:er.stack}`);
+                res.redirect('/response/error/404');
+            });
         },
 
         modifyPost: function(post,cb){
@@ -217,26 +177,27 @@ module.exports = {
                                 // console.log('modifiedPosts: '+JSON.stringify(modifiedPosts));
                                // let modifiedPosts = globalThis.modifyPosts(posts);
 
-                            // globalThis.modifyPosts(posts,function(newPosts){
-                            //      callback(null, newPosts, count);   
-                            // });
+                            globalThis.modifyPosts(posts,function(newPosts){
+                                 callback(null, newPosts, count);   
+                            });
                            
-                            for(let i=0,length=posts.length;i<length;i++){
+                            // for(let i=0,length=posts.length;i<length;i++){
                                 
 
-                                let modifiedPost = posts[i].processPost(posts[i]);
-                                posts[i].comments(posts[i]._id,function(comments){
-                                    modifiedPost.comments = comments;
+                            //     let modifiedPost = posts[i].processPost(posts[i]);
+                            //     posts[i].comments(posts[i]._id,function(comments){
+                            //         modifiedPost.comments = comments;
 
-                                    posts[i].group(posts[i].group_id,function(group){
-                                        modifiedPost.group = group;
+                            //         posts[i].group(posts[i].group_id,function(group){
+                            //             modifiedPost.group = group;
                                         
-                                    });
+                            //         });
 
-                                });
+                            //     });
 
-                            }
-                            callback(null,posts,count);
+                            // }
+
+                           // callback(null,posts,count);
                              
 
                             // callback(null, modifiedPosts, count);   
