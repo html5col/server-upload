@@ -38,7 +38,7 @@ module.exports = {
 			User.find({
 				//'local.contractMoney': { $gt: 0,$lt: 100000},
 				'local.roles': { $in: ['Trial', 'Yearly'] },
-				//'local.email': { $ne: '631738796@qq.com'}
+				'local.email': { $ne: '631738796@qq.com'}
 				//'local.neVip': false,
 				//'local.neVip': {$ne: 'true'},
 
@@ -53,7 +53,7 @@ module.exports = {
 					req.flash('error', 'Error finding users!');
 					res.redirect('back');
 				}else{
-					if(users = []){
+					if(users == []){
 						req.flash('error','No user found!');
 						res.redirect('back');
 					}
