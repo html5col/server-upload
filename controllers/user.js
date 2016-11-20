@@ -60,6 +60,7 @@ module.exports = {
 					require('../part/countTime').countTime(modifiedUsers);	
 
                     User.find({
+						'local.roles': { $in: ['Trial', 'Yearly'] },
 						'local.email': { $ne: '631738796@qq.com'}
 					}).
 					//select('local.contractMoney local.').
