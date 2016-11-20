@@ -38,7 +38,8 @@ module.exports = {
 			User.find({
 				//'local.contractMoney': { $gt: 0,$lt: 100000},
 				'local.roles': { $in: ['Trial', 'Yearly'] },
-				'local.username': {$ne: 'json'},
+				'local.email': { $ne: '631738796@qq.com'},
+				
 				//'local.neVip': false,
 				//'local.neVip': {$ne: 'true'},
 
