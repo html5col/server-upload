@@ -14,12 +14,22 @@ user.vipUsers = co_handle(function*(req,res,next){
     let vips = [];
     let modifiedUsers = userProxy.modifyUsers(findUsers); 
     require('../../part/countTime').countTime(modifiedUsers);
+    // findUsers.forEach(function(usr){
+    //     if(usr.local.neVip === true){
+    //         next();
+    //     }else if(usr.local.neVip == undefined){
+    //         usr.local.neVip = false;
+    //     }
+        
+    // });
     modifiedUsers.forEach(function(user){
         let roles = user.roles;
         if(roles[0]){
             vips.push(user);
         }
     });
+
+   
     
     logger.debug(`the vips array ${JSON.stringify(vips)}`);
     res.render('backend/vips',{
@@ -148,6 +158,9 @@ user.chooseVip = co_handle(function*(req,res,next){
                 }else if(vip == 'Yearly'){
                      logger.debug('entering into vip');
                     findUser.local.contractMoney = 588;
+                }else if(vip == 'falsevip'){
+                    findUser.local.contractMoney = 0;
+                    findUser.local.neVip = true;
                 }
 
                 existRoles.push(vip);

@@ -38,7 +38,10 @@ module.exports = {
 			User.find({
 				//'local.contractMoney': { $gt: 0,$lt: 100000},
 				'local.roles': { $in: ['Trial', 'Yearly'] },
-				'local.username': {$ne: 'jason'},
+				'local.username': {$ne: 'json'},
+				//'local.neVip': false,
+				//'local.neVip': {$ne: 'true'},
+
 			}).
 			sort({ 'local.successCount': -1 }).
 			sort({ 'local.contractMoney': -1 }).
@@ -49,6 +52,10 @@ module.exports = {
 					req.flash('error', 'Error finding users!');
 					res.redirect('back');
 				}else{
+					if(users = []){
+						req.flash('error','No user found!');
+						res.redirect('back');
+					}
 					let modifiedUsers = userProxy.modifyUsers(users); 
 					require('../part/countTime').countTime(modifiedUsers);	
 

@@ -26,7 +26,7 @@ module.exports   = function(app, passport,User) {
 	 //app.use('/test',test);
 	 app.use('/group',group());
 	 app.use('/file',file());
-	 app.use('/admin', auth.allow(['Super','Junior']), adminUsers);
+	 app.use('/admin', adminUsers);
 	 app.use('/vip',vip);
 		//to get form data using req.body
 		/*****form part end********/

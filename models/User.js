@@ -31,11 +31,13 @@ var userSchema = new Schema({
           resetPasswordToken: String, 
           resetPasswordExpires: Date,
           roles:[String],
+          neVip: {type: Boolean, default:false},
           admin: {type: Boolean, default: false},
           contractMoney: {type: Number, default: 0},
           rewards:  {type: Number, default:171.7},
           failCount: {type: Number,default:0},
           successCount: {type: Number,default:0},
+
 
           //expiryDate: {type:String,default: 'Expired'},
           //location: String,
