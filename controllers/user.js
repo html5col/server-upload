@@ -43,7 +43,7 @@ module.exports = {
 				//'local.neVip': {$ne: 'true'},
 
 			}).
-			ne({ 'local.email': '631738796@qq.com' }).
+			//ne({ 'local.email': '631738796@qq.com' }).
 			sort({ 'local.successCount': -1 }).
 			sort({ 'local.contractMoney': -1 }).
 			//limit(8).
