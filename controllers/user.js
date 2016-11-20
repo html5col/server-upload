@@ -38,10 +38,9 @@ module.exports = {
 			User.find({
 				//'local.contractMoney': { $gt: 0,$lt: 100000},
 				'local.roles': { $in: ['Trial', 'Yearly'] },
-				'local.email': { $ne: '631738796@qq.com'}
+				//'local.email': { $ne: '631738796@qq.com'}
 				//'local.neVip': false,
 				//'local.neVip': {$ne: 'true'},
-
 			}).
 			//ne({ 'local.email': '631738796@qq.com' }).
 			sort({ 'local.successCount': -1 }).
@@ -60,78 +59,68 @@ module.exports = {
 					let modifiedUsers = userProxy.modifyUsers(users); 
 					require('../part/countTime').countTime(modifiedUsers);	
 
-
-					let sum = 0,rewards,contractLeftSum = 0;
-					//contractLeftSum = 0;
-					//let rewardsFromNow;
-					
-					for(let i=0;i<modifiedUsers.length;i++){
-						//let charge;
-						
-						let user = modifiedUsers[i];
-						let contractMoney = user.contractMoney;
-						logger.debug('contractMoney is'+contractMoney);
-						if(user.latestRole == 'Yearly'){
-							//charge = 588;
-							sum = sum + 588;
-						}else if(user.latestRole == 'Trial'){
-							//charge = 99;
-							sum = sum + 99;
-						}
-						
-						contractLeftSum = contractLeftSum + contractMoney;						
-					}
-					logger.debug(`contractLeftSum sould be ${contractLeftSum}, sum ${sum}`);
-					// users.map(function(vip){
-					// 	// if(err){
-					// 	// 	logger.error(`err when get single user in usrs.forEach : ${err.message?err.message:err.stack}`);
-
-					// 	// 	return;
-					// 	// }
-					// 	let contractMoney = vip.local.contractMoney;
-					// 	vip.sum = 0;
-					// 	vip.contractLeftSum = 0;
-					// 	//basedRewards = vip.local.rewards;
-						
-						
-					// 	if(vip.latestRole == 'Yearly'){
-					// 		vip.sum += 588;
-					// 	}else if(vip.latestRole == 'Trial'){
-					// 		vip.sum += 99;
-					// 	}
-					// 	vip.contractLeftSum += contractMoney;
-					// 	return vip;
-					// });
-					if(sum < 0){
-					    logger.debug('no money to calculate for');
-						return;
-					}
-                    rewards = 171.7 + 0.2*(sum - contractLeftSum);
-					users.forEach(function(theuser){
-						theuser.local.rewards = rewards;
-						theuser.save(function(errr,user){
-							if(err){
-								logger.error(`error saving the user : ${err}`);
+                    User.find({
+						'local.email': { $ne: '631738796@qq.com'}
+					}).
+					//select('local.contractMoney local.').
+					exec(function(err,vips){
+							let sum = 0,rewards,contractLeftSum = 0;
+							//contractLeftSum = 0;
+							//let rewardsFromNow;
+							
+							
+							for(let i=0;i<vips.length;i++){
+								//let charge;
+								
+								let user = vips[i].processUser(vips[i]);
+								let contractMoney =user.contractMoney;
+								logger.debug('contractMoney is'+contractMoney);
+								if(user.latestRole == 'Yearly'){
+									//charge = 588;
+									sum = sum + 588;
+								}else if(user.latestRole == 'Trial'){
+									//charge = 99;
+									sum = sum + 99;
+								}
+								
+								contractLeftSum = contractLeftSum + contractMoney;						
+							}
+							logger.debug(`contractLeftSum sould be ${contractLeftSum}, sum ${sum}`);
+							if(sum < 0){
+								logger.debug('no money to calculate for');
 								return;
 							}
-						});	
+							rewards = 171.7 + 0.2*(sum - contractLeftSum);
+							vips.forEach(function(theuser){
+								theuser.local.rewards = rewards;
+								theuser.save(function(errr,user){
+									if(err){
+										logger.error(`error saving the user : ${err}`);
+										return;
+									}
+									logger.debug(`save rewards successfully!`);
+								});	
+							});
+							logger.debug(`sum - contractLeftSum sould be ${sum - contractLeftSum}`);
+							logger.debug(`the rewards in the db sould be ${rewards}`);	
+
+							let options = {
+								title:seo.user.hotUsers.title,
+								keywords:seo.user.hotUsers.keywords,
+								description:seo.user.hotUsers.description,						
+								messages: {
+									error: req.flash('error'),
+									success: req.flash('success'),
+									info: req.flash('info'),
+								}, 
+								vips: modifiedUsers,
+								rewards: vips[0].local.rewards,
+								user: req.user ? req.user.processUser(req.user) : req.user,				
+							};					
+							res.render('users/hotUsers',options);
+
 					});
-					logger.debug(`sum - contractLeftSum sould be ${sum - contractLeftSum}`);
-					logger.debug(`the rewards in the db sould be ${rewards}`);
-					let options = {
-						title:seo.user.hotUsers.title,
-						keywords:seo.user.hotUsers.keywords,
-						description:seo.user.hotUsers.description,						
-						messages: {
-							error: req.flash('error'),
-							success: req.flash('success'),
-							info: req.flash('info'),
-						}, 
-						vips: modifiedUsers,
-						rewards: modifiedUsers[0].rewards,
-						user: req.user ? req.user.processUser(req.user) : req.user,				
-					};					
-					res.render('users/hotUsers',options);	
+	
 				}			
 
 				
