@@ -38,12 +38,12 @@ module.exports = {
 			User.find({
 				//'local.contractMoney': { $gt: 0,$lt: 100000},
 				'local.roles': { $in: ['Trial', 'Yearly'] },
-				'local.email': { $ne: '631738796@qq.com'}
-				
+				//'local.email': { $ne: '631738796@qq.com'}
 				//'local.neVip': false,
 				//'local.neVip': {$ne: 'true'},
 
 			}).
+			ne({ 'local.email': '631738796@qq.com' }).
 			sort({ 'local.successCount': -1 }).
 			sort({ 'local.contractMoney': -1 }).
 			//limit(8).
