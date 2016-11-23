@@ -38,7 +38,6 @@ var userSchema = new Schema({
           failCount: {type: Number,default:0},
           successCount: {type: Number,default:0},
 
-
           //expiryDate: {type:String,default: 'Expired'},
           //location: String,
           meta: {

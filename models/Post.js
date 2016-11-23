@@ -10,7 +10,7 @@ const mongoose = require('mongoose'),
       logger = require('../lib/logger'),
       helper = require('../lib/utility'),
       moment = require('moment');
-
+const mongoose_delete = require('mongoose-delete');
 // create a schema
 //The allowed SchemaTypes are:
 // String
@@ -47,7 +47,7 @@ var postSchema = new Schema({
    
 });
 
-
+postSchema.plugin(mongoose_delete,{ deletedAt : true, deletedBy : true});
 
 // on every save, add the date
 postSchema.pre('save', function(next) {

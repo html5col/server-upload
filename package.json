@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --recursive"
   },
   "repository": {
     "type": "git",
@@ -44,6 +44,7 @@
     "method-override": "^2.3.6",
     "moment": "^2.14.1",
     "mongoose": "^4.5.8",
+    "mongoose-delete": "0.3.4",
     "morgan": "^1.7.0",
     "nodemailer": "^2.5.0",
     "passport": "^0.3.2",
@@ -58,6 +59,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "cross-env": "3.1.3",
     "grunt": "^1.0.1",
     "grunt-cafe-mocha": "^0.1.13",
     "grunt-contrib-cssmin": "^1.0.1",
@@ -70,7 +72,10 @@
     "grunt-lint-pattern": "^0.1.4",
     "loadtest": "^1.4.4",
     "mocha": "^2.5.3",
+    "pow-mongodb-fixtures": "0.14.0",
     "restler": "^3.4.0",
+    "should": "11.1.1",
+    "supertest": "2.0.1",
     "zombie": "^4.2.1"
   }
 }

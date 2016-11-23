@@ -44,7 +44,7 @@ var config = {
   db: {
        mongo:{
           development: {
-            'url':'mongodb://localhost/groupForum',
+            'url':'mongodb://localhost/groupForum'
           },
           production:{
              'url': 'mongodb://localhost/groupForum'
@@ -57,14 +57,14 @@ var config = {
             'port':'6379',
             'db':'0',
             'pw':'',
-            'ttl':1000 * 60 * 60 * 24 * 30,
+            'ttl':1000 * 60 * 60 * 24 * 30
           },
           production:{
             'host':'127.0.0.1',
             'port':'6379',
             'db':'0',
             'pw':'',
-            'ttl':1000 * 60 * 60 * 24 * 30,
+            'ttl':1000 * 60 * 60 * 24 * 30
           },
        },          
   }, 

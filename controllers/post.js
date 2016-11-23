@@ -467,12 +467,13 @@ module.exports =  {
                               logger.debug('file is removed before deleting it');
                         });  
                   }
-                  Post.remove({ '_id': post._id}, (err)=>{
+                  Post.delete({ '_id': post._id}, (err,delposts)=>{
                         if(err){
                               logger.error(`there is an error when removing the post : ${err}`);
                               req.flash('error','删除文章错误！');
                               res.redirect('back');
                         }else{
+                              logger.debug(`delete the posts:  ${JSON.stringify(delposts)}`);
 
                               logger.debug(`The post with id of ${req.params.post_id} deleted successfully `);
                               req.flash('success','文章已删除!');

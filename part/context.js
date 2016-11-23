@@ -1,5 +1,6 @@
 "use strict";
-const config = require('../config/config');
+const config = require('../config/config'),
+      logger = require('../lib/logger');
 module.exports = {
 
 	env1: (app,mongoose)=>{
@@ -10,6 +11,7 @@ module.exports = {
 				server: { keepAlive: 1 }
 			};
 			
+	
 			switch(app.get('env')){
 				//run command:" NODE_ENV=production node app.js " if you wanna test the logging in the production envionment
 				case 'development':
@@ -28,6 +30,7 @@ module.exports = {
 
 		          /**mongoose part**/
 				  mongoose.connect(config.db.mongo.development.url);
+
 				  //delete the caches of all the loaded modules,which is an object with key and values
 				  delete require.cache;
 
@@ -39,11 +42,12 @@ module.exports = {
 				//    }));
 
 				   /**mongoose part**/
+				  
 				   mongoose.connect(config.db.mongo.production.url);
-				   break;
+				   break;				
 
 				default:
-				    throw new Error('Unknown execution environment: ' + app.get(env));
+				    throw new Error('Unknown execution environment: ' + app.get('env'));
 			}
 		},
 

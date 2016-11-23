@@ -13,6 +13,59 @@ const User    = require('../models/User'),
 
 module.exports = {
         modifyPosts: function(posts,fn){
+            // 异步并发
+
+            // function myLogicFun(arr,allDoneCallback){
+            //     var i, newArr=[],totalItemLength=arr.length;
+                
+            //     function watcher(resultData){
+            //         newArr.push(resultData);
+            //         if(newArr.length===totalItemLength){
+            //             //all done
+            //             allDoneCallback(newArr);
+            //         }
+            //     }
+                
+            //     for(i=0;i< totalItemLength;i++){
+            //         （function(item){
+            //             //do your business
+            //             watcher(resultData);
+            //         }(arr[i]));
+            //     }
+            
+            // }
+
+            // var arr=[....];
+            // myLogicFun(arr,function(resultDaas){
+            //     console.log(resultDaas)
+            // });
+            // 或者异步顺序
+
+            // function myLogicFun(arr,allDoneCallback){
+            //     var arrtmp=arr.slice(0);
+            //     var newArr=[];
+            //     function doNext(){
+            //         var someItem= arrtmp.shift();
+            //         if(someItem){
+            //             doAsync(function(resultData){
+            //                 newArr.push(resultData);
+            //                 doNext();
+            //             });
+            //         }else{
+            //             //all done
+            //             allDoneCallback(newArr);
+            //         }
+            //     }
+                
+            //     doNext();
+                
+            // }
+
+            // var arr=[....];
+            // myLogicFun(arr,function(resultDaas){
+            //     console.log(resultDaas)
+            // });
+
             // 这是你请求数据的方法，注意我是用steTimeout模拟的
             let that = this;
             function fetchData(post) {

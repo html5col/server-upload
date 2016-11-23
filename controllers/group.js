@@ -82,7 +82,7 @@ module.exports = {
                     });
               }else{
                   req.flash('error','Only VIP can create groups!');
-                  res.render('/services');
+                  res.render('/service');
               }
           }
 
