@@ -189,7 +189,7 @@ module.exports = {
         
         getTen:  function(name,page,callback, ...args){
 
-                let query = {};
+                let query = {'deleted':false};
                 const globalThis = this,
                       topicCount = config.list_topic_count;
                 if(name){

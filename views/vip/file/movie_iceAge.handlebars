@@ -1,0 +1,80 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+<style>
+  pre{
+  }
+</style>
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+             {{#if user}}
+                {{#if user.vip}}
+                  <a class="button button-link button-nav pull-right" external href="javascript:void(0)">
+                    VIP
+                  </a>
+                {{else}}
+                  <a class="button button-link button-nav pull-right" external href="/service">
+                   成为VIP
+                  </a>
+                {{/if}} 
+
+              {{else}}
+                   <a class="button button-link button-nav pull-right" external href="/service">
+                   成为VIP
+                  </a>             
+              {{/if}}  
+              <h1 class='title'>#201611 第三周视频学习</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+
+
+            <!-- 这里是页面内容区 -->
+            <div class="content content-padded">
+           
+              <div class="content-block">
+                <!--<h2>官方音频文本参考翻译 第二周末本文更新发布！</h2> -->
+                <p style="margin-top:0;margin-bottom:1rem;padding-top:0;color:grey;font-size:0.6rem;">作者: Frank Lee  &nbsp 校对: Frankcis Arsena</p>
+               <ul>
+                 <li>精选学习视频: <a href="https://pan.baidu.com/s/1hsnyLik">Download</a></li>
+                 <li>学习音频字幕材料: <a href="https://pan.baidu.com/s/1qXZBpSg">Download</a></li>
+                 <li>
+                    
+                  {{#if user}}
+                    {{#if user.vip}}
+                      <p>视频密钥: wf4c</p>
+                      <p>音频字幕材料密钥：73cc</p>
+                    {{else}}
+                      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
+                    {{/if}}
+                  {{else}}
+                      <p>视频密钥: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p>音频字幕材料密钥: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p style="border:1px dashed red;padding:0.7rem 1rem;">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
+                  {{/if}}
+                 </li>
+
+               </ul>
+              </div>
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}

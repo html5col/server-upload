@@ -54,6 +54,19 @@ module.exports = {
 				user: req.user ? req.user.processUser(req.user) : req.user,				
 		});
     },
+    iceAge3(req,res){
+        res.render('vip/file/movie_iceAge',{
+				title:'Ice Age电影模仿学习',
+				keywords:'X-Plan电影学习,Ice Age 3,英语电影, 电影资料',
+				description:'X-Plan电影学习环节，模仿标准英语之旅',						
+				messages: {
+					error: req.flash('error'),
+					success: req.flash('success'),
+					info: req.flash('info'),
+				}, 
+				user: req.user ? req.user.processUser(req.user) : req.user,				
+		});        
+    }
     
 
 };
