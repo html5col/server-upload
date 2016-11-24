@@ -190,18 +190,18 @@ module.exports = {
         getTen:  function(name,page,callback, ...args){
                 
                 let query = {};
-                Post.find({},function(err,allposts){
-                    if(err){
-                        logger.debug(`err occurs: err.message?err.message:err.stack`);
-                        return;
-                    }
-                    allposts.forEach(function(v){
-                        if(!v.deleted){
-                            query.deleted = false;
-                            v.deleted = false;
-                        }
-                    });
-                });
+                // Post.find({},function(err,allposts){
+                //     if(err){
+                //         logger.debug(`err occurs: err.message?err.message:err.stack`);
+                //         return;
+                //     }
+                //     // allposts.forEach(function(v){
+                //     //     if(!v.deleted){
+                //     //         query.deleted = false;
+                //     //         v.deleted = false;
+                //     //     }
+                //     // });
+                // });
                 
                 const globalThis = this,
                       topicCount = config.list_topic_count;
