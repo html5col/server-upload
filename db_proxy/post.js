@@ -195,11 +195,12 @@ module.exports = {
                         logger.debug(`err occurs: err.message?err.message:err.stack`);
                         return;
                     }
-                     allposts.forEach(function(v){
+                    allposts.forEach(function(v){
                         if(!v.deleted){
                             query.deleted = false;
+                            v.deleted = false;
                         }
-                     });
+                    });
                 });
                 
                 const globalThis = this,
