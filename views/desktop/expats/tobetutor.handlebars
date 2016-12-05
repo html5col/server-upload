@@ -1,0 +1,222 @@
+ {{#extend "css"}}
+   <style>
+   </style>
+{{/extend}}
+ <!-- Page breadcrumb -->
+ <section id="mu-page-breadcrumb">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="mu-page-breadcrumb-area">
+           <h2>Apply for a tutor</h2>
+           <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>            
+            <li class="active">To be a tutor</li>
+          </ol>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+
+
+
+
+<!-- Start contact  -->
+ <section id="mu-contact">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="mu-contact-area">
+          <!-- start title -->
+          <div class="mu-title">
+            <h2>Apply for the Tutor</h2>
+            <p>We are providing a creative and interesting life style for expatriates(college students or graduates around the world preferred) to live with native Chinese families or to take a part-time job in the family, learning the Chinese language and its culture in daily life. </p>
+            <p>You'll be redirected to the home page if you make it or it'll keep in this page!</p>
+          </div>
+          <!-- end title -->
+          <!-- start contact content -->
+          <div class="mu-contact-content">           
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mu-contact-left">
+                  <form class="contactform" method="POST" enctype="multipart/form-data"  action="/courses/applyForTutor">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">   
+                    <p class="comment-form-name">
+                      <label for="name">Full Name <span class="required">*</span></label>
+                      <input type="text" required="required" aria-required="true" name="name" placeholder="Francis Aserna...">
+                    </p>                    
+
+                    <p class="comment-form-choiceplace">
+                      <label for="choiceCountry">Your favourite working city<span class="required">*</span></label>
+                      <select id="choiceCountry" name="choiceCountry" class="form-control" style="width:49%;display:inline-block;"></select>    
+                       <select id="choiceState"  name="choiceState" class="form-control" style="width:49%;display:inline-block;"></select>  
+
+                     
+                      <input type="text" required="required" aria-required="true" name="choiceDetail" placeholder="near Wensan Road,Xihu District,Hangzhou...">                                  
+                    </p> 
+
+
+
+                    <p class="comment-form-country">
+                      <label for="fromCountry">From Which Country <span class="required">*</span></label>
+                      <select id="fromCountry" name="fromCountry" class="form-control" style="width:49%;display:inline-block;"></select>    
+                       <select name="fromState" id="fromState" class="form-control" style="width:49%;display:inline-block;"></select> 
+                    </p>  
+
+
+                    <p class="comment-form-college">
+                      <label for="college">Your University and Status<span class="required">*</span></label>
+                      <input type="text" required="required" aria-required="true" value="" name="college" placeholder="Which university are you in ?" style="width:49%;">
+                    
+                      
+                      <label class="radio-inline" style="display:inline-block;margin-left:1rem;">
+                        <input type="radio" name="status" id="inlineRadio1" value="student"> Student
+                      </label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="status"  id="inlineRadio2" value="graduate"> Graduated
+                      </label>
+
+                    </p>   
+
+
+
+                    <p class="comment-form-college">
+                      <label for="college">Do you have drivePermit in China? <span class="required">*</span></label>
+                      
+                      <label class="radio-inline" style="display:inline-block;margin-left:1rem;">
+                        <input type="radio" name="drivePermit" value="yes"> Yep
+                      </label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="drivePermit"  value="no"> Nope
+                      </label>
+
+                    </p> 
+
+
+                    {{!--<p>
+                       <label for="phone">Are you a student or graduated</label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="status" id="inlineRadio1" value="student"> Student
+                      </label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="status"  id="inlineRadio2" value="graduate"> Graduated
+                      </label>
+                    </p>--}}
+
+                    <p class="comment-form-phone">
+                      <label for="phone">Your Phone <span class="required">*</span></label>
+                      <input type="text" required="required" aria-required="true" value="" name="phone" placeholder="Your number">
+                    </p>
+
+                    <p>
+                       <label for="phone">Your Native Language  <span class="required">*</span></label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="nativeLanguage" id="inlineRadio1" value="English"> English
+                      </label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="nativeLanguage"  id="inlineRadio2" value="French"> French
+                      </label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="nativeLanguage"  id="inlineRadio3" value="Spanish"> Spanish
+                      </label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="nativeLanguage"  id="inlineRadio3" value="Japanese"> Japanese
+                      </label>
+                      <label class="radio-inline" style="display:inline-block;">
+                        <input type="radio" name="nativeLanguage"  id="inlineRadio3" value="German"> German
+                      </label>
+                    </p>
+
+                    
+                    <p class="comment-form-language">
+                      <label for="phone">Your Second Language(or Leave it)</label>
+                      <label class="checkbox-inline" style="display:inline-block;">
+                        <input type="checkbox" id="inlineCheckbox1" value="English" name="secondLanguage"> English
+                      </label>
+                      <label class="checkbox-inline" style="display:inline-block;">
+                        <input type="checkbox" id="inlineCheckbox2" value="French" name="secondLanguage"> French
+                      </label>
+                      <label class="checkbox-inline" style="display:inline-block;">
+                        <input type="checkbox" id="inlineCheckbox3" value="Spanish" name="secondLanguage"> Spanish
+                      </label>
+                      <label class="checkbox-inline" style="display:inline-block;">
+                        <input type="checkbox" id="inlineCheckbox3" value="Japanese" name="secondLanguage"> Japanese
+                      </label>
+                      <label class="checkbox-inline" style="display:inline-block;">
+                        <input type="checkbox" id="inlineCheckbox3" value="German" name="secondLanguage"> German
+                      </label>
+                    </p>
+
+
+                    <p class="comment-form-experience">
+                      <label for="experience">Your Education and Experience <span class="required">*</span></label>
+                      <textarea required name="experience" placeholder="Your education and teaching experience if any and anything you think necessary"></textarea>
+                    </p>
+
+
+                    <p class="comment-form-personal">
+                      <label for="personal">Upload Your Personal Picture <span class="required">*</span></label>
+                      <input type="file" required="required" accept="image/*" aria-required="true" value="" name="personal">
+                    </p>
+
+                    <p class="comment-form-visa">
+                      <label for="visa">Upload Your Visa <span class="required">*</span></label>
+                      <input type="file" required="required" accept="image/*" aria-required="true" value="" name="visa">
+                    </p>
+
+                    {{!--<p class="comment-form-visa">
+                      <label for="visa">Upload Your Student Certificate <span class="required">*</span></label>
+                      <input type="file" required="required" accept="image/*" aria-required="true" value="" name="visa">
+                    </p>--}}
+                    <p class="comment-form-studentsCertificate">
+                      <label for="studentsCertificate">Upload Your Student Certificate <span class="required">*</span></label>
+                      <input type="file" required="required" accept="image/*" aria-required="true" value="" name="studentsCertificate">
+                    </p>
+
+
+                    {{!--<p class="comment-form-drivePermit">
+                      <label for="drivePermit">Upload Drive Permit</label>
+                      <input type="file" accept="image/*" value="" name="drivePermit">
+                    </p>--}}
+
+                    <br>
+
+                    <p class="form-submit">
+                      <input type="submit" value="Submit" class="mu-post-btn" style="visibility: visible;border:1px solid black">
+                    </p>        
+                  </form>
+                </div>
+              </div>
+              <div class="col-md-6" style="padding-left:5%">
+                <div class="mu-contact-right">
+
+                  <h4 style="border-left:5px solid #01bafd; padding-left:1rem;">What Provided</h4>
+                  <p>Trver provides you a free single room and possibily some pocket money every month or a regular way to make money as well as experiencing the Chinese life style! 
+                      <br>In general,  as an expatriate or International student, you can choose either of the following services:</p>
+                    <ul>
+                        <li>1, Get a single room and possibily some pocket money!</li>
+                        <li>2, Get a yearly part-time job and learn Spoken Chinese free of charge!</li>
+                    </ul>
+                 <h4 style="border-left:5px solid #01bafd; padding-left:1rem;"> Requirement</h4>
+                  <ul style="list-style:disc inside">
+                    <li> Native Speaker required. English(French,Japanese etc) with perfect accent.</li>
+                    <li> Visa, Student Certificate, Driving Permit(Preferred)</li>
+                    <li> Others that needed(Our staff will contact you)</li>
+                  </ul>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end contact content -->
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <!-- End contact  -->
+
+{{#extend "js"}} 
+  <script src="/js/jey/lib/selectCountries.js"></script>
+{{/extend}}

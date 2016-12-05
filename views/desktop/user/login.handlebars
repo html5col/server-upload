@@ -1,0 +1,92 @@
+ {{#extend "css"}}
+   <style>
+   </style>
+{{/extend}}
+ <!-- Page breadcrumb -->
+ <section id="mu-page-breadcrumb">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="mu-page-breadcrumb-area">
+           <h2>Login - 登录</h2>
+           <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>            
+            <li class="active">Login</li>
+          </ol>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+
+
+
+
+<!-- Start contact  -->
+ <section id="mu-contact">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
+         <div class="mu-contact-area">
+          <!-- start title -->
+          <div class="mu-title">
+            <h2>Login</h2>
+            <p>Thanks for using our service! 感谢使用我们的服务，我们提供专业的外教入驻服务，为家庭和企业提供订制服务</p>
+          </div>
+          <!-- end title -->
+          <!-- start contact content -->
+          <div class="mu-contact-content">           
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mu-contact-left">
+                  <form class="contactform" method="POST" action="/user/postLogin">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">                  
+                    <p class="comment-form-email">
+                      <label for="email">Email <span class="required">*</span></label>
+                      <input type="email" required="required" aria-required="true" value="" name="email">
+                    </p>
+                 
+                    <p class="comment-form-url">
+                      <label for="subject">Password <span class="required">*</span></label>
+                      <input type="password" required="required" name="password">  
+                    </p>
+
+                    <p class="form-submit">
+                      <input type="submit" value="Submit" class="mu-post-btn button" name="submit" style="visibility: visible;border:1px solid black">
+                    </p>        
+                  </form>
+                </div>
+              </div>
+              <div class="col-md-6" style="padding-left:5%">
+                <div class="mu-contact-right">
+
+                  <h4>Notice【填表注意事项】</h4>
+                  <p>我们的课程提供基于实际情景的真人外教一对一服务，并整年可预约免费更换外教服务，贴心的服务，品质的保证，相信一定会给您带来不一样的体验！</p>
+                  <ul style="list-style:disc inside">
+                    <li>A must with * [带 * 必填]</li>
+                    <li>请用邮箱登录！Please use your email!</li>
+                    <li>还没注册？ <a href="/courses/signup" style="color:#01bafd;">Signup</a></li>
+                  </ul>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end contact content -->
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <!-- End contact  -->
+
+ 
+
+
+
+
+
+
+
+
+

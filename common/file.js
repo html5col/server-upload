@@ -24,6 +24,8 @@ module.exports = function(req,res,...arg){
                     photoDir = dataDir + 'logo/';
                 }else if(arg[2]){
                     photoDir = dataDir + 'groupLogo/';
+                }else if(arg[3]){
+                    photoDir = dataDir + 'certificate/';
                 }
 
                 helper.checkDir(dataDir);
@@ -47,11 +49,20 @@ module.exports = function(req,res,...arg){
                             // return res.redirect('back');
                             callback(err);
                         }else{
-                            
-                          let processUpload = function (){
+                          let arr;
+                          if(files.visa){
+                             const visa = files.visa,
+                                   studentsCertificate = files.studentsCertificate,
+                                   drivePermit = files.drivePermit;                             
+                             arr = [visa,studentsCertificate,drivePermit];
+                          }else if(files.photo){
+                              const photo = files.photo;
+                              arr = [photo];
+                          }
+                          
+                          let processUpload = function (photo){
 
-                                    const photo = files.photo,
-                                            size = photo.size,
+                                    const  size = photo.size,
                                             path = photo.path;
 
                                     logger.debug(`file in formiable: ${JSON.stringify(files)}`);
@@ -77,14 +88,19 @@ module.exports = function(req,res,...arg){
                                     
                                     let thedir = photoDir;
                                     //prevent uploading file with the same name
+                                    
                                     const photoName = Date.now() + validator.trim(xss(photo.name)); 
                                     
                                     const fullPath = thedir + photoName;
 
-                                    //checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
-                                    if(arg[0]){//post
+
+                    // const visa = Date.now() + validator.trim(xss(files.visa.name)),
+                    //       studentCertificate = Date.now() + validator.trim(xss(files.studentCertificate.name)),
+                    //       drivePermit = Date.now() + validator.trim(xss(files.drivePermit.name)); 
+
+                                    function dealWithImg(w,h){
                                         im(path)
-                                        .resize(300,250,'!')
+                                        .resize(w,h,'!')
                                         .autoOrient()
                                         .write(fullPath,function(err){
                                             if (err) {
@@ -97,45 +113,85 @@ module.exports = function(req,res,...arg){
                                             }); 
                                             callback(null,fields,files,photoName);  
                                             
-                                        });  
+                                        });                                          
+                                    }
+
+                                    //checkDir need to be passed to have a callback so that the thedir is generated before the rename function being called
+                                    if(arg[0]){//post
+                                        dealWithImg(300,250);
+                                        // im(path)
+                                        // .resize(300,250,'!')
+                                        // .autoOrient()
+                                        // .write(fullPath,function(err){
+                                        //     if (err) {
+                                        //             logger.error('imageMagic write error: '+ err); 
+                                        //             callback(err); 
+                                        //     }
+                                        //     logger.debug('The file has been re-named to: ' + fullPath);
+                                        //     fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
+                                        //         logger.debug('file is removed after renaming it');
+                                        //     }); 
+                                        //     callback(null,fields,files,photoName);  
+                                            
+                                        // });  
 
                                     }else if(arg[1]){//userlogo
-                                        im(path)
-                                        .resize(60,60,'!')
-                                        .autoOrient()
-                                        .write(fullPath,function(err){
-                                            if (err) {
-                                                    logger.error('imageMagic write error: '+ err); 
-                                                    callback(err); 
-                                            }
-                                            logger.debug('The file has been re-named to: ' + fullPath);
-                                            fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
-                                                logger.debug('file is removed after renaming it');
-                                            });  
-                                            callback(null,fields,files,photoName);
+                                        dealWithImg(60,60);
+                                        // im(path)
+                                        // .resize(60,60,'!')
+                                        // .autoOrient()
+                                        // .write(fullPath,function(err){
+                                        //     if (err) {
+                                        //             logger.error('imageMagic write error: '+ err); 
+                                        //             callback(err); 
+                                        //     }
+                                        //     logger.debug('The file has been re-named to: ' + fullPath);
+                                        //     fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
+                                        //         logger.debug('file is removed after renaming it');
+                                        //     });  
+                                        //     callback(null,fields,files,photoName);
                                             
-                                        });  
+                                        // });  
                                     }else if(arg[2]){//grouplogo
-                                        im(path)
-                                        .resize(100,100,'!')
-                                        .autoOrient()
-                                        .write(fullPath,function(err){
-                                            if (err) {
-                                                    logger.error('imageMagic write error: '+ err); 
-                                                    callback(err); 
-                                            }
-                                            logger.debug('The file has been re-named to: ' + fullPath);
-                                            fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
-                                                logger.debug('file is removed after renaming it');
-                                            });   
-                                            callback(null,fields,files,photoName);
-                                        });  
+                                        dealWithImg(100,100);
+                                        // im(path)
+                                        // .resize(100,100,'!')
+                                        // .autoOrient()
+                                        // .write(fullPath,function(err){
+                                        //     if (err) {
+                                        //             logger.error('imageMagic write error: '+ err); 
+                                        //             callback(err); 
+                                        //     }
+                                        //     logger.debug('The file has been re-named to: ' + fullPath);
+                                        //     fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
+                                        //         logger.debug('file is removed after renaming it');
+                                        //     });   
+                                        //     callback(null,fields,files,photoName);
+                                        // });  
+                                    }else if(arg[3]){//certificate
+                                        dealWithImg(400,300);
+                                        // im(path)
+                                        // .resize(100,100,'!')
+                                        // .autoOrient()
+                                        // .write(fullPath,function(err){
+                                        //     if (err) {
+                                        //             logger.error('imageMagic write error: '+ err); 
+                                        //             callback(err); 
+                                        //     }
+                                        //     logger.debug('The file has been re-named to: ' + fullPath);
+                                        //     fs.unlink(path, function() {	   //fs.unlink 删除用户上传的文件
+                                        //         logger.debug('file is removed after renaming it');
+                                        //     });   
+                                        //     callback(null,fields,files,photoName);
+                                        // });  
                                     }
 
                                      
                             }//processUpload
 
-                            processUpload();
+                            arr.forEach(function(pho){
+                                processUpload(pho);
+                            });
                            
 
 

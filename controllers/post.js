@@ -42,6 +42,7 @@ module.exports =  {
 
             p.then(function(posts,count){
                   let options = {
+                        layout:'main',
                         user: req.user ? req.user.processUser(req.user) : req.user,
                         posts:  posts, 
                         page: page,

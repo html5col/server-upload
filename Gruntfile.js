@@ -61,7 +61,8 @@ module.exports = function(grunt){
             },
             dist: {
               files: {
-                '<%= paths.release %>/js/app.min.js': ['<%= paths.js %>/**/*.js','!public/js/*-test/*.js']
+                '<%= paths.release %>/js/app.min.js': ['<%= paths.js %>/**/*.js','!<%= paths.js %>/*-test/*.js','!<%= paths.js %>/desktop.js','!<%= paths.js %>/desktop/*.js'],
+                '<%= paths.release %>/js/desktop.min.js': ['<%= paths.js %>/desktop/*.js','<%= paths.js %>/desktop.js'],                
               }
             }
         },
@@ -82,7 +83,8 @@ module.exports = function(grunt){
           target: {
             files: [
             {
-              '<%= paths.release %>/css/app.min.css': ['<%= paths.css %>/*.css','!<%= paths.css %>/output.css']
+              '<%= paths.release %>/css/app.min.css': ['<%= paths.css %>/*.css','!<%= paths.css %>/output.css','!<%= paths.css %>/desktop.css'],
+              '<%= paths.release %>/css/desktop.min.css':['<%= paths.css %>/desktop.css']
             }
             // {
             //   expand: true,
@@ -103,9 +105,12 @@ module.exports = function(grunt){
                 src: [
                    '<%= paths.release %>/js/app.min.js',
                    '<%= paths.release %>/css/app.min.css',
+
+                   '<%= paths.release %>/css/desktop.min.css',
+                   '<%= paths.release %>/js/desktop.min.js',  
                 ],
                 dest: [
-                   'views/layouts/main.handlebars',
+                   'views/layouts/desktop.handlebars',
                 ]
             }
         },

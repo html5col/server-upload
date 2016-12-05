@@ -20,23 +20,33 @@ const mongoose = require('mongoose'),
 var userSchema = new Schema({
      local: {
           //name: String,
-          username: { type: String, required: true, unique: true },
+          username: { 
+              type: String, 
+              required: [true,'Username is required!'], 
+              unique: true 
+          },
           email: { type: String, required: true, unique: true,min: 4 },
           password: { type: String, required: true },//,match: /[0-9a-zA-Z_-]/
-
           active: {type:Boolean, required: true, default: true },
           logo: {type: String},
           myGroups: [String],
+        //   post_id: [{
+        //       type: mongoose.Schema.Types.ObjectId,
+        //       ref: 'Post'
+        //   }],
           //Properties resetPasswordToken and resetPassword are not part of the above document, because they are set only after password reset is submitted. And since we haven’t specified default values, those properties will not be set when creating a new user.
           resetPasswordToken: String, 
           resetPasswordExpires: Date,
           roles:[String],
           neVip: {type: Boolean, default:false},
-          admin: {type: Boolean, default: false},
+          //admin: {type: Boolean, default: false},
           contractMoney: {type: Number, default: 0},
           rewards:  {type: Number, default:171.7},
           failCount: {type: Number,default:0},
           successCount: {type: Number,default:0},
+          interestedCourse: String,
+
+          expat_id: String,
 
           //expiryDate: {type:String,default: 'Expired'},
           //location: String,
@@ -69,7 +79,14 @@ var userSchema = new Schema({
 });
 
 
-
+//userSchema.post...
+// userSchema.post('save',function(doc){
+//     consle.log(doc._id);
+// });
+// userSchema.post('save',function(doc,next){
+//     consle.log('post1');
+//     next();
+// });
 // on every save, add the date
 userSchema.pre('save', function(next){
   // get the current date
@@ -163,6 +180,7 @@ userSchema.methods.processUser = user=>{
     
     return {
         _id: user._id,
+        expat_id: user.local.expat_id,
         username: user.local.username,
         email: user.local.email,
         logo: user.local.logo,
@@ -174,6 +192,7 @@ userSchema.methods.processUser = user=>{
         rewards: user.local.rewards,
         failCount: user.local.failCount,
         successCount: user.local.successCount,
+        interestedCourse: user.local.interestedCourse,
         //expiryDate: user.local.expiryDate,
         latestRole: latestRole,
         created_at: moment(user.local.created_at).format('L'),

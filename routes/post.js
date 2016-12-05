@@ -5,6 +5,7 @@ const express = require('express'),
       post = require('../controllers/post');
       
 module.exports = function(){
+      router.get('/all', post.latestTopic);
       router.get('/make', auth.isLoggedIn, post.makeArticle);
       router.post('/post', auth.isLoggedIn, post.postWithUpload);
       router.get('/search', post.getSearch);
