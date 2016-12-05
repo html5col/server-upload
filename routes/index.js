@@ -8,7 +8,9 @@ const main = require('../controllers/main'),
 
 
 /* GET home page. */
-router.get('/', desktop.home);
+// router.get('/', desktop.home);
+router.get('/', post.latestTopic);
+
 router.get('/service',main.service);
 router.get('/rules',main.rules);
 
