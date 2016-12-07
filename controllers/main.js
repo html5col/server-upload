@@ -45,7 +45,20 @@ module.exports = {
                 
 
         // },
-
+        simpleHome(req,res){
+              const options = {
+                  //layout: 'desktop',
+                  title:seo.about.simple.title,
+                  keywords:seo.about.simple.keywords,
+                  description:seo.about.simple.description,  
+                  messages: {
+                        error: req.flash('error'),
+                        success: req.flash('success'),
+                        info: req.flash('info'),
+                  }, // get the user out of session and pass to template                    
+              };
+              res.render('desktop/simpleHome',options);
+        },
         service(req,res){
               const options = {
                   title:seo.about.service.title,

@@ -79,7 +79,13 @@ var config = {
             title: '契约计划规则',
             keywords: 'X-Plan英语口语计划，B-Plan欧美书籍计划，规则,契约计划',
             description: 'X-Plan英语口语计划,B-Plan欧美书籍计划契约规则',                
-          },              
+          },   
+          simple:{
+              title: '生活情景1对1外教',
+              keywords: '英语,国际交换生,互惠生,外教带回家,驻家外教,国外交流生',
+              description: '提供专业的外教服务，把外教带回家，在生活情境中让您的孩子体验国际文化，拥有一口流利的英语口语',  
+          },       
+
       },
       vip: {
         download: {

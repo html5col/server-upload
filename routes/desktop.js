@@ -10,7 +10,7 @@ const desktop = require('../controllers/desktop'),
 //router.get('/', desktop.home);
 router.get('/t2h', desktop.t2h);
 router.get('/speakdaily', desktop.speakdaily)
-router.get('/t2a', desktop.t2a);;
+router.get('/t2a', desktop.t2a);
 router.get('/questions', desktop.questions);
 router.get('/signup', desktop.signup);
 router.get('/login', desktop.login);

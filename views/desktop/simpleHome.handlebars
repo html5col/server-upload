@@ -1,0 +1,80 @@
+{{#extend "css"}}
+<style> 
+body{
+  border-top:1px solid darkorange;
+}
+header h1{
+  text-align: center;
+  font-size:2em;
+  color:grey;
+}
+/*be evenly and nicely distributed on the horizontal axis so that when we resize the browser, everything is fine (without media queries!).*/
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  
+  -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.flex-item {
+  background: tomato;
+/*  padding: 5px; to be nicer*/
+  width: 100%;
+  margin-top: 10px;
+
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+}
+.flex-tem>a{
+  font-size:3em;
+}
+@media all and (min-width: 800px) {
+.flex-item {
+  padding: 5px; 
+  width: 22%;
+  margin-top: 1px;
+}
+}
+.flex-item>a{
+  color: #fff;
+  font-size:1em;
+}
+.flex-item>a:link { 
+text-decoration: none; 
+} 
+.flex-item>a:visited { 
+text-decoration: none; 
+} 
+.flex-item>a:hover { 
+text-decoration: none; 
+} 
+.flex-item>a:active { 
+text-decoration: none; 
+} 
+</style>
+{{/extend}}
+
+
+<header>
+  <h1>Trver外教情境课程</h1>
+</header>
+<ul class="flex-container">
+  <li class="flex-item"><a href="/courses">情境课程</a></li>
+  <li class="flex-item"><a href="/post/all">Activities</a></li>
+  <li class="flex-item"><a href="/group/groups">Groups</a></li>
+  <li class="flex-item"><a href="/courses/applyForTutor">Classified</a></li>  
+</ul>
