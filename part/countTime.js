@@ -17,6 +17,9 @@ module.exports.countTime = function(modifiedUsers){
                     if(nowSecs<fdate.getTime()){
                         difference = fdate.getTime() - nowSecs;
                         user.vipTimeLeft = Math.floor(difference / daySecs);
+                        if(user.vipTimeLeft<1){
+                            user.vipTimeLeft = 0;
+                        }
                     }else if(nowSecs > fdate.getTime()){
                         //User.findById(user._id).sort('-')
                         User.findById(user._id,function(err,theUser){
@@ -36,9 +39,6 @@ module.exports.countTime = function(modifiedUsers){
 
 
                     }      
-
-
-
 
             }else if(latestRole == 'Yearly'){
                     let sdate;

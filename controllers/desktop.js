@@ -53,7 +53,10 @@ module.exports = {
                             }, // get the user out of session and pass to template
                     }); 
                 }
-            }else{
+            }else if(code === 'courses'){
+                res.redirect('/courses');
+            }
+            else{
                 res.redirect('back');
             }
             

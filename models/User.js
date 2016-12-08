@@ -159,22 +159,21 @@ userSchema.methods.processUser = user=>{
     let latestRole;
     let vip = false;
 
-        if(helper.inArray(roles,'Super')){
-            latestRole = 'Super Admin';
-        }else if(helper.inArray(roles,'Junior')){
-            latestRole = 'Junior Admin';
-        }else if(helper.inArray(roles,'Yearly')){
-            latestRole = 'Yearly';
-        }else if(helper.inArray(roles,'Trial')){
-            latestRole = 'Trial';
-        }else{
-            latestRole = 'Nope';
-        }
+    if(helper.inArray(roles,'Super')){
+        latestRole = 'Super Admin';
+    }else if(helper.inArray(roles,'Junior')){
+        latestRole = 'Junior Admin';
+    }else if(helper.inArray(roles,'Yearly')){
+        latestRole = 'Yearly';
+    }else if(helper.inArray(roles,'Trial')){
+        latestRole = 'Trial';
+    }else{
+        latestRole = 'Nope';
+    }
 
- 
-        if(latestRole!=='Nope'){
-            vip = true;
-        } 
+    if(latestRole!=='Nope'){
+        vip = true;
+    } 
     
 
     

@@ -20,7 +20,7 @@ const flash = require('connect-flash'),
 
 module.exports = {
 
-	    vipfile: (req,res)=>{
+	 vipfile: (req,res)=>{
 			res.render('vip/resourses',{
 				title:seo.vip.download.title,
 				keywords:seo.vip.download.keywords,
@@ -59,7 +59,7 @@ module.exports = {
 					let modifiedUsers = userProxy.modifyUsers(users); 
 					require('../part/countTime').countTime(modifiedUsers);	
 
-                    User.find({
+          User.find({
 						'local.roles': { $in: ['Trial', 'Yearly'] },
 						'local.email': { $ne: '631738796@qq.com'}
 					}).
