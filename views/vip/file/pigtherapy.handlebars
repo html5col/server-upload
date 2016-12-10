@@ -1,0 +1,120 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+<style>
+  pre{
+    
+  }
+</style>
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+             {{#if user}}
+                {{#if user.vip}}
+                  <a class="button button-link button-nav pull-right" external href="javascript:void(0)">
+                    VIP
+                  </a>
+                {{else}}
+                  <a class="button button-link button-nav pull-right" external href="/service">
+                   成为VIP
+                  </a>
+                {{/if}} 
+
+              {{else}}
+                   <a class="button button-link button-nav pull-right" external href="/service">
+                   成为VIP
+                  </a>             
+              {{/if}}  
+              <h1 class='title'>第二期12月第一周音频资料1/2</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+
+
+            <!-- 这里是页面内容区 -->
+            <div class="content content-padded">
+           
+              <div class="content-block">
+                <h2>官方音频文本参考翻译 第二期12月第一周末本文更新发布！</h2> 
+                <p style="margin-top:0;margin-bottom:1rem;padding-top:0;color:grey;font-size:0.6rem;">作者: Frank Lee  &nbsp 校对: Frankcis Arsena</p>
+               <ul>
+                 <li>精选学习音频下载: <a href="/media/therapypig.mp3">Download</a></li>
+                 <li>
+                    
+                  {{#if user}}
+                    {{#if user.vip}}
+                      <p>密钥: dxvw</p>
+                      <p>在线音频: </p>
+                      <p><audio controls src="/media/therapypig.mp3"></audio></p>
+                      <!--http://av.voanews.com/clips/VLE/2014/09/24/bd1e75fa-0f81-4b01-957e-8784f081cde1.mp3-->
+                    {{else}}
+                      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
+                    {{/if}}
+                  {{else}}
+                      <p>密钥: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p>在线音频: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p style="border:1px dashed red;padding:0.7rem 1rem;">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
+                  {{/if}}
+                 </li>
+
+
+                 <li>背景:
+                   <p>有一个词组叫做when pigs fly表示不可能的事情，在互联网里有个词汇叫在风口上，猪都能飞起来，今天我们的音频就与这个相关
+<pre>
+╭︿︿︿╮ 
+{/ o  o /}  
+ ( (oo) )   
+  ︶︶︶
+</pre>
+</p>
+                 </li>
+                 <li>词汇讲解:
+                   <pre>
+pigs  名词 猪
+growing wings 张翅膀
+roller coasters 过山车
+San Francisco 美国地名
+relax 休息
+LiLou 我们的主角，小猪名
+therapy 名词，疗法
+
+be unlikely to do something: 不可能
+hate doing.. 不喜欢做..
+help people do sth 帮助某人做…
+aim to do: 致力于做
+
+                   </pre>
+                 </li>
+
+                 <li>音频文本:
+                   <pre>
+										 周末发布
+                   </pre>
+                 </li>
+
+                 <li>相关文献参考
+                   <p><a href="https://en.wikipedia.org/wiki/Flying_pig">Flying Pig介绍【Wikipedia】</a></p>
+                 </li>
+               </ul>
+              </div>
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}

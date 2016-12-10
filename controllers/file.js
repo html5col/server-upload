@@ -66,7 +66,20 @@ module.exports = {
 				}, 
 				user: req.user ? req.user.processUser(req.user) : req.user,				
 		});        
-    }
+    },
+	therapypig(req,res){
+		res.render('vip/file/pigtherapy',{
+				title:'Therapy Pig Brings Relief to Stressed Travelers音频学习',
+				keywords:'X-Plan音频学习,Therapy Pig Brings Relief to Stressed Travelers,英语听力,英语学习',
+				description:'X-Plan音频学习,在线Therapy Pig Brings Relief to Stressed Travelers音频及详细释义',						
+				messages: {
+					error: req.flash('error'),
+					success: req.flash('success'),
+					info: req.flash('info'),
+				}, 
+				user: req.user ? req.user.processUser(req.user) : req.user,					
+		});
+	}
     
 
 };
