@@ -1,6 +1,7 @@
 "use strict";
 const logger = require('../lib/logger');
 let config = require('../config/config');
+let User = require('../models/User');
 module.exports.countTime = function(modifiedUsers){
    let latestRole, daySecs = 1000*60*60*24;
     modifiedUsers.forEach(function(user){
