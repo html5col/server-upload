@@ -78,6 +78,23 @@ module.exports = {
             }); 
 
        },
+       tutorProfile(req,res){
+            let isMobile = helper.isMobile(req);
+            res.render('desktop/expats/profile', {
+                    layout: 'desktop',
+                    isMobile: isMobile,
+                    user: req.user ? req.user.processUser(req.user) : req.user,
+                    title:seo.desktop.tutorProfile.title,
+                    keywords:seo.desktop.tutorProfile.keywords,
+                    description:seo.desktop.tutorProfile.description,  
+                    messages: {
+                        error: req.flash('error'),
+                        success: req.flash('success'),
+                        info: req.flash('info'),
+                    }, // get the user out of session and pass to template
+            }); 
+
+       },       
        t2h(req,res){
             res.render('desktop/courses/t2hCourse', {
                     layout: 'desktop',

@@ -9,6 +9,7 @@ const user = require('../../controllers/backend/user');
 
 router.get('/users', user.getUsers);
 router.get('/vips', user.vipUsers);
+router.get('/expats', user.getExpats);
 //router.get('/vip/make', user.makeVip);
 router.get('/vip/choose', user.chooseVip);
 router.get('/vip/delete', user.deleteVip);

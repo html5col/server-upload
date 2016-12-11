@@ -1,7 +1,152 @@
  {{#extend "css"}}
+ <style>
+  body{
+    font-family: "Hiragino Sans GB", "华文细黑", "STHeiti", "微软雅黑", "Microsoft YaHei", SimHei, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  }
+  #mu-contact{
+    padding-top:0;
+  }
+  #mu-contact>.container{
+    width:100%;
+    margin:0;
+    padding:0;
+  }
+  #pheader{
+    background-image:url('/img/desktop/courses/1.jpg');
+    color:white;
+    min-height: 40rem;
+    max-height:40rem;
+    padding-left:2rem;
+  }
+  #pheader h2{
+    color:#e3e3e3;
+    padding-top:2rem; 
+    padding-bottom:1rem;
+  }
+  #pheader span{
+    display: block;
+    margin-top:0;
+    margin-bottom:0;
+    padding-top:0;
+    padding-bottom: 0;  
+    padding-left:1rem;  
+  }
+  .contentDiv{
+    margin-left:14rem;
+    margin-right:14rem;
+  }
+  .expatIntro{
+    margin-top:4rem;
+  }
+  .smallBlock{
+     border-bottom:1px solid #e3e3e3;
+     padding-top:2rem;
+     padding-bottom:2rem;
+  }
+  .smallerBlock{
+    padding-top:2rem;
+     padding-bottom:1rem;
+
+  }
+
+  .rightBlock{
+    border-bottom:1px solid #e3e3e3;
+    padding-top:0;
+    padding-bottom: 2rem;
+  }
+  .smallBlock:last-child {
+    border-bottom:0;
+  }
+  .expatImg{
+    overflow:hidden;
+  }
+  .expatImg>p{
+    text-align: left;
+  }
+  .expatImg>.userImg{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background-image:url('/img/speak.png');
+    margin-left:0;
+  }
+  .languageBlock{
+
+    text-align:center;
+    padding:2rem;
+    
+  }
+  .languageBlock p i{
+      font-size:3rem;
+  }
+
+  .vipContent{
+    color: grey;
+    display:inline-block;
+    padding-left:1rem;
+  }
+
+
+
+
+  .tutorBarWrapper{
+     width: 315px;
+     border:1px solid rgba(60, 63, 64, 0.9);
+     margin-top:-3rem;
+  }
+  .tutorBar{
+    background-color: rgba(60, 63, 64, 0.9);
+    border: 0;
+    color: #fff;
+    height: 40px;
+    padding: 6px 20px;
+    text-transform: capitalize;
+    z-index: 1001;
+    overflow-y: hidden; 
+    clear:all;
+  }
+
+  .tutorBarWrapper .barMoney, .barYear{
+
+  }
+  .tutorBarWrapper .barYear{
+    float:right;
+  }
+  .tutorBarWrapper .tutorBarDetail{
+
+    padding-left:2rem;
+    padding-right:2rem;
+    padding-top:1rem;
+  }
+  .tutorBarDetail p{
+    margin-top:0;
+    margin-bottom:0;
+    padding:0;
+  }
+  .tutorBarDetail>a{
+    display: block;
+    width:100%;
+    margin:0 auto;
+    margin-top:2rem;
+    border-color: #ff7e82;
+    background-color: #ff7e82;
+    color: #fff;   
+    padding:0.8rem;
+    text-align: center;
+    
+  }
+  .tutorBarDetail>span{
+    display:block;
+    color:#e3e3e3;
+    font-size:1rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+ </style>
  {{/extend}}
  <!-- Page breadcrumb -->
- <section id="mu-page-breadcrumb">
+ {{!--<section id="mu-page-breadcrumb">
    <div class="container">
      <div class="row">
        <div class="col-md-12">
@@ -10,15 +155,247 @@
            <ol class="breadcrumb">
             <li><a href="/">Home</a></li>            
             <li class="active">Profile</li>
-          </ol>
+           </ol>
          </div>
        </div>
+
+
+
+
      </div>
    </div>
- </section>
+ </section>--}}
 
- <section>
+ <section class="tutorProfile" id="mu-contact">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-12">
 
+         <div class="mu-course-content-area">
+            <div class="row">
+              <div class="col-md-12">
+                          <div id="pheader">
+                          </div>
+              </div>
+            <div class="contentDiv">
+              <div class="col-md-9 expatIntro">
+                <!-- start course content container -->
+                <div class="mu-course-container mu-course-details">
+                  <div class="row">
+                    <div class="col-md-12 introBlock smallBlock">
+                      <div class="col-md-10 fastIntro">
+                           <h2>Canale Hostel Khaosan : Suite RoomCanale Hostel Khaosan : Suite Room</h2>
+                           <p>曼谷, Krung Thep Maha Nakhon, 泰国</p>
+                      </div>
+                      <div class="col-md-2 expatImg">
+                        <div class="userImg">
+                        </div>
+                        <p>Frank Lee</p>
+                      </div>
+                     </div> 
+
+                     <div class="col-md-12 languageBlock smallBlock">
+                       <div class="col-md-4">
+                         <p><i class="fa fa-language" aria-hidden="true"></i> <br> English French</p>
+                       </div>  
+                       <div class="col-md-4">
+                         <p><i class="fa fa-globe" aria-hidden="true"></i> <br> 来自 France</p>
+                       </div>  
+                       <div class="col-md-4">
+                         <p><i class="fa fa-location-arrow" aria-hidden="true"></i> <br> Hangzhou</p>
+                       </div>     
+                     </div> 
+
+                     <div class="col-md-12 smallBlock">
+                       <h3>关于我及教学经历..</h3>
+                       <p>Canale Hostel is located on the historical location opposite Wat Bowonniwet Vihara that lends the hostel its peaceful and authentic local Thai atmosphere. Despite where the hostel is situated Khaosan road is only 5 minutes away on foot.</p>   
+                     </div> 
+
+
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>学历</p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <div class="row">
+                              <div class="col-md-12">
+                                <p><span>学校: </span> <span>Zhejiang University</span></p>
+                              </div>
+                               <div class="col-md-12">
+                                <p><span>毕业情况: </span> <span>否</span></p>
+                              </div>                             
+                          </div>
+                        </div>                      
+                     </div> 
+
+
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>来自国家 </p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <p>France</p>
+                        </div>                      
+                     </div> 
+
+
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>语言</p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <div class="row">
+                              <div class="col-md-12">
+                                <p><span>第一语言: </span> <span>French</span></p>
+                              </div>
+                               <div class="col-md-12">
+                                <p><span>第二语言: </span> <span>Enlgish</span></p>
+                              </div>                             
+                          </div>
+                        </div>                      
+                     </div> 
+
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>教学经历</p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <p>Canale Hostel is located on the historical location opposite Wat Bowonniwet Vihara that lends the hostel its peaceful and authentic local Thai atmosphere. Despite where the hostel is situated Khaosan road is only 5 minutes away on foot.</p>
+                        </div>                      
+                     </div> 
+
+
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>现居住</p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <p>Hangzhou， China</p>
+                        </div>                      
+                     </div> 
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>希望教学地点</p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <p>Hangzhou， China</p>
+                        </div>                      
+                     </div> 
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>联系方式</p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <p><span class="vipContent">VIP查看</span></p>
+                        </div>                      
+                     </div> 
+
+
+
+                     <div class="col-md-12 smallerBlock">
+                        <div class="col-md-2">
+                         <p>认证</p>
+                        </div>    
+                        <div class="col-md-10 rightBlock">
+                          <div class="row">
+                              <div class="col-md-12">
+                                <p><span>驾驶证: </span> <span>有</span></p>
+                              </div>
+                               <div class="col-md-12">
+                                <p><span>VISA: </span> <span class="vipContent">VIP查看</span></p>
+                              </div> 
+                               <div class="col-md-12">
+                                <p><span>学生证: </span> <span class="vipContent">VIP查看</span></p>
+                              </div>                               
+
+                          </div>
+                        </div>                      
+                     </div> 
+
+
+                  </div>
+                </div>
+                <!-- end course content container -->
+                <!-- start related course item -->
+                {{!--<div class="row">
+                  <div class="col-md-12">
+                    <div class="mu-related-item">
+                        <h3>相关课程</h3>
+                        <div class="mu-related-item-area">
+                          <div id="mu-related-item-slide">
+                            <div class="col-md-6 col-sm-12">
+                              jkdfjdkfjkdjfkdjfkdjfk
+                              
+                            </div>
+                          <div class="col-md-6">
+                          
+                            </div>
+                          </div>
+                        </div>
+                   </div>
+                  </div>
+               </div>--}}
+                <!-- end start related course item -->
+              </div>{{!-end of col-md-9 -}}
+              <div class="col-md-3">
+                <!-- start sidebar -->
+                <aside class="mu-sidebar">
+                  <!-- start single sidebar -->
+               
+                  <div class="mu-single-sidebar tutorBarWrapper">
+                    <div class="tutorBar">
+                      <span class="barMoney">￥ 2999-4999</span>
+                      <span class="barYear">1年</span>
+                    </div>
+                    <div class="tutorBarDetail">
+                      <p>外教： <span>Frankcis Asenea</span></p>
+                      <p>方式： <span>一对一情境教学</span></p>
+                      <p>支持： <span>杭州</span></p>
+
+                      <a href="">预约</a>
+                      <span>需要审核通过</span>
+                    </div>
+
+                  </div>
+
+{{!--
+                   <div class="mu-single-sidebar">
+                    <h3>Activity[活动]</h3>
+                      <div class="mu-sidebar-popular-courses">
+                        {{> desktop/shares/sidebarX}}
+
+                      </div>
+                  </div> --}}
+
+                  <!-- end single sidebar -->
+                  <!-- start single sidebar -->
+                  {{!--<div class="mu-single-sidebar">
+                    <h3>Tags Cloud</h3>
+                    <div class="tag-cloud">
+                      <a href="/courses/t2h">外教带回家</a>
+                      <a href="/courses/t2h">T2H</a>
+                      <a href="/activities">活动: X-Plan</a>
+                      <a href="/courses/speakdaily">SpeakDaily</a>
+                    </div>
+                  </div>--}}
+                  <!-- end single sidebar -->
+                </aside>
+                <!-- / end sidebar -->
+             </div>
+            </div><!--contentdiv-->
+           </div>
+         </div>
+
+         
+
+
+
+
+
+
+       </div>
+     </div>
+    </div>
  </section>
 
 {{#extend "js"}} 

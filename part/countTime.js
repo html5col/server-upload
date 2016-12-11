@@ -12,9 +12,12 @@ module.exports.countTime = function(modifiedUsers){
 
             if(latestRole == 'Trial'){
                     fdate  = new Date();
-                    fdate.setDate(7);
-                    fdate.setMonth(11);//need to be added by 1
-                    fdate.setFullYear(2016);
+                    // fdate.setDate(7);
+                    // fdate.setMonth(11);//need to be added by 1
+                    // fdate.setFullYear(2016);
+                    fdate.setDate(6);
+                    fdate.setMonth(0);//need to be added by 1
+                    fdate.setFullYear(2017);                    
                     if(nowSecs<fdate.getTime()){
                         difference = fdate.getTime() - nowSecs;
                         user.vipTimeLeft = Math.floor(difference / daySecs);

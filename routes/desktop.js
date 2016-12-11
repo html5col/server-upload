@@ -20,4 +20,5 @@ router.get('/book', desktop.book);
 router.post('/book', desktop.bookUpload);
 router.get('/classifiedCode', desktop.classfiedCode);
 router.post('/classifiedCode', desktop.classfiedCoded);
+router.get('/profile', desktop.tutorProfile);
 module.exports = router;

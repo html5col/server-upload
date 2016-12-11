@@ -1,0 +1,99 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+    <style>
+     .showMe{
+         display:block;
+     }
+     .hideMe{
+         display:none;
+     }
+    </style>
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+
+              <h1 class='title'>Expats Setting</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+           
+              <div class="content-block">
+
+                <ul style="margin:2em;">
+                    <li><a href="/admin/users" external>Users</a></li>
+                     <li><a href="/admin/vips" external>VIPs</a></li>
+										  <li><a href="/admin/expats" external>Expats</a></li>
+                </ul>
+                <table style="width:900px;text-align:left;margin:0 2em;">
+                    <thead>
+                        <!--<th>user_id</th>-->
+                        <th>name</th>
+												<th>phone</th>
+												
+                        
+												 <th>Experience</th>
+												 <th>college</th>
+												  <th>Status/th>
+                        <th>Active</th>
+												
+                       
+                    </thead>
+
+                    <tbody>
+                        {{#each expats}}
+                        <tr>
+                            <!--<td>{{_id}}</td>-->
+                            <td>{{name}}</td>
+														<td>{{phone}}</td>
+                            
+														<td>{{experience}}</td>
+														<td>{{college}}</td>
+														<td>{{status}}</td>
+                            <td>{{active}}</td>
+                            
+                        </tr>
+                        {{/each}}
+                    </tbody>
+
+                </table>
+
+              </div>
+
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}
+
+    {{#extend 'js'}}
+
+    {{/extend}}
+
+
+
+
+
+
+       
+       
+       
+           

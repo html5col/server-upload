@@ -16,6 +16,11 @@ var config = {
           keywords: '英语,国际交换生,互惠生,外教带回家,驻家外教,国外交流生',
           description: '提供专业的外教服务，把外教带回家，在生活情境中让您的孩子体验国际文化，拥有一口流利的英语口语',  
        },
+       tutorProfile:{
+          title: 'Profile: 外教公开页面',
+          keywords: '外教简历，外教个人页面',
+          description: '外教个人页面',           
+       },
 
        courses:{
          t2h:{
