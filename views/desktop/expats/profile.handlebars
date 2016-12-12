@@ -12,7 +12,7 @@
     padding:0;
   }
   #pheader{
-    background-image:url('/img/desktop/courses/1.jpg');
+    
     color:white;
     min-height: 40rem;
     max-height:40rem;
@@ -31,10 +31,13 @@
     padding-bottom: 0;  
     padding-left:1rem;  
   }
+
+
   .contentDiv{
     margin-left:14rem;
     margin-right:14rem;
   }
+
   .expatIntro{
     margin-top:4rem;
   }
@@ -62,6 +65,8 @@
   }
   .expatImg>p{
     text-align: left;
+    width: 50px;
+    text-align: center;
   }
   .expatImg>.userImg{
     width:50px;
@@ -86,9 +91,6 @@
     padding-left:1rem;
   }
 
-
-
-
   .tutorBarWrapper{
      width: 315px;
      border:1px solid rgba(60, 63, 64, 0.9);
@@ -105,6 +107,7 @@
     overflow-y: hidden; 
     clear:all;
   }
+
 
   .tutorBarWrapper .barMoney, .barYear{
 
@@ -143,6 +146,21 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
+@media all and (max-width: 800px) {
+  .contentDiv{
+    margin-left:1rem;
+    margin-right:1rem;
+  }  
+  .languageBlock .col-md-4{
+    margin-top: 3rem;
+  }
+  .tutorBarWrapper{
+    margin: auto;
+  }
+
+}  
+
+
  </style>
  {{/extend}}
  <!-- Page breadcrumb -->
@@ -173,56 +191,60 @@
 
          <div class="mu-course-content-area">
             <div class="row">
+
+              {{#if expat}}
               <div class="col-md-12">
-                          <div id="pheader">
+                          <div id="pheader" style="background-image:url('/upload/certificate/{{expat.personal}}');">
                           </div>
               </div>
+            
+             
             <div class="contentDiv">
-              <div class="col-md-9 expatIntro">
+              <div class="col-sm-12 col-md-9 expatIntro">
                 <!-- start course content container -->
                 <div class="mu-course-container mu-course-details">
                   <div class="row">
                     <div class="col-md-12 introBlock smallBlock">
                       <div class="col-md-10 fastIntro">
-                           <h2>Canale Hostel Khaosan : Suite RoomCanale Hostel Khaosan : Suite Room</h2>
-                           <p>曼谷, Krung Thep Maha Nakhon, 泰国</p>
+                           <h2>{{expat.name}}: Speaking {{expat.nativeLanguage}} && {{expat.secondLanguage}} From {{expat.fromCountry}}</h2>
+                        <p>{{expat.fromState}}, {{expat.fromCountry}}</p>
                       </div>
                       <div class="col-md-2 expatImg">
                         <div class="userImg">
                         </div>
-                        <p>Frank Lee</p>
+                        <p>{{expatUser.local.username}}</p>
                       </div>
                      </div> 
 
                      <div class="col-md-12 languageBlock smallBlock">
                        <div class="col-md-4">
-                         <p><i class="fa fa-language" aria-hidden="true"></i> <br> English French</p>
+                         <p><i class="fa fa-language" aria-hidden="true"></i> <br> {{expat.nativeLanguage}} && {{expat.secondLanguage}}</p>
                        </div>  
                        <div class="col-md-4">
-                         <p><i class="fa fa-globe" aria-hidden="true"></i> <br> 来自 France</p>
+                         <p><i class="fa fa-globe" aria-hidden="true"></i> <br> 来自 {{expat.fromCountry}}</p>
                        </div>  
                        <div class="col-md-4">
-                         <p><i class="fa fa-location-arrow" aria-hidden="true"></i> <br> Hangzhou</p>
+                         <p><i class="fa fa-location-arrow" aria-hidden="true"></i> <br>期望地点 {{expat.choiceState}}</p>
                        </div>     
                      </div> 
 
                      <div class="col-md-12 smallBlock">
                        <h3>关于我及教学经历..</h3>
-                       <p>Canale Hostel is located on the historical location opposite Wat Bowonniwet Vihara that lends the hostel its peaceful and authentic local Thai atmosphere. Despite where the hostel is situated Khaosan road is only 5 minutes away on foot.</p>   
+                       <p>{{expat.experience}}</p>   
                      </div> 
 
 
                      <div class="col-md-12 smallerBlock">
-                        <div class="col-md-2">
+                        <div class="col-sm-2 col-md-2">
                          <p>学历</p>
                         </div>    
-                        <div class="col-md-10 rightBlock">
+                        <div class="col-sm-10 col-md-10 rightBlock">
                           <div class="row">
                               <div class="col-md-12">
-                                <p><span>学校: </span> <span>Zhejiang University</span></p>
+                                <p><span>学校: </span> <span>{{expat.college}}</span></p>
                               </div>
                                <div class="col-md-12">
-                                <p><span>毕业情况: </span> <span>否</span></p>
+                                <p><span>毕业情况: </span> <span>{{expat.status}}</span></p>
                               </div>                             
                           </div>
                         </div>                      
@@ -234,7 +256,7 @@
                          <p>来自国家 </p>
                         </div>    
                         <div class="col-md-10 rightBlock">
-                          <p>France</p>
+                          <p>{{expat.fromCountry}}</p>
                         </div>                      
                      </div> 
 
@@ -246,10 +268,10 @@
                         <div class="col-md-10 rightBlock">
                           <div class="row">
                               <div class="col-md-12">
-                                <p><span>第一语言: </span> <span>French</span></p>
+                                <p><span>第一语言: </span> <span>{{expat.nativeLanguage}}</span></p>
                               </div>
                                <div class="col-md-12">
-                                <p><span>第二语言: </span> <span>Enlgish</span></p>
+                                <p><span>第二语言: </span> <span>{{expat.secondLanguage}}</span></p>
                               </div>                             
                           </div>
                         </div>                      
@@ -260,25 +282,25 @@
                          <p>教学经历</p>
                         </div>    
                         <div class="col-md-10 rightBlock">
-                          <p>Canale Hostel is located on the historical location opposite Wat Bowonniwet Vihara that lends the hostel its peaceful and authentic local Thai atmosphere. Despite where the hostel is situated Khaosan road is only 5 minutes away on foot.</p>
+                          <p>{{expat.experience}}</p>
                         </div>                      
                      </div> 
 
 
-                     <div class="col-md-12 smallerBlock">
+                     {{!--<div class="col-md-12 smallerBlock">
                         <div class="col-md-2">
                          <p>现居住</p>
                         </div>    
                         <div class="col-md-10 rightBlock">
                           <p>Hangzhou， China</p>
                         </div>                      
-                     </div> 
+                     </div> --}}
                      <div class="col-md-12 smallerBlock">
                         <div class="col-md-2">
                          <p>希望教学地点</p>
                         </div>    
                         <div class="col-md-10 rightBlock">
-                          <p>Hangzhou， China</p>
+                          <p>{{expat.choiceDetail}}, {{expat.choiceState}}, {{expat.choiceCountry}}</p>
                         </div>                      
                      </div> 
                      <div class="col-md-12 smallerBlock">
@@ -299,7 +321,14 @@
                         <div class="col-md-10 rightBlock">
                           <div class="row">
                               <div class="col-md-12">
-                                <p><span>驾驶证: </span> <span>有</span></p>
+                                <p><span>驾驶证: </span> 
+                                  {{#if courseVip}}
+                                  <span style="display:block;width:8em;height:8em;background-position:center center;background-size:contain;background-repeat:no-repeat;background-image: url('/upload/certificate/{{../expat.drivePermit}}')"></span>
+                                  {{else}}
+                                  <span class="vipContent">VIP查看</span>
+                                  {{/if}}
+                                  
+                                </p>
                               </div>
                                <div class="col-md-12">
                                 <p><span>VISA: </span> <span class="vipContent">VIP查看</span></p>
@@ -337,7 +366,7 @@
                </div>--}}
                 <!-- end start related course item -->
               </div>{{!-end of col-md-9 -}}
-              <div class="col-md-3">
+              <div class="col-sm-12 col-md-3">
                 <!-- start sidebar -->
                 <aside class="mu-sidebar">
                   <!-- start single sidebar -->
@@ -348,11 +377,11 @@
                       <span class="barYear">1年</span>
                     </div>
                     <div class="tutorBarDetail">
-                      <p>外教： <span>Frankcis Asenea</span></p>
+                      <p>外教： <span>{{expat.name}}</span></p>
                       <p>方式： <span>一对一情境教学</span></p>
-                      <p>支持： <span>杭州</span></p>
+                      <p>支持： <span>{{expat.choiceState}}</span></p>
 
-                      <a href="">预约</a>
+                      <a href="https://weidian.com/item.html?itemID=2006348692">预约</a>
                       <span>需要审核通过</span>
                     </div>
 
@@ -383,6 +412,8 @@
                 <!-- / end sidebar -->
              </div>
             </div><!--contentdiv-->
+            {{/if}}
+         
            </div>
          </div>
 

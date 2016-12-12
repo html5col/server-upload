@@ -7,6 +7,7 @@ const Post = require('../models/Post'),
     userProxy = require('../db_proxy/user'),
     config = require('../config/config'),
     helper = require('../lib/utility'),
+    co = require('co'),
     validator = require('validator'),
     xss = require('xss'), 
     fs = require('fs'),
@@ -80,19 +81,28 @@ module.exports = {
        },
        tutorProfile(req,res){
             let isMobile = helper.isMobile(req);
-            res.render('desktop/expats/profile', {
-                    layout: 'desktop',
-                    isMobile: isMobile,
-                    user: req.user ? req.user.processUser(req.user) : req.user,
-                    title:seo.desktop.tutorProfile.title,
-                    keywords:seo.desktop.tutorProfile.keywords,
-                    description:seo.desktop.tutorProfile.description,  
-                    messages: {
-                        error: req.flash('error'),
-                        success: req.flash('success'),
-                        info: req.flash('info'),
-                    }, // get the user out of session and pass to template
-            }); 
+            let id = req.query.user_id;
+            co(function*(){
+                let expat = yield Expat.findOne({'user_id':id}).exec();
+                let expatUser = yield User.findById(id).exec();
+                res.render('desktop/expats/profile', {
+                        layout: 'desktop',
+                        expat: expat,
+                        expatUser: expatUser,
+                        isMobile: isMobile,
+                        user: req.user ? req.user.processUser(req.user) : req.user,
+                        title:seo.desktop.tutorProfile.title,
+                        keywords:seo.desktop.tutorProfile.keywords,
+                        description:seo.desktop.tutorProfile.description,  
+                        messages: {
+                            error: req.flash('error'),
+                            success: req.flash('success'),
+                            info: req.flash('info'),
+                        }, // get the user out of session and pass to template
+                });
+            });
+            
+ 
 
        },       
        t2h(req,res){
@@ -477,7 +487,7 @@ module.exports = {
        
 
 
-                                expat.save(function(err,user){
+                                expat.save(function(err,auser){
                                         if(err){
                                             logger.error(`error when saving expat form : ${err.stack?err.stack:err.message}`);
                                             //throw new Error(`error when saving data`);
@@ -485,7 +495,7 @@ module.exports = {
                                             
                                         }else{
                                             req.flash('success','Thanks for your interest. We\'ll contack you asap!');
-                                            res.redirect('/');
+                                            res.redirect(`/courses/profile?user_id=${auser.user_id}`);
                                         }
                                 });
                                       

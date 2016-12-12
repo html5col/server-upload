@@ -15,7 +15,7 @@ const mongoose = require('mongoose'),
 // Mixed
 // ObjectId
 // Array
-var userSchema = new Schema({
+var userSchema = new Schema({ 
           //name: String,
      user_id: { type: String, required: true }, 
      name: { type: String, required: true},
