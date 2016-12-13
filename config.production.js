@@ -11,11 +11,10 @@ child_process.exec("hostname -f", function(err, stdout, stderr) {
    hostname = stdout.trim();
 });
 
-
 var config = {
   // debug 为 true 时，用于本地调试
   debug: true,
-  env: 'production',
+  env: 'product',
   yearlyCharge: 588,
   trialCharge: 99,
   contractVipYear: 8,//month long
@@ -42,30 +41,26 @@ var config = {
 
   // mongodb 配置
   db: {
-       mongo:{
-          development: {
-            'url':'mongodb://localhost/groupForum'
-          },
-          production:{
-             'url': 'mongodb://localhost/groupForum'
-          },
+      mongo:{
+            dbname: 'groupForum',
+            host: 'localhost',//'192.168.3.148',//10.184.1.209    
+            port:27017,
+            user:'',
+            pass:'',
+            uri: 'mongodb://localhost:27017/groupForum',//'mongodb://10.184.1.209:27017/crawler',
+            options: {
+              server: {
+                poolSize: 5,
+              },
+            },
        },
        redis:{
         //redis config, default to the localhost
-          development: {
             'host':'127.0.0.1',
             'port':'6379',
             'db':'0',
             'pw':'',
             'ttl':1000 * 60 * 60 * 24 * 30
-          },
-          production:{
-            'host':'127.0.0.1',
-            'port':'6379',
-            'db':'0',
-            'pw':'',
-            'ttl':1000 * 60 * 60 * 24 * 30
-          },
        },          
   }, 
 
@@ -137,11 +132,11 @@ var config = {
   file_limit: '5MB',
 
   // 版块
-  // tabs: [
-  //   ['share', '分享'],
-  //   ['ask', '问答'],
-  //   ['job', '招聘'],
-  // ],
+  tabs: [
+    ['share', '分享'],
+    ['ask', '问答'],
+    ['job', '招聘'],
+  ],
 
   // // 极光推送
   // jpush: {
