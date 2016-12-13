@@ -45,7 +45,7 @@ var userSchema = new Schema({
           failCount: {type: Number,default:0},
           successCount: {type: Number,default:0},
           interestedCourse: String,
-
+          failReasons: [String],
           expat_id: String,
 
           //expiryDate: {type:String,default: 'Expired'},
@@ -194,8 +194,10 @@ userSchema.methods.processUser = user=>{
         interestedCourse: user.local.interestedCourse,
         //expiryDate: user.local.expiryDate,
         latestRole: latestRole,
+        failReasons: user.local.failReasons,
         created_at: moment(user.local.created_at).format('L'),
-        updated_at: moment(user.local.updated_at).format('L'),        
+        updated_at: moment(user.local.updated_at).format('L'),     
+
     };
 };
 

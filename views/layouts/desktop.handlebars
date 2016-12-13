@@ -44,6 +44,13 @@
     a[href="http://www.cnzz.com/stat/website.php?web_id=1259065442"]{
       display:none;
     }
+    .popMessage{
+      width: 100%;
+      padding-top:1rem;
+      padding-bottom: 1rem;
+      margin:0 auto;
+      text-align: center;
+    }
 
 
   </style>
@@ -56,12 +63,14 @@
     <a class="scrollToTop" href="#">
       <i class="fa fa-angle-up"></i>      
     </a>
+ {{> general/staticMessage}}
+
   <!-- END SCROLL TOP BUTTON -->
  {{> desktop/shares/header}}      
    {{{body}}}
  {{> desktop/shares/footer}}  
  <!-- 默认必须要执行$.init(),实际业务里一般不会在HTML文档里执行，通常是在业务页面代码的最后执行 -->
-     {{> general/message}}
+
     <!-- All css Files Here -->
       {{{block "js"}}} <!--for hbs custom style-->
       

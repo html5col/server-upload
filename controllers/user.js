@@ -1,6 +1,6 @@
 "use strict";
 const flash = require('connect-flash'),
-    config  = require('../config/config'),
+    config  = require('../common/get-config'),
 	seo = require('../config/seo'),
     mailService  = require('../lib/email')(config),
     bodyParser   = require('body-parser'),

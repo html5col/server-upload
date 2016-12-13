@@ -1,9 +1,10 @@
 "use strict";
-const config = require('../config/config'),
-      logger = require('../lib/logger');
+const config = require('../common/get-config'),
+      logger = require('../lib/logger'),
+			env = process.env.NODE_ENV || 'develop';
 module.exports = {
 
-	env1: (app,mongoose)=>{
+	env1: (app)=>{
 			// set up our express application
 		    "use strict";
 		    //opts is optional but we wanna use keepAlive to prevent the app running from some bd connecting errors 
@@ -12,11 +13,11 @@ module.exports = {
 			};
 			
 	
-			switch(app.get('env')){
+			switch(env){
 				//run command:" NODE_ENV=production node app.js " if you wanna test the logging in the production envionment
-				case 'development':
+				case 'develop':
 				  //concrete and colorful logging , log every request to the console
-				  app.use(require('morgan')('dev'));
+				  //app.use(require('morgan')('dev'));
 				  app.use(function(req,res,next){
 				  	const cluster = require('cluster');
 				  	if(cluster.isWorker){
@@ -28,9 +29,6 @@ module.exports = {
 				  	}
 				  });
 
-		          /**mongoose part**/
-				  mongoose.connect(config.db.mongo.development.url);
-
 				  //delete the caches of all the loaded modules,which is an object with key and values
 				  delete require.cache;
 
@@ -41,9 +39,6 @@ module.exports = {
 				//    	   path: __dirname + '/logs/requests.log'
 				//    }));
 
-				   /**mongoose part**/
-				  
-				   mongoose.connect(config.db.mongo.production.url);
 				   break;				
 
 				default:

@@ -2,7 +2,7 @@
 const logger = require('../../lib/logger'),
       userProxy = require('../../db_proxy/user'),
       helper = require('../../lib/utility'),
-      config  = require('../../config/config'),
+      config  = require('../../common/get-config'),
       User = require('../../models/User'),
       Expat = require('../../models/Expat'),
       co_handle = require('../../lib/co-handle');
@@ -107,13 +107,13 @@ user.chooseVip = co_handle(function*(req,res,next){
                         return;
                     }
                     logger.debug('vip update successfully'+JSON.stringify(findUser));
-                    return res.redirect('/admin/vips');
+                    return res.redirect(301, '/admin/vips');
 
                 });
              }else{
                  logger.debug('You\'ve already set the '+ vip);
                  req.flash('error','You\'ve already set the '+ vip);
-                 return res.redirect('/admin/vips');
+                 return res.redirect(301, '/admin/vips');
              }
 
        // }); 
@@ -150,7 +150,7 @@ user.deleteVip = co_handle(function*(req,res,next){
                 return;
             }
             logger.debug('vip deleted done for id: '+myid);
-            res.redirect('/admin/vips');
+            res.redirect('301, /admin/vips');
 
         });
 });
@@ -169,7 +169,7 @@ user.xplanCount = co_handle(function*(req,res,next){
 
         if(Number(money) === 0){
             logger.error('error','Cannot set it below 0');
-            res.redirect(303, '/admin/vips');
+            res.redirect(301, '/admin/vips');
         }
         if(query == 'failOne'){
             let punish = 0;
@@ -212,7 +212,7 @@ user.reset = co_handle(function*(req,res,next){
 
         if(Number(money) === 0){
             logger.error('error','already 0');
-            res.redirect(303, '/admin/vips');
+            res.redirect('/admin/vips');
         }
         if(reset == 'success'){
             findUser.local.successCount = 0;
@@ -228,7 +228,7 @@ user.reset = co_handle(function*(req,res,next){
                     return;
                 }else{
                     logger.debug('reset for id: '+myid);
-                    res.redirect('/admin/vips');
+                    res.redirect(301, '/admin/vips');
                 }
         });
        // });   
@@ -259,7 +259,42 @@ user.add = co_handle(function*(req,res,next){
                     return;
                 }else{
                     logger.debug('add for id: '+ add +myid);
-                    res.redirect('/admin/vips');
+                    res.redirect(301, '/admin/vips');
+                }
+        });
+       // });   
+});
+
+user.minus = co_handle(function*(req,res,next){
+        let myid = req.query.user_id,
+            reason = req.body.reason,
+            minus = Number(req.body.minus);
+
+
+
+        logger.debug('user_id in failOne'+myid);
+        logger.debug(`reason is ${reason}`);
+        let findUser = yield User.findOne({'_id': myid}).exec();
+
+        logger.debug('find user: '+ findUser);
+
+        if(isNaN(minus)){
+            logger.debug('minus is not a number:' + minus);
+        }else{
+             findUser.local.contractMoney = Number(findUser.local.contractMoney) + minus;
+        }
+        
+        if(reason){
+            findUser.local.failReasons.push(reason);
+        }
+
+        findUser.save(function(err){
+                if (err){
+                    logger.error('add func fails'+err.stack);
+                    return;
+                }else{
+                    logger.debug('add for id: ' +myid);
+                    res.redirect(301, '/admin/vips');
                 }
         });
        // });   

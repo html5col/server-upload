@@ -1,6 +1,6 @@
 "user strict"
       
-const config = require('../config/config'),
+const config = require('./get-config'),,
       logger = require('../lib/logger'),
       helper = require('../lib/utility'),
       formidable = require('formidable'),

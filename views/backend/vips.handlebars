@@ -85,6 +85,11 @@
                                 <a href="/admin/vip/add?user_id={{_id}}&&add=success">增加一次成功次数</a> ||
                                 <a href="/admin/vip/reset?user_id={{_id}}&&reset=success">reset 成功次数</a> ||
                                 <a href="/admin/vip/reset?user_id={{_id}}&&reset=fail">reset 失败次数</a> 
+                                <form method="POST" action="/admin/vip/minus?user_id={{_id}}" >
+                                     <input type="text" name="minus" placeholder="minus value,optional">
+                                     <input type="text" name="reason" placeholder="reson of failing,optional">
+                                     <input type="submit" value="submit" style="visibility: visible;">
+                                </form>
 
 
             

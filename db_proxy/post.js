@@ -7,7 +7,7 @@ const User    = require('../models/User'),
       helper = require('../lib/utility'),
       validator = require('validator'),
       xss = require('xss'),     
-      config = require('../config/config'), 
+      config = require('../common/get-config'), 
       //co_handle = require('../lib/co-handler'),
       logger = require('../lib/logger');                           
 

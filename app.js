@@ -2,7 +2,7 @@
 function startServer(){
 	"use strict";
 
-    const config = require('./config/config'),
+    const config = require('./common/get-config'),
 	      logger = require('./lib/logger'),
 		  mongoose = require('mongoose'),//In your app.js, load mongoose first before express.
           express = require('express'),
@@ -19,10 +19,11 @@ function startServer(){
 
 	require('./lib/passport')(passport); // pass passport for configuration
 
-	
 	const User = require('./models/User'),
           app = express(); 
-	require('./part/context').env1(app,mongoose);//load mongoose first before express.
+	require('./part/context').env1(app);
+	require('./lib/mongoose-connect');
+	//load mongoose first before express.
 	require('./part/security')(app);
 	//for logs, db ... in the different context (development or production)
 	
@@ -62,7 +63,7 @@ function startServer(){
 		secret: config.session_secret,
 		cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
 		// create new redis store.
-		store: new redisStore({port:config.db.redis.development.port, host:config.db.redis.development.host,pass:config.db.redis.development.pw, ttl:  config.db.redis.development.ttl}),//Redis session TTL (expiration) in seconds
+		store: new redisStore({port:config.db.redis.port, host:config.db.redis.host,pass:config.db.redis.pw, ttl:  config.db.redis.ttl}),//Redis session TTL (expiration) in seconds
 		//saveUninitialized: false,
 		//resave: false
 	}));

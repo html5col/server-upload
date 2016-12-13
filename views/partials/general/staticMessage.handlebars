@@ -1,0 +1,24 @@
+    {{#if messages }}
+        {{#if messages.error }}
+					<div class="popMessage">{{messages.error}}</div>
+        {{else if messages.success}}
+          <div class="popMessage">{{messages.success}}</div>
+        {{else if messages.info}}
+          <div class="popMessage">{{messages.info}}</div>    
+        {{/if}}
+
+				<script>
+					(function(){
+						var popMessages = document.getElementsByClassName('popMessage');
+						function hidden(m){
+							return function(){
+                m.style.display = 'none';
+							}
+							
+						}
+            setTimeout(hidden(popMessages[0]),20*1000);
+
+					}());
+				</script>
+    {{/if}} 
+

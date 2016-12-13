@@ -7,7 +7,7 @@ const url = require('url'),
       groupProxy = require('../db_proxy/group'),
       userProxy = require('../db_proxy/user'),
       postProxy = require('../db_proxy/post'),
-      config = require('../config/config'),
+      config = require('../common/get-config'),
       seo = require('../config/seo'),
       fs = require('fs'),
 	  helper = require('../lib/utility'),
@@ -122,7 +122,7 @@ module.exports = {
                             if(!(title.length > 4)  || !(files.photo.name.length) || !(intro.length>10)){
                                     logger.info('input need to do like it required');
                                     req.flash('error','Fill it as required!');
-                                    return res.redirect(303, 'back');                                      
+                                    return res.redirect('back');                                      
                             }    
 
                             group.author = user.username;
