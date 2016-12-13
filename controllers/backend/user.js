@@ -290,7 +290,7 @@ user.minus = co_handle(function*(req,res,next){
 
         findUser.save(function(err){
                 if (err){
-                    logger.error('add func fails'+err.stack);
+                    logger.error('add func fails' + err.stack);
                     return;
                 }else{
                     logger.debug('add for id: ' +myid);
