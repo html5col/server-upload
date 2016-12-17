@@ -79,7 +79,19 @@ module.exports = {
 				}, 
 				user: req.user ? req.user.processUser(req.user) : req.user,					
 		});
-	}
-    
+	},
+	makeacall(req,res){
+		res.render('vip/file/call',{
+				title:'怎样打电话找人求助',
+				keywords:'X-Plan音频学习,call for help,英语听力,英语学习',
+				description:'X-Plan音频学习,在线 打电话找人 音频及详细释义',						
+				messages: {
+					error: req.flash('error'),
+					success: req.flash('success'),
+					info: req.flash('info'),
+				}, 
+				user: req.user ? req.user.processUser(req.user) : req.user,					
+		});
+	}    
 
 };
