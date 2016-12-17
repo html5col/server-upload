@@ -61,8 +61,6 @@ postSchema.pre('save', function(next) {
   if (!this.created_at){
     this.created_at = currentDate;
   }
-
-  
   next();
 });
 

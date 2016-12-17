@@ -13,8 +13,6 @@ const user = require('./routes/user'),
 	  file = require('./routes/file'),
 	  takemehome = require('./routes/desktop');
 
-
-
 const adminUsers = require('./routes/backend/user');
 
 module.exports   = function(app, passport,User) {

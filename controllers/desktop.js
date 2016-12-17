@@ -104,7 +104,8 @@ module.exports = {
             
  
 
-       },       
+       },   
+
        t2h(req,res){
             res.render('desktop/courses/t2hCourse', {
                     layout: 'desktop',
@@ -503,6 +504,21 @@ module.exports = {
 
 
     }, 
+
+    tutors(req, res){
+         res.render('desktop/expats/expatsList', {
+                layout: 'desktop',
+                user: req.user ? req.user.processUser(req.user) : req.user,
+                title:seo.desktop.courses.expatsList.title,
+                keywords:seo.desktop.courses.expatsList.keywords,
+                description:seo.desktop.courses.expatsList.description,  
+                messages: {
+                    error: req.flash('error'),
+                    success: req.flash('success'),
+                    info: req.flash('info'),
+                }, // get the user out of session and pass to template
+        });        
+    },
 
 
 };

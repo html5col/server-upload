@@ -40,14 +40,16 @@ var userSchema = new Schema({
           roles:[String],
           neVip: {type: Boolean, default:false},
           //admin: {type: Boolean, default: false},
+
           contractMoney: {type: Number, default: 0},
           rewards:  {type: Number, default:171.7},
           failCount: {type: Number,default:0},
           successCount: {type: Number,default:0},
           interestedCourse: String,
           failReasons: [String],
-          expat_id: String,
+          dueMill: { type: String, default: 0},
 
+          expat_id: String,
           //expiryDate: {type:String,default: 'Expired'},
           //location: String,
           meta: {
@@ -134,6 +136,19 @@ userSchema.pre('save', function(next){
 });
 
 
+//pre and post save() hooks are not executed on update(), findOneAndUpdate() etc
+userSchema.pre('update', function(next){
+    let now = Date.now();
+    this.update({'_id':this._id},{$set: {'updated_at': now}});
+    next();
+});
+
+userSchema.pre('findOneAndUpdate', function(next){
+    let now = Date.now();
+    this.update({'_id':this._id},{$set: {'updated_at': now}});
+    next();
+});
+
 
 // methods ======================
 // generating a hash
@@ -176,6 +191,29 @@ userSchema.methods.processUser = user=>{
     } 
     
 
+
+ 
+   let dueTimeLeftDay = 0;
+    if(user.local.dueMill){
+        
+        let dueMill = user.local.dueMill;
+        let dueT = new Date(dueMill);
+        
+        // let dueYear = dueT.getFullYear();
+        // let dueMonth = dueT.getMonth();
+        // let dueDay = dueT.getDay();
+
+        let leftSec = dueMill - Date.now();
+        
+        if(leftSec >= 0){
+            dueTimeLeftDay = Math.ceil(leftSec/(24*60*60*1000));
+        }else{
+            dueTimeLeftDay = 0;
+        }
+    }
+
+
+
     
     return {
         _id: user._id,
@@ -195,6 +233,8 @@ userSchema.methods.processUser = user=>{
         //expiryDate: user.local.expiryDate,
         latestRole: latestRole,
         failReasons: user.local.failReasons,
+        dueTimeLeftDay: dueTimeLeftDay,
+
         created_at: moment(user.local.created_at).format('L'),
         updated_at: moment(user.local.updated_at).format('L'),     
 

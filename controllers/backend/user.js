@@ -23,6 +23,8 @@ user.vipUsers = co_handle(function*(req,res,next){
     //     }
         
     // });
+    //let dueTimeLeftDay = 0;
+
     modifiedUsers.forEach(function(user){
         let roles = user.roles;
         if(roles[0]){
@@ -30,12 +32,10 @@ user.vipUsers = co_handle(function*(req,res,next){
         }
     });
 
-   
-    
     logger.debug(`the vips array ${JSON.stringify(vips)}`);
     res.render('backend/vips',{
             user: req.user ? req.user.processUser(req.user) : req.user,
-            vips: vips               
+            vips: vips,       
     });
     //});
 });
@@ -65,58 +65,43 @@ user.getExpats = co_handle(function* (req,res,next){
 
 user.chooseVip = co_handle(function*(req,res,next){
        
-       let myid = req.query.user_id,
+        let myid = req.query.user_id,
            vip = req.query.vip;
 
         logger.debug(`user_id: ${myid} ; vip: ${vip}`);
-        
         let findUser = yield User.findOne({'_id': myid}).exec();
-        //User.findOne({'_id': myid}, function(err,user){
- 
-            //   if (err){
-            //       logger.error('findOne error'+err.stack);
-            //       return;
-            //   }
-              logger.debug('find user: '+ findUser);
-              //let modifyUser = user.processUser(user);
+        logger.debug('find user: '+ findUser);
+        let existRoles = findUser.local.roles; 
+        let alreadyExist = existRoles.some(function(v){
+            return v === vip;
+        });
+        if(!alreadyExist){
+        if(vip == 'Trial'){
+            logger.debug('entering into trial');
+            findUser.local.contractMoney =  99;
+        }else if(vip == 'Yearly'){
+                logger.debug('entering into vip');
+                findUser.local.contractMoney = 588;
+        }else if(vip == 'falsevip'){
+            findUser.local.contractMoney = 0;
+            findUser.local.neVip = true;
+        }
 
-             let existRoles = findUser.local.roles; 
+        existRoles.push(vip);
+        findUser.save(function(err){
+            if (err){
+                logger.error('update error'+err.stack);
+                return;
+            }
+            logger.debug('vip update successfully'+JSON.stringify(findUser));
+            return res.redirect(301, '/admin/vips');
 
-             let alreadyExist = existRoles.some(function(v){
-                 return v === vip;
-             });
-
-             if(!alreadyExist){
-
-                if(vip == 'Trial'){
-                    logger.debug('entering into trial');
-                    findUser.local.contractMoney =  99;
-                }else if(vip == 'Yearly'){
-                     logger.debug('entering into vip');
-                    findUser.local.contractMoney = 588;
-                }else if(vip == 'falsevip'){
-                    findUser.local.contractMoney = 0;
-                    findUser.local.neVip = true;
-                }
-
-                existRoles.push(vip);
-                //user.local.expiryDate = expireTime;
-                findUser.save(function(err){
-                    if (err){
-                        logger.error('update error'+err.stack);
-                        return;
-                    }
-                    logger.debug('vip update successfully'+JSON.stringify(findUser));
-                    return res.redirect(301, '/admin/vips');
-
-                });
-             }else{
-                 logger.debug('You\'ve already set the '+ vip);
-                 req.flash('error','You\'ve already set the '+ vip);
-                 return res.redirect(301, '/admin/vips');
-             }
-
-       // }); 
+        });
+        }else{
+            logger.debug('You\'ve already set the '+ vip);
+            req.flash('error','You\'ve already set the '+ vip);
+            return res.redirect(301, '/admin/vips');
+        }
 });
 user.deleteVip = co_handle(function*(req,res,next){
         let myid = req.query.user_id;
@@ -268,9 +253,9 @@ user.add = co_handle(function*(req,res,next){
 user.minus = co_handle(function*(req,res,next){
         let myid = req.query.user_id,
             reason = req.body.reason,
-            minus = Number(req.body.minus);
-
-
+            minus = Number(req.body.minus),
+            startTime = req.body.startTime,
+            lastTime = req.body.lastTime;
 
         logger.debug('user_id in failOne'+myid);
         logger.debug(`reason is ${reason}`);
@@ -288,6 +273,27 @@ user.minus = co_handle(function*(req,res,next){
             findUser.local.failReasons.push(reason);
         }
 
+
+
+        if(startTime && lastTime){
+            let arr = startTime.split(' '),
+                year = Number(arr[0]),
+                month = Number(arr[1]-1),
+                day = Number(arr[2]);
+            let startDate = new Date(year, month, day);
+            let lastTimeToMill = Number(lastTime)*28*24*60*60*1000;
+            let dueMill = startDate.getTime()+lastTimeToMill;
+            // let dueT = new Date(dueMill);
+            
+            // let dueYear = dueT.getFullYear();
+            // let dueMonth = dueT.getMonth();
+            // let dueDay = dueT.getDay();
+
+            // let dueTimeLeftSec = dueMill - Date().now();
+            // let dueTimeLeftDay = dueTimeLeftSec/(1000*60*60*24*28*lastTime);
+
+            findUser.local.dueMill = dueMill;
+        }
         findUser.save(function(err){
                 if (err){
                     logger.error('add func fails' + err.stack);
@@ -296,7 +302,6 @@ user.minus = co_handle(function*(req,res,next){
                     logger.debug('add for id: ' +myid);
                     res.redirect(301, '/admin/vips');
                 }
-        });
-       // });   
+        });   
 });
 module.exports = user;

@@ -75,15 +75,14 @@ var config = {
 
   // 邮箱配置
   mail_opts: {
-    host: 'smtp.163.com',
-    port: 465,
+    host: 'smtp.ym.163.com',
+    port: 994,
     secure: true,
     auth: {
-      user: 'trver_service@163.com',
-      pass: '66778899'
+      user: 'admin@trver.com',
+      pass: 'trver123456'
     },
   },
-
 
   //   // RSS配置
   // rss: {

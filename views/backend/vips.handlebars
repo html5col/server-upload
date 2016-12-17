@@ -36,16 +36,19 @@
                     <li><a href="/admin/users" external>Users</a></li>
                      <li><a href="/admin/vips" external>VIPs</a></li>
                 </ul>
-                <table style="min-width:1000px;text-align:left;margin:0 2em;">
+                <table style="min-width:1500px;text-align:left;margin:0 2em;">
                     <thead>
                         <!--<th>user_id</th>-->
                         <th>username</th>
                         <th>Email</th>
                         <th>VIP</th>
                         <th>TimeLeft</th>
+                        <th>dueTimeLeftDay</th>
                         <th>Active</th>
                         <th>Money Left</th>
                         <th>result</th>
+
+                        <th>Reason</th>
 
                        
                     </thead>
@@ -88,6 +91,8 @@
                                 <form method="POST" action="/admin/vip/minus?user_id={{_id}}" >
                                      <input type="text" name="minus" placeholder="minus value,optional">
                                      <input type="text" name="reason" placeholder="reson of failing,optional">
+                                     <input type="text" name="startTime" placeholder="when to start vip? 2016 6 9">
+                                     <input type="text" name="lastTime" placeholder="lasting time? 1/8">
                                      <input type="submit" value="submit" style="visibility: visible;">
                                 </form>
 
@@ -117,9 +122,15 @@
 
                             </td> 
                              <td>{{vipTimeLeft}}</td>
+                             <th>{{dueTimeLeftDay}}<th>
                             <td>{{active}}</td>
                             <td>{{contractMoney}}</td>
                             <td>失败：{{failCount}} 次 $$ 成功： {{successCount}} 次</td> 
+                            <td>
+                                <ul>
+                                    <li>{{failReasons}}</li>
+                                </ul>
+                            </td>
                         </tr>
                         {{/each}}
                     </tbody>

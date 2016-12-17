@@ -43,6 +43,12 @@ var config = {
           keywords: '英语,外教服务后勤',
           description: '外教服务的问题与解答...',             
          },
+         expats:{
+          title: '选择您的外教',
+          keywords: '英语外教,法语外教,日语外教,西班牙语外教,外教列表',
+          description: '选择您喜欢的外教，并把他带回家吧...',             
+         },
+
          signup:{
           title: '注册',
           keywords: '注册，外教',
@@ -63,7 +69,11 @@ var config = {
           keywords: '预定审核，预定外教，找外教',
           description: '预定外教服务...',             
          },
-
+         expatsList:{
+          title: '外教列表',
+          keywords: '外教,选择外教,外教外派',
+          description: '我们提供来自世界各地的外教外派服务，只要您或您家庭需要外教，我们的外教服务随时到您家里给你提供口语教学服务...',             
+         },
        },
      
      },
