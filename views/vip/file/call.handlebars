@@ -1,0 +1,181 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+<style>
+  pre{
+    
+  }
+</style>
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back"> 
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+             {{#if user}}
+                {{#if user.vip}}
+                  <a class="button button-link button-nav pull-right" external href="javascript:void(0)">
+                    VIP
+                  </a>
+                {{else}}
+                  <a class="button button-link button-nav pull-right" external href="/service">
+                   成为VIP
+                  </a>
+                {{/if}} 
+
+              {{else}}
+                   <a class="button button-link button-nav pull-right" external href="/service">
+                   成为VIP
+                  </a>             
+              {{/if}}  
+              <h1 class='title'>第二期12月第二周美剧音频</h1>
+            </header>            
+
+            <!-- 工具栏 -->
+           {{> general/tabs}}
+
+
+
+            <!-- 这里是页面内容区 -->
+            <div class="content content-padded">
+           
+              <div class="content-block">
+                <h2>官方音频文本参考翻译 第二期12月第二周末本文更新发布！</h2> 
+                <p style="margin-top:0;margin-bottom:1rem;padding-top:0;color:grey;font-size:0.6rem;">作者: Frank Lee  &nbsp 校对: Frankcis Arsena</p>
+               <ul>
+                 <li>精选学习音频下载: <a href="http://down010702.tingclass.net/lesson/shi0529/0009/9484/1.mp3">Download</a></li>
+                 <li>
+                    
+                  {{#if user}}
+                    {{#if user.vip}}
+                      <p>在线音频: </p>
+                      <p><audio controls src="http://down010702.tingclass.net/lesson/shi0529/0009/9484/1.mp3"></audio></p>
+                      <!--http://av.voanews.com/clips/VLE/2014/09/24/bd1e75fa-0f81-4b01-957e-8784f081cde1.mp3-->
+                    {{else}}
+                      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
+                    {{/if}}
+                  {{else}}
+                      <p>密钥: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p>在线音频: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p style="border:1px dashed red;padding:0.7rem 1rem;">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
+                  {{/if}}
+                 </li>
+
+
+                 <li>背景:
+                   <p>对话选择某一美剧，选择片段大概1：35时间； 在电话中，一方希望通过曾经和另一方是邻居并上一所高中的关系邀请另一方为Mode杂志拍照，但是另一方和打电话的女生的老板Daniel的哥哥Alex有过矛盾，拒绝了女生的邀请。
+<pre>
+╭︿︿︿╮ 
+{/ o  o /}  
+ ( (oo) )   
+  ︶︶︶
+</pre>
+</p>
+                 </li>
+                 <li>词汇讲解:
+                   <pre>
+sales rep： 销售代表
+General Electric 通用电气
+Scouts 侦察部队
+
+
+You don't say! 真的吗？
+
+You don't say! 这句话可以用来表示惊讶，比如说你的朋友告诉了一件让你感觉到惊讶的事，你就可以说Y­ou don't say!
+
+I won the lottery! 我中彩票了！
+	{{#if user}}
+		{{#if user.vip}}
+You don't say! 真的吗？
+
+I won the dancing competition! 我在舞蹈大赛中获奖了！
+
+You don't say! 真的吗？
+
+You don't say 也可以用来讽刺别人，表面上的意思是"真的吗"或者"是吗"， 但是却有"呵呵，我早就知道..."的意思。
+
+Ryan and I broke up again. 我和Ryan又分手了。
+
+Wow! You don't say!
+
+WOW！ 真的吗？
+
+Mock 嘲笑，取笑
+
+Don't mock me! I thought we were gonna make it this time.
+
+别取笑我了，我以为这一次我们能成的。
+
+Ya don't say!
+
+是吗？
+
+Shut up!!
+
+闭嘴！
+
+You can do better. 你能找到更好的。
+
+I just think you can do better than Ryan. He's such a loser.
+
+我觉得你一定能找到比Ryan更好的。 他那么没用。
+
+We're just in different places in our lives right now.
+
+我们俩目前处在人生的不同阶段。
+
+Yeah! You're here and he's off with some new girlfriend.
+
+是啊！你在这里，他却在别的地方把妹。
+
+You name it. 凡是你能说出的，应有尽有
+
+All the good ones are taken 所有好的都有主了 。
+
+Tim, Kyle, Danny, Bob, You name it! All of those guys are better than Ryan! You gotta move on!
+
+Tim， Kyle， Danny，Bob，应有尽有啊！ 他们都比Ryan好！ 你得向前走了!
+
+Really? Are those guys single?
+
+真的？这些男生都单身吗？
+{{/if}}
+{{/if}}
+
+Well.... no. Of course not! All the good ones are taken!
+
+额...不是啊。当然不是啊！他们都名草有主了！
+
+I'm gonna be alone forever!!!
+
+看来我要孤独终老了！
+
+                   </pre>
+                 </li>
+
+                 <li>音频文本:
+                   <pre>
+周末发布
+                   </pre>
+                 </li>
+
+                 {{!--<li>相关文献参考
+                   <p><a href="https://en.wikipedia.org/wiki/Flying_pig">Flying Pig介绍【Wikipedia】</a></p>
+                 </li>--}}
+               </ul>
+              </div>
+
+            </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+    {{> general/slide}}

@@ -1,0 +1,135 @@
+<!--if the single page has the single css file,then use the folling-->
+{{#extend "css"}}
+    <link rel="stylesheet" href="">
+{{/extend}}
+
+   <div class="page-group">
+        <!-- 单个page ,第一个.page默认被展示-->
+        <div class="page">
+            <!-- 标题栏 -->
+            <header class="bar bar-nav">
+              <a class="button button-link button-nav pull-left back">
+                <span class="icon icon-left"></span>
+                BACK
+              </a>
+              <h1 class='title'>加密文章发表</h1>
+            </header>            
+
+
+            <!-- 这里是页面内容区 -->
+            <div class="content">
+                <form class="list-block" enctype="multipart/form-data" method="POST" action="/post/post">
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <input type="hidden" name="group_id" value="{{fromGroup_id}}">
+                    <ul>
+                        <!-- Text inputs -->
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">*标题</div>
+                                <div class="item-input">
+                                <input type="text" name="title" placeholder="文章标题"/>
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">*图片</div>
+                                <div class="item-input">
+                                <input type="file" required accept="image/*" id="fieldPhoto" name="photo">
+                                </div>
+                            </div>
+                            </div>
+                        </li>                        
+                        <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">*标签</div>
+                                <div class="item-input">
+                                <input type="text" name="tags" placeholder="英文'/'分隔"/>
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+                         <!--<li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">简介</div>
+                                <div class="item-input">
+                                <input type="text" name="intro" placeholder="文章介绍，不少于50字!" style="min-height:2em"/>
+                                </div>
+                            </div>
+                            </div>
+                        </li>-->
+                         <li>
+                            <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">*内容</div>
+                                <div class="item-input">
+                                <textarea name="content" placeholder="内容，不少于200字!" id="editor" style="min-height:10em;"></textarea>
+                                </div>
+                            </div>
+                            </div>
+                        </li>
+
+
+                    </ul>
+
+                    <input type="submit" value="submit" id="submit">
+                </form>
+                <div class="content-block">
+                    <div class="row">
+                        <div class="">
+                            <a href="" class="button button-big button-fill button-success" id="fake-submit">提交</a>
+                        </div>
+                    </div>
+                </div> 
+
+                {{> form/notice}}
+
+                    <!--<hr>
+                    <p>Need an account? <a href="/user/signup">signup</a></p>
+                    <p>Or go <a href="/user/forgotPassword">Forget your Password</a>.</p>          -->
+            </div>
+            <script>
+                (function(){
+                    var fake_submit = document.getElementById('fake-submit');
+                    var submit = document.getElementById('submit');
+                    fake_submit.onclick = function(e){
+                        e.preventDefault();
+                        submit.click();
+                    };
+                }());
+            </script>
+
+        
+
+        </div><!--.page-->
+
+        <!--其他的单个page内联页（如果有）-->
+        <!--<div class="page">...</div>-->
+    </div>
+
+    <!-- popup, panel 等放在这里
+    <div class="panel-overlay"></div>
+    <!-- Left Panel with Reveal effect -->
+
+
+  {{#unless isMobile}}
+{{#extend "js"}}
+	<script src="http://cdn.bootcss.com/ckeditor/4.5.11/ckeditor.js"></script>
+	<script src="/js/editor/editor.js"></script>    
+  <script>
+	initSample();
+  </script>
+
+{{/extend}}
+  {{/unless}}
+
