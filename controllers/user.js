@@ -639,7 +639,7 @@ module.exports = {
 														}
 
 												);
-												req.flash('success','注册成功!');
+												req.flash('success','You\'ve made it!');
 												return res.redirect('/user/profile/'+ user._id);
 
 										});
@@ -659,14 +659,13 @@ module.exports = {
 		        	passport.authenticate('local-login', (err, user, info)=>{
 						    if (err) { return next(err); }
 						    if (!user) { 
-						    	req.flash('error','邮箱或密码错误!')
+						    	req.flash('error','Wrong password or username!')
 						    	return res.redirect('/user/login'); 
 						    }
 						    req.logIn(user, function(err) {
 						    	if (err) { return next(err); }
-						    	
-						    	req.flash('success','登录成功!')
-						    	return res.redirect('/');
+						    	req.flash('success','You are on board!')
+						    	return res.redirect(`/user/profile/${user._id}`);
 		 
 						    });        		
 				    })(req, res, next);
