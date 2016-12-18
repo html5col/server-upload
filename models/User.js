@@ -213,6 +213,9 @@ userSchema.methods.processUser = user=>{
             dueTimeLeftDay = 0;
         }
     }
+
+
+
     
     return {
         _id: user._id,
@@ -231,7 +234,7 @@ userSchema.methods.processUser = user=>{
         interestedCourse: user.local.interestedCourse,
         //expiryDate: user.local.expiryDate,
         latestRole: latestRole,
-        failReasons: failReasons,
+        failReasons: user.local.failReasons,
         dueTimeLeftDay: dueTimeLeftDay,
 
         created_at: moment(user.local.created_at).format('L'),
