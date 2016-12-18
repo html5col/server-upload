@@ -90,8 +90,7 @@ module.exports =  {
                                     category = fields.category,
                                     // intro = fields.intro,
                                     group_id = fields.group_id;
-
-                              
+        
                               const post = new Post();
                               post.author = user.username;
                               post.user_id = user._id;

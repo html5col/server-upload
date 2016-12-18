@@ -66,7 +66,7 @@ user.getExpats = co_handle(function* (req,res,next){
 user.chooseVip = co_handle(function*(req,res,next){
        
         let myid = req.query.user_id,
-           vip = req.query.vip;
+            vip = req.query.vip;
 
         logger.debug(`user_id: ${myid} ; vip: ${vip}`);
         let findUser = yield User.findOne({'_id': myid}).exec();

@@ -1,5 +1,26 @@
 <!--if the single page has the single css file,then use the folling-->
 {{#extend "css"}}
+<style>
+  .popup-sum p>.close-popup .icon{
+      font-size:1rem;
+  }  
+  p.sumIcon{
+      text-align: center;
+  }     
+
+  .popup-sum>.content-block{
+      margin: .5em;
+  } 
+  .content-block h2{
+      margin-bottom:0.6rem;
+  }
+  p.failReason{
+      margin-bottom:0;
+      margin-top:0!important;
+      padding-bottom:0;
+    
+  }
+</style>
 {{/extend}}
 
    <div class="page-group">
@@ -97,30 +118,61 @@
                     </li>                    
                     </ul>
                 </div>
+                
+                {{#if postUser.needMoney}}
                 <div>
-                    {{#if postUser.needMoney}}
-                       {{#if isMyPosts}}
-                        <p style="border:1px dashed red;margin:1em 1em;">您的账户需要补交本月失败的金额才能继续参与下月的契约计划哦！</p>
-                       {{else}}
-                       <p style="border:1px dashed red;margin:1em 1em;">{{postUser.username}}的账户需要补交本月失败的金额才能继续参与下月的契约计划！</p>
-                       {{/if}}
+                    {{#if isMyPosts}}
+                    <p style="border:1px dashed red;margin:1em 1em;">您的账户需要补交本月失败的金额才能继续参与下月的契约计划哦！</p>
+                    {{else}}
+                    <p style="border:1px dashed red;margin:1em 1em;">{{postUser.username}}的账户需要补交本月失败的金额才能继续参与下月的契约计划！</p>
                     {{/if}}
                 </div>
+                {{/if}}
+                
+
+                <div class="content-block-title">
+                  <p>RESULT</p>               
+                </div>
+                <div class="list-block">
+                    <ul>
+                        <li class="item-content item-link">
+                            <div class="item-media"><i class="icon icon-f7"></i></div>
+                            <div class="item-inner">
+                            <div class="item-title">失败统计</div>
+                            <div class="item-after"><a href="#" class="open-sum" data-popup=".popup-sum">详情</a></div>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+
+
+
                 <div class="content-block-title">
                   Post Records                 
                 </div>
 
 
                 {{> post/postsLoop}}
-                
+            
 
+                                
             </div>
-
-
 
 
         </div><!--.page-->
 
+            <div class="popup popup-sum" >
+            <div class="content-block">
+                <p class="sumIcon"><a href="#" class="close-popup"><span class="icon icon-down"></span></a></p>
+                <h2>坚持统计</h2>
+                
+                    {{#each postUser.failReasons}}
+                    <p class="failReason">{{this}}</p>
+                    {{/each}}
+                
+            </div>
+            </div>
         
 
         <!--其他的单个page内联页（如果有）-->
@@ -180,7 +232,14 @@
                 ];
                 var groups = [buttons1, buttons2];
                 $.actions(groups);
-            });            
+            });   
+
+
+            $(document).on('click','.open-sum', function () {
+            $.popup('.popup-sum');
+            });
+
+
     </script>     
     {{/extend}}
 

@@ -170,6 +170,8 @@ userSchema.methods.time = time=> {
 };
 
 userSchema.methods.processUser = user=>{
+
+    /**process the roles */
     let roles = user.local.roles;
     let latestRole;
     let vip = false;
@@ -192,7 +194,7 @@ userSchema.methods.processUser = user=>{
     
 
 
- 
+   /*** process the dueTimeLeftDay**/
    let dueTimeLeftDay = 0;
     if(user.local.dueMill){
         
@@ -211,9 +213,6 @@ userSchema.methods.processUser = user=>{
             dueTimeLeftDay = 0;
         }
     }
-
-
-
     
     return {
         _id: user._id,
@@ -232,7 +231,7 @@ userSchema.methods.processUser = user=>{
         interestedCourse: user.local.interestedCourse,
         //expiryDate: user.local.expiryDate,
         latestRole: latestRole,
-        failReasons: user.local.failReasons,
+        failReasons: failReasons,
         dueTimeLeftDay: dueTimeLeftDay,
 
         created_at: moment(user.local.created_at).format('L'),
