@@ -47,11 +47,12 @@
                 <h2>官方音频文本参考翻译 第二期12月第二周末本文更新发布！</h2> 
                 <p style="margin-top:0;margin-bottom:1rem;padding-top:0;color:grey;font-size:0.6rem;">作者: Frank Lee  &nbsp 校对: Frankcis Arsena</p>
                <ul>
-                 <li>精选学习音频下载: <a href="http://down010702.tingclass.net/lesson/shi0529/0009/9484/1.mp3">Download</a></li>
+                 <li>精选学习音频下载: <a href="https://pan.baidu.com/s/1kUTHldX">Download</a></li>
                  <li>
                     
                   {{#if user}}
                     {{#if user.vip}}
+                      <p>密钥: <span style="color:#e3e3e3;">ykqm</span></p>
                       <p>在线音频: </p>
                       <p><audio controls src="http://down010702.tingclass.net/lesson/shi0529/0009/9484/1.mp3"></audio></p>
                       <!--http://av.voanews.com/clips/VLE/2014/09/24/bd1e75fa-0f81-4b01-957e-8784f081cde1.mp3-->
@@ -77,6 +78,8 @@
 </p>
                  </li>
                  <li>词汇讲解:
+	{{#if user}}
+		{{#if user.vip}}     
                    <pre>
 sales rep： 销售代表
 General Electric 通用电气
@@ -88,8 +91,7 @@ You don't say! 真的吗？
 You don't say! 这句话可以用来表示惊讶，比如说你的朋友告诉了一件让你感觉到惊讶的事，你就可以说Y­ou don't say!
 
 I won the lottery! 我中彩票了！
-	{{#if user}}
-		{{#if user.vip}}
+
 You don't say! 真的吗？
 
 I won the dancing competition! 我在舞蹈大赛中获奖了！
@@ -143,10 +145,7 @@ Tim， Kyle， Danny，Bob，应有尽有啊！ 他们都比Ryan好！ 你得向
 Really? Are those guys single?
 
 真的？这些男生都单身吗？
-                    {{else}}
-                      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">成为VIP，全网资源免费 <a href="/service">加入VIP</a></p>
-{{/if}}
-{{/if}}
+
 
 Well.... no. Of course not! All the good ones are taken!
 
@@ -157,6 +156,23 @@ I'm gonna be alone forever!!!
 看来我要孤独终老了！
 
                    </pre>
+
+    {{else}}
+
+     <pre>
+sales rep： 销售代表
+General Electric 通用电气
+Scouts 侦察部队
+You don't say! 真的吗？
+You don't say! 这句话可以用来表示
+...
+...
+看来我要孤独终老了！
+     </pre>
+      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">成为VIP，解锁释义内容 <a href="/service">加入VIP</a></p>
+   {{/if}}
+{{/if}}              
+
                  </li>
 
                  <li>音频文本:
