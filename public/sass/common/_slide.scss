@@ -1,0 +1,54 @@
+.leftSlide{
+   
+    background-color: #35393f;
+    color: #fff;
+    .content-block{
+        margin-bottom:0;
+        p{
+            padding:0.2rem 0;
+            padding-left:0.7rem;
+            a{
+              color:white;
+            }
+        }
+    }
+
+    .slideTop{
+        border-bottom: 1px solid #2e3238;
+       
+        .loginArea{
+            color:#fff;
+        }
+        .loginArea{
+        }
+        .welcome{
+        }
+    }   
+    .slideService{
+        border-top:1px solid #2e3238;
+    }   
+    .slideDownload{
+        border-top:1px solid #2e3238;;
+        margin-top:10%;
+
+    }
+    .slideFooter{
+        height: 36px;
+        width: 100%;
+        line-height: 36px;
+        color: #6e7784;
+        background-color: #31343b;
+        padding-left: 0;
+        font-size: 12px;
+        margin-bottom: 0;
+        margin-left: 0      
+        span{
+            display: inline-block;
+            margin-left: 1rem;
+            font-size: 12px
+        }  
+    }
+
+  
+
+}

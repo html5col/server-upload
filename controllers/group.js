@@ -15,7 +15,8 @@ const url = require('url'),
       formidable = require('formidable'),
       logger = require('../lib/logger'),
       validator = require('validator'),
-      xss = require('xss');
+      xss = require('xss'),
+      striptags = require('striptags');
 
 module.exports = {
 
@@ -34,7 +35,9 @@ module.exports = {
                     });
                     getGroups.then(function(groups){
                         let thegroups = groups.map(function(v){
-                            return v.processGroup(v);
+                            let group = v.processGroup(v);
+                            group.intro = striptags(group.intro); 
+                            return group;
                         });
                         let modifiedGroup,modifiedUser;
                         if(req.user){

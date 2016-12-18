@@ -1,0 +1,62 @@
+/*
+	Template Name: Varsity
+	Author : MarkUps.io
+	Author URI: http://www.markups.io/
+	Version: 1.0
+
+*/
+
+
+/* BASE - Base tyles, Variables, Mixins, etc. */
+
+@import 'common/common';
+@import 'desktop/base/_variables.scss';
+@import 'desktop/base/_mixins.scss';
+@import 'desktop/base/_base.scss';
+
+/* MODULES - Individual site components */
+
+@import 'desktop/modules/_typography.scss';
+@import 'desktop/modules/_buttons.scss';
+
+
+
+/* LAYOUTS - Page layout styles */
+
+
+
+/*==================
+ HEADER SECTION
+====================*/
+
+@import 'desktop/layouts/_header.scss';
+
+/*==================
+ NAVBAR SECTION
+====================*/
+
+@import 'desktop/layouts/_nav.scss';
+
+/* ALL SECTION */
+
+@import 'desktop/modules/_sections.scss';
+
+/*==================
+ FOOTER
+====================*/
+
+@import 'desktop/layouts/_footer.scss';
+
+/*==================
+ THEME COLOR
+====================*/
+@import 'desktop/modules/_theme-color.scss';
+
+/*==================
+ RESPONSIVE DESIGN
+====================*/
+
+@import 'desktop/modules/_responsive.scss';
+@import 'desktop/modules/_default-theme.scss';
+@import 'desktop/framework/_slick.scss';
+

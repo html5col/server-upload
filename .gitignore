@@ -1,6 +1,5 @@
 log
 .DS_Store
-public/sass
 public/upload
 .sass-cache
 public/upload/.sass-cache
