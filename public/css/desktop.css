@@ -3028,4 +3028,38 @@ Author URI : http://www.markups.io/
   opacity: .75;
   color: black; }
 
+.expatsList {
+  padding: 2rem;
+  padding-bottom: 3rem;
+  min-height: 13em;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  /**--border:1px solid red;**/
+  /**min-height:23rem;**/ }
+  .expatsList .personalImg {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    margin: 0 auto;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat; }
+  .expatsList .viewInfo {
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    text-align: center; }
+  .expatsList h3 {
+    margin-top: 0;
+    margin-bottom: 0; }
+  .expatsList .expatExperience {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  .expatsList span.expatsCt {
+    display: block;
+    color: grey;
+    font-size: 1rem;
+    margin-bottom: 1rem; }
+
 /*# sourceMappingURL=desktop.css.map */

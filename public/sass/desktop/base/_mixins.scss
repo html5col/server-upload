@@ -35,16 +35,7 @@
   &:-ms-input-placeholder      {@content}  
 }
 
-//====usages=====
-// @include placeholder {
-//     font-style:italic;
-//     color: white;
-//     font-weight:100;
-// }
 
-// =====transform==============
-
-// generic transform
 @mixin transform($transforms) {
 	   -moz-transform: $transforms;
 	     -o-transform: $transforms;

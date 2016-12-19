@@ -18,6 +18,10 @@ const mongoose = require('mongoose'),
 var userSchema = new Schema({ 
           //name: String,
      user_id: { type: String, required: true }, 
+     account: {
+        type: Schema.Types.ObjectId,
+        ref:'User',        
+     },
      name: { type: String, required: true},
      //country: { type: String, required: true},
      college: { type: String, required: true},

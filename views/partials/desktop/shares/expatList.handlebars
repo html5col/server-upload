@@ -2,15 +2,18 @@
 									 <div class="expatsList">
 									    <div class="col-sm-12 col-md-3">
              
-                        <div class="personalImg"></div>
-                        <div class="viewInfo"><a href="" class="btn btn-info">查看 {{this.user.username}}</a></div>
+                        <div class="personalImg" style="background-image: url('/upload/certificate/{{this.personal}}');"></div>
+                        <div class="viewInfo"><a href="/courses/profile?user_id={{this.account._id}}" class="btn btn-info">查看 {{this.account.local.username}}</a></div>
         
                       </div>
                       <div class="col-sm-12 col-md-9 expatsListDetail">
-                        <h3>{{this.username}}</h3>
-                        <span class="expatsCt">Male, 来自 {{this.fromCountry}},{{fromState}}</span>
-                        <p>ii am is astudnt is in shanghai and ia,ii am is astudnt is in shanghai and iaii am is astudnt is in shanghai and iaii am is astudnt is in shanghai and iaii am is astudnt is in shanghai and ia<p>
-                        <p><span>现在位于: </span>@ <span>Hangzhou, china ,xihu district</span></p>
-                        <p><span class="btn btn-success">English</span> <span class="btn btn-success">English</span> <span class="btn btn-success">English</span><p>
+                        <h3>{{this.name}}</h3>
+                        <span class="expatsCt">来自 {{this.fromCountry}},{{fromState}}</span>
+                        <p class="expatExperience">{{this.experience}}<p>
+                        <p><span>现在位于: </span>@ <span>{{this.choiceDetail}}, {{this.choiceState}}, {{this.choiceCountry}}</span></p>
+                        <p>
+                          
+                          <span class="btn btn-success">{{this.nativeLanguage}}</span> <span class="btn btn-success">{{this.secondLanguage}}</span>
+                        <p>
                       </div>
 									 </div>

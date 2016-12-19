@@ -458,6 +458,9 @@ module.exports = {
                         let user = req.user.processUser(req.user);
                         let expat = new Expat();
                                 expat.user_id = user._id;
+
+                                expat.account = user._id;//populate
+
                                 expat.name = fields.name;
                                 expat.college = fields.college;
                                 expat.country = fields.country;
@@ -506,6 +509,22 @@ module.exports = {
     }, 
 
     tutors(req, res){
+        
+        Expat.find({}).populate('account').exec(function(err,expats){
+            res.render('desktop/expats/expatsList', {
+                    layout: 'desktop',
+                    user: req.user ? req.user.processUser(req.user) : req.user,
+                    title:seo.desktop.courses.expatsList.title,
+                    keywords:seo.desktop.courses.expatsList.keywords,
+                    description:seo.desktop.courses.expatsList.description,  
+                    expats: expats,
+                    messages: {
+                        error: req.flash('error'),
+                        success: req.flash('success'),
+                        info: req.flash('info'),
+                    }, // get the user out of session and pass to template
+            });             
+        });
 
             //  Expat.find({}, function(err,expats){
             //     let allExpats = expats.map(function(expat){
@@ -518,6 +537,7 @@ module.exports = {
 
             //     });
             //  });
+
              
 
             // res.render('desktop/expats/expatsList', {
