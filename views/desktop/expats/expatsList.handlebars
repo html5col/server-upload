@@ -1,3 +1,39 @@
+ {{#extend "css"}}
+   <style>
+     .expatsList{
+       padding: 2rem;
+       /**--border:1px solid red;**/
+       min-height:23rem;
+     }
+     .expatsList .personalImg{
+       background-image: url('/img/desktop/teachers/teacher-01.png');
+       width:10rem;
+       height:10rem;
+       border-radius:50%;
+       margin:0 auto;
+     }
+     .expatsList .viewInfo{
+       margin:0 auto;
+       margin-top:1.5rem;
+       text-align: center;
+       
+     }
+     .expatsList h3{
+       margin-top:0;
+       margin-bottom:0;
+   
+     }
+     span.expatsCt{
+       display:block;
+       color:grey;
+       font-size: 1rem;
+       margin-bottom:1rem;
+
+     }
+
+
+   </style>
+ {{/extend}}
 
  <!-- Page breadcrumb -->
  <section id="mu-page-breadcrumb">
@@ -27,7 +63,9 @@
                 <div class="mu-course-container mu-course-details">
                   <div class="row">
                     <div class="col-md-12">
-                      dj快点加咖啡就快点交罚款的健康
+                      {{#each expats}}
+                        {{> desktop/shares/expatList}}
+                      {{/each}}
 										</div>
 									</div> 
 								</div>                                   
