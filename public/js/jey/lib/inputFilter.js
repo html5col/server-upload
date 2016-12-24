@@ -9,6 +9,7 @@ Usage:
            Zipcode: <input type="text" data-allowed-chars="1234567890" data-messageid="zipwarn">
           <span id="zipwarn" style="visibility:hidden;">Digits Only</span>
 
+
            Number: <input type="number" data-allowed-chars="1234567890" data-messageid="numberwarn">
           <span id="numberwarn" style="visibility:hidden;">Number Only</span>  
 
@@ -78,7 +79,7 @@ Usage:
              }//end of if(messageid)
       
 
-
+       
             //loop through the characters of the input text
             for(var i = 0 ; i<text.length; i++){
               var c = text.charAt(i);
