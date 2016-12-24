@@ -135,7 +135,7 @@ user.deleteVip = co_handle(function*(req,res,next){
                 return;
             }
             logger.debug('vip deleted done for id: '+myid);
-            res.redirect('301, /admin/vips');
+            res.redirect(301, '/admin/vips');
 
         });
 });

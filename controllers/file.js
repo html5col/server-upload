@@ -92,6 +92,20 @@ module.exports = {
 				}, 
 				user: req.user ? req.user.processUser(req.user) : req.user,					
 		});
-	}    
+	},
+	enchanted(req,res){
+		res.render('vip/file/movie_enchanted', {
+				title:'Enchanted',
+				keywords:'X-Plan视频学习,Enchanted,英语视频,英语学习',
+				description:'X-Plan视频学习,在线 Enchanted 视频观看',						
+				messages: {
+					error: req.flash('error'),
+					success: req.flash('success'),
+					info: req.flash('info'),
+				}, 
+				user: req.user ? req.user.processUser(req.user) : req.user,				
+		});
+
+	}  
 
 };
