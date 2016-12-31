@@ -30,6 +30,7 @@ var postSchema = new Schema({
           title: { type: String, required: true, min: 4 },
           //category: { type: String, required: true },
           content: { type: String, required: true, min:100 },//,match: /[0-9a-zA-Z_-]/
+          vipContent: { type: String, default: ''},
           //intro: {type: String, required: true, min: 20},
           //comments: [{ body: String, date: Date }],
           pv: {type: Number, default: 0},
@@ -82,38 +83,6 @@ postSchema.methods.processPost = (post)=>{
           });
     });
 
-    // function returnP(v){
-    //     return  new promise(function(resolved,rejected){
-    //       Tag.findById(v,function(err,tag){
-    //            if(err){
-    //                rejected(err);
-    //            }else{
-    //                resolved(tag);
-    //            }
-    //       });
-    //    });
-    // }
-
-    // tag_idArray.forEach(function(v,i,a){  
-    //     returnP(v).then(function(t){
-    //         tagsArray.push(t);
-    //     }).catch(function(err){
-    //             console.log('some error in getting tags:'+err);
-    //     });
-    // });
-
-
-    // let articleUser;
-    
-    // User.findById(post.user_id,function(err,user){
-    //             if(err){
-    //                 console.log(err);
-    //             }else{
-    //                 count++;
-    //                 articleUser = user;
-    //                 console.log('articleUser is ' + JSON.stringify(articleUser));
-    //             }
-    // });
 
 
     return {
@@ -125,6 +94,7 @@ postSchema.methods.processPost = (post)=>{
         //commentsNumber: comments.length,
         tags: tagsArray,//array with all post tags   
         author: post.author,
+        vipContent: post.vipContent,
         //articleUser: articleUser,
 
         //category: post.category,
