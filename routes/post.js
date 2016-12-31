@@ -8,6 +8,9 @@ module.exports = function(){
       router.get('/all', post.latestTopic);
       router.get('/make', auth.isLoggedIn, post.makeArticle);
       router.post('/post', auth.isLoggedIn, post.postWithUpload);
+      router.get('/vip', auth.isLoggedIn, post.vipForm);
+      // router.post('/vip', auth.isLoggedIn, post.postVipContent);
+
       router.get('/search', post.getSearch);
       // router.get('/modify/:post_id', post.getModify);
       // router.post('/modify/:post_id', post.postModify);

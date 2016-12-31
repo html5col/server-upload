@@ -20,6 +20,13 @@
                 <!--<span class="icon icon-edit"></span>-->
                 发表
               </a>
+               {{#if groupOwner}}
+              <a class="button button-link button-nav pull-right" href="/post/vip?group_id={{group._id}}" external>
+                <!--<span class="icon icon-edit"></span>-->
+                私密发表
+              </a>
+              {{/if}}
+
               {{else}}
 
                 <a class="button button-link button-nav pull-right external" href="/group/applyGroup?group_id={{group._id}}" id="join">

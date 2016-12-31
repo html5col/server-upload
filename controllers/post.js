@@ -102,6 +102,12 @@ module.exports =  {
                               post.category = category;
                               post.image = photoName;
 
+                              if(fields.vipContent){
+                                   let vipContent = validator.trim(xss(fields.vipContent));
+                                   post.vipContent = vipContent;
+                              }
+
+
                               //const specialStr = '#' || '/' || '?';
                               let newTitle;
                               if(title.match(/#\/\?/)){
@@ -138,7 +144,27 @@ module.exports =  {
                 });
 
     },
+    vipForm: (req, res)=>{
+            let fromGroup_id = req.query.group_id; 
+            logger.debug(`ismobile is ${helper.isMobile(req)}`);
+                       
+            res.render('form/postForVipOnly', {
+                  user: req.user.processUser(req.user),
+                  isMobile: helper.isMobile(req),
 
+                  title:seo.post.make.title,
+                  keywords:seo.post.make.keywords,
+                  description:seo.post.make.description,
+                  messages: {
+                        error: req.flash('error'),
+                        success: req.flash('success'),
+                        info: req.flash('info'),
+                  },
+                  fromGroup_id: fromGroup_id,                  
+
+            });        
+
+    },
       makeArticle: (req,res)=>{
             let fromGroup_id = req.query.group_id; 
             logger.debug(`ismobile is ${helper.isMobile(req)}`);
@@ -159,31 +185,6 @@ module.exports =  {
 
             });
       },
-
-
-      // editPost: (req,res)=>{
-      //       let fromGroup_id = req.query.group_id; 
-      //       console.log(`ismobile is ${helper.isMobile(req)}`);
-                       
-      //       res.render('form/post', {
-      //             user: req.user.processUser(req.user),
-      //             isMobile: helper.isMobile(req),
-
-      //             title:seo.post.make.title,
-      //             keywords:seo.post.make.keywords,
-      //             description:seo.post.make.description,
-      //             messages: {
-      //                   error: req.flash('error'),
-      //                   success: req.flash('success'),
-      //                   info: req.flash('info'),
-      //             },
-      //             fromGroup_id: fromGroup_id,                  
-
-      //       });
-      // },
-
-
-
 
       getPersonalPosts: (req,res)=>{
                   const user_id = req.params.user_id;   
@@ -266,10 +267,6 @@ module.exports =  {
                   res.redirect('back');
                });
        },
-
-      //  getAllPosts: function(req,res){
-
-      //  },
 
       getPostEdit: (req,res)=>{
            const post_id = req.params.post_id;
@@ -369,91 +366,6 @@ module.exports =  {
 
 
                 });//uploadFile.getData
-
-
-                  // let dataDir = config.uploadDir;
-                  // logger.debug(dataDir);
-                  // let photoDir = dataDir + 'postLogo/';
-            
-                  //       //store the data to the database
-                  //       const form = new formidable.IncomingForm();
-                  //       form.parse(req,(err,fields,file)=>{
-                  //       if(err){
-                  //             logger.error('form parse error:' + err);
-                  //             req.flash('error','提交出错');
-                  //             return res.redirect(500, '/response/err/500');
-                  //       }else{
-                  //             const photo = file.photo;
-                              
-                  //             //let personalDir = `${req.user._id}/`;
-                  //             let thedir = photoDir;
-                  //             //prevent uploading file with the same name
-
-                  //             const photoName = Date.now() + validator.trim(xss(photo.name)); 
-                              
-                  //             const fullPath = thedir + photoName;
-                  //             let title = validator.trim(xss(fields.title)),
-                  //                   //category = xss(fields.category),
-                  //                   //image = photoName,
-                  //                   content = validator.trim(xss(fields.content));
-                              
-                  //             if(title.length > 4  && photo.name.length && content.length>10){
-
-                  //                   helper.checkDir(thedir,()=>{
-                  //                         fs.rename(photo.path, fullPath, err=>{
-                  //                               if (err) {logger.error(err); return; }
-                  //                               logger.debug('The file has been re-named to: ' + fullPath);
-                  //                         });										
-                  //                   });                 
-                  //                   if(req.user){
-
-                  //                         const options = {
-                  //                               title: title,
-                                                
-                  //                               image: photoName,  
-                  //                               content:content,
-                                                
-                  //                         };
-                  //                         const  post_id = req.params.post_id;
-
-                  //                         //const tags = xss(fields.tags);
-
-                                          
-                  //                         Post.findOneAndUpdate({'_id': post_id}, {$set: options}, {new: true},function(err, post) {
-                  //                                     if(err){
-                  //                                           logger.error(err);
-                  //                                           req.flash('error',`更新失败`);
-                  //                                           res.redirect('back');
-                  //                                     }else{
-                  //                                           //tagProxy.saveSingle(req,res,post,tags);
-                  //                                           logger.debug(`your post saved successfully: ${post._id}`);
-                  //                                           req.flash('success','更新成功！');
-                  //                                           res.redirect(`/post/show/${post.title}`);
-                  //                                           //res.redirect('/');
-                  //                                     }
-                  //                         });
-
-                  //                   }else{
-                  //                         logger.info('user not login');
-                  //                         req.flash('error','请先登录！');
-                  //                         res.redirect(303, '/user/login');
-                  //                   }                                   
-
-                  //             }else{//if &&
-                  //                   logger.info('input need to do like it required');
-                  //                   req.flash('error','提交不符合规则！');
-                  //                   res.redirect(303, 'back');                                    
-
-                  //             }
-
-                              
-
-                                                
-                  //             }
-
-                  //       });//end of form.parse
-
-
       
     },
 

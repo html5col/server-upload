@@ -52,7 +52,23 @@
                     {{#if post.image}}
                     <div class="postImg"><img src="/upload/postLogo/{{post.image}}"></div>
                     {{/if}}
-                    <p class="contentArea">{{{ post.content }}}</p>
+                    <p class="contentArea">
+                        {{{ post.content }}} <br>
+                        {{#if user.vip}}
+                            {{#if post.vipContent}}
+                             <span style="color:grey;">VIP隐藏内容</span> <br> {{{ post.vipContent }}}
+                            {{else}}
+                             
+                            {{/if}}
+                        {{else}}
+                         VIP内容： <span style="color:#e3e3e3;">VIP内容已隐藏</span>
+                        {{/if}}                       
+                    </p>
+
+                    <p></p>
+
+
+
                     <p class="postTags">
                     {{#if post.tags}}
                      {{#each post.tags}}
