@@ -56,14 +56,17 @@
                         {{{ post.content }}} <br>
                         {{#if user.vip}}
                             {{#if post.vipContent}}
-                             <span style="color:grey;">VIP隐藏内容</span> <br> {{{ post.vipContent }}}
+                             <span style="color:grey;display:block;margin-top:0.5em;">VIP隐藏内容</span> <br> {{{ post.vipContent }}}
                             {{else}}
-                             
+                            
+                     
                             {{/if}}
                         {{else}}
                          <span style="color:#e3e3e3;">VIP内容已隐藏</span> <br>
                       <p style="font-weight:bold;font-size:0.7rem;border:1px dashed grey;padding:10px 10px">成为VIP，解锁VIP精华内容 <a href="/service">加入VIP</a></p>
-                        {{/if}}                       
+                        {{/if}}   
+
+                
                     </p>
 
                     <p></p>
