@@ -11,17 +11,17 @@
             <header class="bar bar-nav">
               <a class="button button-link button-nav pull-left back"> <!--get rid of back class-->
                 <span class="icon icon-left"></span>
-              
+
               </a>
-              
+
 
                <a class="pull-right open-form" href="#form"><span class="icon icon-message"></span></a>
               <h1 class='title'>From {{post.group.title}}</h1>
-            </header>            
+            </header>
 
 
            {{> general/tabs}}
-           
+
             <!-- 这里是页面内容区 -->
             <div class="content ">
                 <div class="content-padded">
@@ -40,11 +40,11 @@
                             {{/if}}
                         </div><!--
                       --><div class="rightIntro">
-                            <span>                              
-                                {{ postUser.username }}'s <span>的日记</span>
-                            </span> 
                             <span>
-                                {{ post.updated_at }} &nbsp {{post.pv}} pv 
+                                {{ postUser.username }}'s <span>的日记</span>
+                            </span>
+                            <span>
+                                {{ post.updated_at }} &nbsp {{post.pv}} pv
 
                             </span>
                          </div>
@@ -58,15 +58,17 @@
                             {{#if post.vipContent}}
                              <span style="color:grey;display:block;margin-top:0.5em;">VIP隐藏内容</span> <br> {{{ post.vipContent }}}
                             {{else}}
-                            
-                     
+
+
                             {{/if}}
                         {{else}}
-                         <span style="color:#e3e3e3;">VIP内容已隐藏</span> <br>
-                      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed grey;padding:10px 10px">成为VIP，解锁VIP精华内容 <a href="/service">加入VIP</a></p>
-                        {{/if}}   
+                         <!-- <span style="color:#e3e3e3;">VIP内容已隐藏</span> <br> -->
 
-                
+                         <p>资源下载/在线音频/VIP精华内容: <span style="color:#e3e3e3;">VIP用户可见</span></p>
+                      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed grey;padding:10px 10px">成为VIP，解锁VIP精华内容 <a href="/service">加入VIP</a></p>
+                        {{/if}}
+
+
                     </p>
 
                     <p></p>
@@ -79,19 +81,19 @@
                        <span>{{name}}</span>
                      {{/each}}
                     {{/if}}
-                    
+
                     </p>
-                    
+
 
                     <p class="copy">&copy本文版权归 {{ postUser.username }} 所有， 任何形式转载请联系作者。</p>
 
-                    <p class="commentTop"> 
+                    <p class="commentTop">
                         {{#if post.comments.length}}
                         {{post.comments.length}} Responses
                         {{else}}
                         No response yet
                         {{/if}}
-                        
+
                     </p>
                     {{> post/comment }}
                </div><!--.content-padded-->
@@ -108,7 +110,7 @@
             <header class="bar bar-nav">
                 <a class="button button-link button-nav pull-left back" href="">
                 <span class="icon icon-left"></span>
-                
+
                 </a>
                 <h1 class='title'>回复</h1>
             </header>
@@ -133,14 +135,14 @@
                     </ul>
 
                     <input type="submit" value="submit" id="submit">
-                </form>   
+                </form>
                 <div class="content-block">
                     <div class="row">
                         <div class="">
                             <a href="#" class="button button-big button-fill button-success" id="fake-submit">提交</a>
                         </div>
                     </div>
-                </div>   
+                </div>
                 <script>
                     (function(){
                         var fake_submit = document.getElementById('fake-submit');
@@ -155,7 +157,7 @@
 
                 </div>
             </div>
-        </div>  
+        </div>
 
 
 
@@ -167,16 +169,11 @@
 
 
     {{#extend 'js'}}
-    
+
       <!--<script>
         $(document).on('click','.open-form', function () {
          $.popup('.popup-form');
         });
       </script>-->
-      
+
     {{/extend}}
-
-
-    
-                                   
-

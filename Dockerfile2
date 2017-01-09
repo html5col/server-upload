@@ -1,0 +1,85 @@
+# our base image
+FROM node:6.9-onbuild
+# specify the port number the container should expose , replace this with your application's default port
+#The next step usually is to write the commands of copying the files and installing the dependencies. Luckily for us, the onbuild version of the image takes care of that. The
+EXPOSE 8000
+# run the application
+CMD ["node", "./app.js"]
+
+
+
+
+
+
+
+
+# start from base
+FROM centos
+
+# install system-wide deps for node
+RUN yum -y update
+RUN yum install -y  nodejs
+RUN yum install -y nodejs npm
+RUN ln -s /usr/bin/nodejs /usr/bin/node 
+
+
+COPY group /opt/group
+WORKDIR /opt/group
+
+
+RUN npm install
+#RUN npm run build
+
+EXPOSE 8000
+
+CMD ["node", "./app.js"]
+
+
+
+
+
+
+# start from base
+FROM node:6
+
+COPY group /opt/group
+WORKDIR /opt/group
+
+RUN npm install
+#RUN npm run build
+
+EXPOSE 8000
+
+CMD ["node", "./app.js"]
+
+
+
+
+
+
+
+
+FROM registry-internal.cn-hangzhou.aliyuncs.com/firstgrid_base/nginx_node
+
+MAINTAINER wmt 'wangmt@firstgrid.cn'
+
+ENV NODE_VERSION 6.9.2
+ENV NODE_ENV production
+ENV PORT 5566
+
+COPY package.json /tmp/package.json
+
+RUN cd /tmp && cnpm install
+RUN mkdir -p /usr/src/app && mv /tmp/node_modules /usr/src/app
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+COPY . /usr/src/app
+
+WORKDIR /usr/src/app
+
+RUN npm run deploy:prod \
+ && cp -r dist/* /usr/share/nginx/html/
+
+CMD ["nginx", "-g", "daemon off;"]
+

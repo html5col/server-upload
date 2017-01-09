@@ -45,6 +45,7 @@ module.exports = {
                 
 
         // },
+        
         simpleHome(req,res){
               const options = {
                   //layout: 'desktop',
