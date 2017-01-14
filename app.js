@@ -101,10 +101,7 @@ function startServer(){
     // });
 
     let cors  = require('cors');
-	let corsOptions = {
-		origin: 'http://news.cn'//http://trver.com
-	};
-    app.use('/media',require('cors')(corsOptions));
+    app.use(cors());
 	
 	
 	require('./routes')(app,passport,User);
