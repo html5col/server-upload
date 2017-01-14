@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
+    "update": "git pull && forever stop 0 && NODE_ENV=production forever start  --spinSleepTime 10000 app.js",
+    "update_cluster": "git pull && forever stop 0 && NODE_ENV=production forever start  --spinSleepTime 10000 app_cluster.js",
+    "stop": "forever stopall",
     "test": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --recursive"
   },
   "repository": {
