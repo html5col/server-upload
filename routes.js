@@ -11,12 +11,14 @@ const user = require('./routes/user'),
 	  vip = require('./routes/vip'),
 	  auth = require('./middlewares/auth'),
 	  file = require('./routes/file'),
+		media = require('./routes/media'),
 	  takemehome = require('./routes/desktop');
 
 const adminUsers = require('./routes/backend/user');
 
 module.exports   = function(app, passport,User) {
 	 app.use('/',index);  
+	 app.use('/media',media);  
 	 app.use('/response',respond);   
 	 app.use('/user',user(User,passport));
 	 //app.use('/api',api);

@@ -21,6 +21,7 @@ function startServer(){
 
 	const User = require('./models/User'),
           app = express(); 
+
 	require('./part/context').env1(app);
 	require('./lib/mongoose-connect');
 	//load mongoose first before express.
@@ -30,9 +31,8 @@ function startServer(){
 	require('./part/set')(app);
 
 	app.use(express.static(__dirname + '/public'));
-	//app.use(express.static(__dirname + '/node_modules'));
+	app.use(express.static(__dirname + '/node_modules'));
 	//static中间件可以将一个或多个目录指派为包含静态资源的目录,其中资源不经过任何特殊处理直接发送到客户端,如可放img,css。 设置成功后可以直接指向、img/logo.png,static中间件会返回这个文件并正确设定内容类型
-
    //for setting second domain using vhost
    //require('./api/api')(app,express);
    require('./lib/hbs')(app);
@@ -41,6 +41,7 @@ function startServer(){
 	    res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
 	    next();
 	});
+
 	//我们不希望测试一直进行，只在需要测试时显示，我们准备用用一些中间件在检测查询字符串中的test=1,它必须出现在我们所有路由前
 
 	app.use(cookieParser()); // read cookies (needed for auth)
@@ -50,8 +51,6 @@ function startServer(){
 	//app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 	//or app.use(require('body-parser')());
-
-
 
 	//redis session starts:
 	// Create express-session and pass it to connect-redis object as parameter. This will initialize it.
@@ -67,7 +66,6 @@ function startServer(){
 		//saveUninitialized: false,
 		//resave: false
 	}));
-
 
 
     //If Redis server running, then this is default configuration. Once you have configured it. you can use like:
@@ -102,10 +100,15 @@ function startServer(){
     // 	next();
     // });
 
+    let cors  = require('cors');
+	let corsOptions = {
+		origin: 'http://news.cn'//http://trver.com
+	};
+    app.use('/media',require('cors')(corsOptions));
+	
+	
 	require('./routes')(app,passport,User);
     require('./part/autoView')(app);
-	
-
 
     require('./part/rejectionHandling').rejectHandling();
 

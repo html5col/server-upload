@@ -77,6 +77,8 @@ var config = {
        },
      
      },
+
+     
       
       home: {
           title: '语言学习社区',
@@ -101,6 +103,13 @@ var config = {
               description: '提供专业的外教服务，把外教带回家，在生活情境中让您的孩子体验国际文化，拥有一口流利的英语口语',  
           },       
 
+      },
+      media: {
+        example: {
+            title: '视频库案列',
+            keywords: 'VIP语言学习精华资源： 在线视频',
+            description: 'X-Plan计划英语学习在线视频',           
+        }
       },
       vip: {
         download: {
