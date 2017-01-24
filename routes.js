@@ -29,7 +29,7 @@ module.exports   = function(app, passport,User) {
 	 app.use('/file',file());
 	 app.use('/admin', auth.allow(['Super','Junior']),adminUsers);
 	 app.use('/vip',vip);
-	 app.use('/courses',takemehome);
+	 app.use('/courses',auth.allow(['Super','Junior']), takemehome);
 		//to get form data using req.body
 		/*****form part end********/
 };
