@@ -17,6 +17,7 @@ router.get('/vip/count', user.xplanCount);
 router.get('/vip/reset', user.reset);
 router.get('/vip/add', user.add);
 router.post('/vip/minus', user.minus);
+// router.post('/vip/failAll', user.failAll);
 
 
 module.exports = router;

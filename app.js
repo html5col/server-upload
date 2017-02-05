@@ -142,7 +142,7 @@ function startServer(){
 	    res.status(500).render('response/500');
 	});
 
-	app.listen(app.get('port'), function(){
+	app.listen(config.port, function(){
 	    logger.debug('Express started on http://localhost:' + app.get('port') + ';press Ctrl-C to terminate');
 	});
 	return app;	

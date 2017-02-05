@@ -42,13 +42,13 @@ var config = {
   // mongodb 配置
   db: {
       mongo:{
-            dbname: 'groupForum',
-            host: 'localhost',//'192.168.3.148',//10.184.1.209    
             port:27017,
-            user:'',
-            pass:'',
-            uri: 'mongodb://localhost:27017/groupForum',//'mongodb://10.184.1.209:27017/crawler',
+            uri: 'mongodb://localhost:27017',//?authSource=groupForum
             options: {
+              user:'frank25184',
+              pass:'Frank548331198',
+              //db: 'groupForum',
+              db: {reconnectTries: Number.MAX_VALUE },
               server: {
                 poolSize: 5,
               },
@@ -68,7 +68,7 @@ var config = {
   auth_cookie_name: 'node_site',
 
   // 程序运行的端口
-  port: 8000,
+  port: process.env.PORT || 8000,
 
   // 话题列表显示的话题数量
   list_topic_count: 3,

@@ -304,4 +304,5 @@ user.minus = co_handle(function*(req,res,next){
                 }
         });   
 });
+
 module.exports = user;

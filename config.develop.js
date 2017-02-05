@@ -68,7 +68,7 @@ var config = {
   auth_cookie_name: 'node_site',
 
   // 程序运行的端口
-  port: 8000,
+  port: process.env.PORT || 8000,
 
   // 话题列表显示的话题数量
   list_topic_count: 3,
