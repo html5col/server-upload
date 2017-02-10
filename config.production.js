@@ -7,6 +7,12 @@ const appDir = path.dirname(require.main.filename);
 
 var child_process = require("child_process");
 let hostname;
+let dbUsername = process.env.dbUsername;
+let dbPassword = process.env.dbPassword;
+let mongoPort = process.env.MongoPort || 27017;
+
+
+
 child_process.exec("hostname -f", function(err, stdout, stderr) {
    hostname = stdout.trim();
 });
@@ -42,12 +48,11 @@ var config = {
   // mongodb 配置
   db: {
       mongo:{
-            port:27017,
-            uri: 'mongodb://localhost:27017',//?authSource=groupForum
+            port: mongoPort,
+            uri: `mongodb://localhost:${mongoPort}`,//?authSource=groupForum
             options: {
-              user:'frank25184',
-              pass:'Frank548331198',
-              //db: 'groupForum',
+              user: dbUsername,
+              pass: dbPassword,
               db: {reconnectTries: Number.MAX_VALUE },
               server: {
                 poolSize: 5,
@@ -58,7 +63,7 @@ var config = {
         //redis config, default to the localhost
             'host':'127.0.0.1',
             'port':'6379',
-            'db':'0',
+            'db':'group',
             'pw':'',
             'ttl':1000 * 60 * 60 * 24 * 30
        },          
