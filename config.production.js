@@ -64,7 +64,7 @@ var config = {
         //redis config, default to the localhost
             'host':'127.0.0.1',
             'port':'6379',
-            'db':'group',
+            'db':'0',
             'pw':'',
             'ttl':1000 * 60 * 60 * 24 * 30
        },          
