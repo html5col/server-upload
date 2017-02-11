@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /var/www/trver.com/public_html
+git clone https://github.com/thenodejsboilerplate/group.git group
+cd group
+npm install

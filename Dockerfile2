@@ -6,13 +6,6 @@ EXPOSE 8000
 # run the application
 CMD ["node", "./app.js"]
 
-
-
-
-
-
-
-
 # start from base
 FROM centos
 

@@ -1,0 +1,10 @@
+#!/bin/bash
+sudo su -
+service httpd stop
+chkconfig httpd off
+yum install epel-release
+yum -y install nginx
+service nginx start
+chkconfig nginx on
+useradd frank25184
+passwd frank25184

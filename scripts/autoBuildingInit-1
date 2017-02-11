@@ -1,0 +1,4 @@
+#!/bin/bash
+mkdir -p /var/www/trver.com/public_html
+chown -R frank25184:frank25184 /var/www/trver.com/public_html
+chmod 755 /var/www/trver.com/public_html
