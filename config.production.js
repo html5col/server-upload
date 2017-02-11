@@ -10,6 +10,7 @@ let hostname;
 let dbUsername = process.env.dbUsername;
 let dbPassword = process.env.dbPassword;
 let mongoPort = process.env.MongoPort || 27017;
+console.log(dbUsername, dbPassword,mongoPort);
 
 
 
@@ -51,8 +52,8 @@ var config = {
             port: mongoPort,
             uri: `mongodb://localhost:${mongoPort}`,//?authSource=groupForum
             options: {
-              user: dbUsername,
-              pass: dbPassword,
+              user: dbUsername || '',
+              pass: dbPassword || '',
               db: {reconnectTries: Number.MAX_VALUE },
               server: {
                 poolSize: 5,
