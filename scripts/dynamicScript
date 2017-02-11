@@ -1,0 +1,2 @@
+#!/bin/bash
+cp -pr /var/www/trver.com/public_html/group/scripts/singleCmd /
