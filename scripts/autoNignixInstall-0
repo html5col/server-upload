@@ -1,4 +1,5 @@
 #!/bin/bash
+#run chmod 755 morning  first
 sudo su -
 service httpd stop
 chkconfig httpd off
