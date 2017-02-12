@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo mongod --dbpath "/data/db" --logpath  "/data/mongo.log" --auth
+sudo mongod --fork --dbpath "/data/db" --logpath  "/data/mongo.log" --auth
