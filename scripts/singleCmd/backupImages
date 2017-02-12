@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "backuping the remote img folders and files to the github repo..."
+cd /var/www/trver.com/public_html/group/public/upload
+git add .
+git commit -m 'backup'
+git push origin master

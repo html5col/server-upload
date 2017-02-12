@@ -676,13 +676,13 @@ module.exports = {
 		postFileUpload: (req,res)=>{
 
 
-                const uploadFiles = require('../common/file')(req,res,undefined,'logo_exist');
-                logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
-                uploadFiles.getData(function(err,fields,file,photoName){
-                  if(err){
-                        logger.debug('error when uploadFile: '+err);
-                        redirect.back('/');;
-                  }else{
+			const uploadFiles = require('../common/file')(req,res,undefined,'logo_exist');
+			logger.debug('uploadFiles is :'+JSON.stringify(uploadFiles));
+			uploadFiles.getData(function(err,fields,file,photoName){
+				if(err){
+							logger.debug('error when uploadFile: '+err);
+							redirect.back('/');;
+				}else{
 						if(req.user){
 							function saveFileInfo(){
 								
@@ -705,7 +705,7 @@ module.exports = {
 							req.flash('eror','You need to login first to upload your logo');
 							res.redirect(303, '/user/login');
 						}						  
-				  }
+				}
 
 			 });
 
