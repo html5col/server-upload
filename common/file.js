@@ -18,6 +18,7 @@ module.exports = function(req,res,...arg){
                 logger.debug(dataDir);
 
                 let photoDir;
+
                 if(arg[0]){//post
                     photoDir = dataDir + 'postLogo/';
                 }else if(arg[1]){

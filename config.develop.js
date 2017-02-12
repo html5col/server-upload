@@ -7,6 +7,13 @@ const appDir = path.dirname(require.main.filename);
 
 var child_process = require("child_process");
 let hostname;
+let dbUsername = process.env.dbUsername;
+let dbPassword = process.env.dbPassword;
+let mongoPort = process.env.MongoPort || 27017;
+console.log(dbUsername, dbPassword,mongoPort);
+
+
+
 child_process.exec("hostname -f", function(err, stdout, stderr) {
    hostname = stdout.trim();
 });
@@ -42,13 +49,12 @@ var config = {
   // mongodb 配置
   db: {
       mongo:{
-            dbname: 'groupForum',
-            host: 'localhost',//'192.168.3.148',//10.184.1.209    
-            port:27017,
-            user:'',
-            pass:'',
-            uri: 'mongodb://localhost:27017/groupForum',//'mongodb://10.184.1.209:27017/crawler',
+            port: mongoPort,
+            uri: `mongodb://localhost:${mongoPort}`,//?authSource=groupForum
             options: {
+              user: dbUsername || '',
+              pass: dbPassword || '',
+              db: {reconnectTries: Number.MAX_VALUE },
               server: {
                 poolSize: 5,
               },
@@ -80,7 +86,7 @@ var config = {
     secure: true,
     auth: {
       user: 'admin@trver.com',
-      pass: 'frank548331198'
+      pass: 'trver123456'
     },
   },
 
