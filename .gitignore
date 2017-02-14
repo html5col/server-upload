@@ -2,6 +2,7 @@ log
 .DS_Store
 .sass-cache
 public/upload/.sass-cache
+scripts/singleCmd/restartNode
 .sass-cache
 .DS_Store
 logs

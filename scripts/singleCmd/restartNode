@@ -1,5 +1,0 @@
-#!/bin/bash
-cd /var/www/trver.com/public_html/group
-forever list
-forever stop 0
-NODE_ENV=production PORT=8000 MongoPort=27017 dbUsername=frank25184 dbPassword=franklee548331198 forever start  --spinSleepTime 10000 app.js
