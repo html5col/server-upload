@@ -12,8 +12,6 @@ let dbPassword = process.env.dbPassword;
 let mongoPort = process.env.MongoPort || 27017;
 console.log(dbUsername, dbPassword,mongoPort);
 
-
-
 child_process.exec("hostname -f", function(err, stdout, stderr) {
    hostname = stdout.trim();
 });

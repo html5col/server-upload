@@ -2,40 +2,40 @@
 function startServer(){
 	"use strict";
 
-    const config = require('./common/get-config'),
-	      logger = require('./lib/logger'),
+    const config = require('src/common/get-config'),
+	      logger = require('src/lib/logger'),
 		  mongoose = require('mongoose'),//In your app.js, load mongoose first before express.
           express = require('express'),
           bodyParser = require('body-parser'),
 	//to get the info of the form submit , you need to use req.body, which must require the body-parser middleware first
           
 	      passport = require('passport'),
-		  mailService  = require('./lib/email')(config);
+		  mailService  = require('src/lib/email')(config);
 
 	//Flash messages are stored in the session. First, setup sessions as usual by enabling cookieParser and session middleware. Then, use flash middleware provided by connect-flash.With the flash middleware in place, all requests will have a req.flash() function that can be used for flash messages.
 	const flash    = require('connect-flash'),
           cookieParser = require('cookie-parser'),
 	      session      = require('express-session');
 
-	require('./lib/passport')(passport); // pass passport for configuration
+	require('src/lib/passport')(passport); // pass passport for configuration
 
-	const User = require('./models/User'),
+	const User = require('src/models/User'),
           app = express(); 
 
-	require('./part/context').env1(app);
-	require('./lib/mongoose-connect');
+	require('src/part/context').env1(app);
+	require('src/lib/mongoose-connect');
 	//load mongoose first before express.
-	require('./part/security')(app);
+	require('src/part/security')(app);
 	//for logs, db ... in the different context (development or production)
 	
-	require('./part/set')(app);
+	require('src/part/set')(app);
 
-	app.use(express.static(__dirname + '/public'));
+	app.use(express.static(__dirname + '/src/public'));
 	app.use(express.static(__dirname + '/node_modules'));
 	//static中间件可以将一个或多个目录指派为包含静态资源的目录,其中资源不经过任何特殊处理直接发送到客户端,如可放img,css。 设置成功后可以直接指向、img/logo.png,static中间件会返回这个文件并正确设定内容类型
    //for setting second domain using vhost
    //require('./api/api')(app,express);
-   require('./lib/hbs')(app);
+   require('src/lib/hbs')(app);
 
 	app.use(function(req,res,next){
 	    res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
@@ -56,7 +56,7 @@ function startServer(){
 	// Create express-session and pass it to connect-redis object as parameter. This will initialize it.
 	const redisStore = require('connect-redis')(session);
 	//Then in session middle ware, pass the Redis store information such as host, port and other required parameters.
-	const client = require('./lib/redis');
+	const client = require('src/lib/redis');
 
 	app.use(session({
 		secret: config.session_secret,
@@ -109,10 +109,10 @@ function startServer(){
 	// next();
 	// });
 
-	require('./routes')(app,passport,User);
-    require('./part/autoView')(app);
+	require('src/routes')(app,passport,User);
+    require('src/part/autoView')(app);
 
-    require('./part/rejectionHandling').rejectHandling();
+    require('src/part/rejectionHandling').rejectHandling();
 
 	if (process.env.NODE_ENV === 'production') { // [2]
 		process.on('uncaughtException', function (er) {
