@@ -40,7 +40,7 @@ var config = {
   host: hostname,
   // 默认的Google tracker ID，自有站点请修改，申请地址：http://www.google.com/analytics/
 
-  uploadDir: path.join(appDir,'public/upload/'),
+  uploadDir: path.join(appDir,'src/public/upload/'),
 
   // google_tracker_id: '',
   // // 默认的cnzz tracker ID，自有站点请修改

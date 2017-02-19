@@ -18,7 +18,7 @@ module.exports = app=>{
 		if(autoViews[path]) {
 			res.render('static/' + autoViews[path]);
 		}else{
-			fs.stat(appDir+'/views/static' + path + '.handlebars', (err, stat)=> {
+			fs.stat(appDir+'/src/views/static' + path + '.handlebars', (err, stat)=> {
 			    if(err == null) {
 			        console.log('File exists');
 			        autoViews[path] = path.replace(/^\//,'');

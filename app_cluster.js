@@ -20,7 +20,7 @@
 // The elegant solution Node.js provides for scaling up the applications is to split a single process into multiple processes or workers, in Node.js terminology. This can be achieved through a cluster module. The cluster module allows you to create child processes (workers), which share all the server ports with the main Node process (master).
 
 const cluster = require('cluster');//NODEJS CONTAINS CLUSTER MODULE SO WE CAN ALSO NOT USE THE npm install cluster to use it.but seems npm install cluster to use it ,which has more functions...
-const logger = require('./lib/logger');
+const logger = require('src/lib/logger');
 const stopWorkers = function stopWorkers() {
 	//One important result that can be achieved using workers is (almost) zero down-time servers. Within the master process, you can terminate and restart the workers one at a time, after you make changes to your application. This allows you to have older version running, while loading the new one.
 

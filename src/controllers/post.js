@@ -20,7 +20,7 @@ const moment = require('moment'),
     im = require('gm').subClass({imageMagick: true});
 
 const appDir = path.dirname(require.main.filename),
-      uploadDir = path.join(appDir,'public/upload/');
+      uploadDir = path.join(appDir,'src/public/upload/');
 
 module.exports =  {
      

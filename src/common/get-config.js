@@ -1,6 +1,6 @@
 'use strict';
 const env = process.env.NODE_ENV || 'develop';
-const config = require(`../config.${env}.js`);
+const config = require(`../../config.${env}.js`);
 const  logger = require('../lib/logger');
 // logger.debug(`env is ${env}`);
 

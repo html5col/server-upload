@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /var/www/trver.com/public_html/group/scripts
+cd /var/www/trver.com/public_html/group/src/scripts
 chmod 755 *

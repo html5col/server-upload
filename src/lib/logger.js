@@ -3,8 +3,10 @@
 const config = require('../common/get-config');
 const env = process.env.NODE_ENV || "develop"
 
-const fs = require('fs'),
-      logDir = 'logs';
+const fs = require('fs');
+const path = require('path');
+const appDir = path.dirname(require.main.filename);
+const logDir = `${appDir}/logs`;
 
 //create the log directory if it does not exist
 if(!fs.existsSync(logDir)){
