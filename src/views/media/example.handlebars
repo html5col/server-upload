@@ -97,43 +97,42 @@
 
 <br>
 <br>
-
 <h2>Train Part 02</h2> 
 </br>
-  {{#if user}}
-    {{#if user.vip}}
-      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0">
-      <param name=movie value="*.swf">
-      <param name=quality value=High>
-      <param name="_cx" value="12383">
-      <param name="_cy" value="1588">
-      <param name="FlashVars" value>
-      <param name="Src" ref value="*.swf">
-      <param name="WMode" value="Window">
-      <param name="Play" value="-1">
-      <param name="Loop" value="-1">
-      <param name="SAlign" value>
-      <param name="Menu" value="-1">
-      <param name="Base" value>
-      <param name="AllowScriptAccess" value="always">
-      <param name="Scale" value="ShowAll">
-      <param name="DeviceFont" value="0">
-      <param name="EmbedMovie" value="0">
-      <param name="BGColor" value>
-      <param name="SWRemote" value>
-      <param name="MovieData" value>
-      <embed src="http://misc.home.news.cn/video/swf/VideoDisplay.swf?videoSource=http://tpic.home.news.cn/xhVideo/xhvedio002/M00/0D/B1/wKhMD1ioIBIEAAAAAAAAAAAAAAA495.flv&autoPlay=false&width=506&height=400" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="506" height="400px">
-      </embed>
-      </object>
+    {{#if user}}
+      {{#if user.vip}}
+        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0">
+        <param name=movie value="*.swf">
+        <param name=quality value=High>
+        <param name="_cx" value="12383">
+        <param name="_cy" value="1588">
+        <param name="FlashVars" value>
+        <param name="Src" ref value="*.swf">
+        <param name="WMode" value="Window">
+        <param name="Play" value="-1">
+        <param name="Loop" value="-1">
+        <param name="SAlign" value>
+        <param name="Menu" value="-1">
+        <param name="Base" value>
+        <param name="AllowScriptAccess" value="always">
+        <param name="Scale" value="ShowAll">
+        <param name="DeviceFont" value="0">
+        <param name="EmbedMovie" value="0">
+        <param name="BGColor" value>
+        <param name="SWRemote" value>
+        <param name="MovieData" value>
+        <embed src="http://misc.home.news.cn/video/swf/VideoDisplay.swf?videoSource=http://tpic.home.news.cn/xhVideo/xhvedio002/M00/0D/B1/wKhMD1ioIBIEAAAAAAAAAAAAAAA495.flv&autoPlay=false&width=506&height=400" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="506" height="400px">
+        </embed>
+        </object>
+      {{else}}
+        
+        <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">【VIP可见】成为VIP，支持我们的公益活动 <a href="/service">加入VIP</a></p>
+      {{/if}}
+
     {{else}}
-      
-      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px">【VIP可见】成为VIP，支持我们的公益活动 <a href="/service">加入VIP</a></p>
+        <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px"><a href="/user/login">请登录观看</a></p>
+
     {{/if}}
-
-  {{else}}
-      <p style="font-weight:bold;font-size:0.7rem;border:1px dashed #e3e3e3;padding:10px 10px"><a href="/user/login">请登录观看</a></p>
-
-  {{/if}}
 
   
 
