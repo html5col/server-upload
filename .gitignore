@@ -2,12 +2,10 @@
 log
 .DS_Store
 .sass-cache
-public/upload/.sass-cache
 public/upload
 scripts/singleCmd/restartNode
 .sass-cache
 .DS_Store
 logs
 __tips
-public/upload/logonpm-debug.log
 config.develop.js
